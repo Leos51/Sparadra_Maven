@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fr.sparadrah.ecf.view.swingview.doctor.DoctorsPanel">
+  <grid id="27dc6" binding="doctorsPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="911" height="645"/>
+    </constraints>
+    <properties>
+      <background color="-1769250"/>
+      <foreground color="-1762260"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="e455c" binding="bottomBar" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="2c7b2" binding="right" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="7210e" class="javax.swing.JButton" binding="addButton">
+                <constraints/>
+                <properties>
+                  <background color="-12020664"/>
+                  <foreground color="-328193"/>
+                  <icon value="fr/sparadrah/ecf/view/swingview/ressources/ajouter.png"/>
+                  <text value=""/>
+                  <toolTipText value="Nouveau client"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="bf151" binding="left" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="77638" class="javax.swing.JButton" binding="showDetailsBtn">
+                <constraints/>
+                <properties>
+                  <enabled value="false"/>
+                  <text value="Afficher"/>
+                </properties>
+              </component>
+              <component id="d7ed2" class="javax.swing.JButton" binding="editButton">
+                <constraints/>
+                <properties>
+                  <background color="-13690907"/>
+                  <enabled value="false"/>
+                  <foreground color="-2171675"/>
+                  <text value="Modifier"/>
+                </properties>
+              </component>
+              <component id="ccf31" class="javax.swing.JButton" binding="deleteButton">
+                <constraints/>
+                <properties>
+                  <background color="-1768689"/>
+                  <enabled value="false"/>
+                  <foreground color="-1025"/>
+                  <text value="Supprimer"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="9d7ea" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="1706" class="javax.swing.JButton" binding="showCustomersBtn">
+                <constraints/>
+                <properties>
+                  <enabled value="false"/>
+                  <text value="Patients"/>
+                </properties>
+              </component>
+              <component id="49b3e" class="javax.swing.JButton" binding="showDoctorPrescriptionsBtn">
+                <constraints/>
+                <properties>
+                  <enabled value="false"/>
+                  <text value="Ordonnances"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="41af0" binding="topPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="10" left="10" bottom="10" right="10"/>
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="line"/>
+        <children>
+          <grid id="475bf" binding="titlePanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="d0f91" class="javax.swing.JLabel" binding="titleLabel">
+                <constraints/>
+                <properties>
+                  <horizontalAlignment value="0"/>
+                  <text value="Gestion des Medecins"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="fa0bd" binding="centerPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <background color="-1716992"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="c0d50" binding="searchPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+            <constraints border-constraint="North"/>
+            <properties/>
+            <border type="none" title="Recherche"/>
+            <children>
+              <component id="9ec8" class="javax.swing.JTextField" binding="searchField">
+                <constraints/>
+                <properties>
+                  <columns value="20"/>
+                  <minimumSize width="50" height="25"/>
+                  <preferredSize width="226" height="25"/>
+                  <toolTipText value="votre recherche"/>
+                </properties>
+              </component>
+              <component id="77db2" class="javax.swing.JButton" binding="searchButton">
+                <constraints/>
+                <properties>
+                  <icon value="fr/sparadrah/ecf/view/swingview/ressources/recherche.png"/>
+                  <text value=""/>
+                  <toolTipText value="Rechercher"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="426a7" binding="tablePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <preferredSize width="400" height="300"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <scrollpane id="2b3cf" binding="scrollPane">
+                <constraints border-constraint="Center"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="c0cac" class="javax.swing.JTable" binding="doctorsTable">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="searchTypeCustomer">
+      <member id="72423"/>
+      <member id="334bf"/>
+      <member id="3b293"/>
+      <member id="a149a"/>
+    </group>
+  </buttonGroups>
+</form>

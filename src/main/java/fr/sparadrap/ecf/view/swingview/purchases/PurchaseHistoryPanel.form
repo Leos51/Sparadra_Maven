@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fr.sparadrah.ecf.view.swingview.purchases.PurchaseHistoryPanel">
+  <grid id="27dc6" binding="contentPane" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="634" height="481"/>
+    </constraints>
+    <properties>
+      <preferredSize width="1000" height="700"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="a6638" binding="topPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="bf87e" binding="titlePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="North"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="9cab2" class="javax.swing.JLabel" binding="purchasesHistoryTitleLabel">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <horizontalAlignment value="0"/>
+                  <text value="Historique des Achats"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="707a2" binding="filterPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="34e69" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <text value="Filtre"/>
+                </properties>
+              </component>
+              <component id="e79f2" class="javax.swing.JComboBox" binding="periodComboBox">
+                <constraints/>
+                <properties>
+                  <model>
+                    <item value="Aucun filtre"/>
+                    <item value="Aujourd'hui"/>
+                    <item value="Date personnalisée"/>
+                    <item value="Période personnalisée"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="7108" class="javax.swing.JTextField" binding="dateField">
+                <constraints/>
+                <properties>
+                  <preferredSize width="100" height="36"/>
+                  <text value=""/>
+                  <visible value="false"/>
+                </properties>
+              </component>
+              <component id="2cfd5" class="javax.swing.JTextField" binding="periodStartField">
+                <constraints/>
+                <properties>
+                  <preferredSize width="100" height="36"/>
+                  <visible value="false"/>
+                </properties>
+              </component>
+              <component id="3f089" class="javax.swing.JTextField" binding="periodEndField">
+                <constraints/>
+                <properties>
+                  <preferredSize width="100" height="36"/>
+                  <visible value="false"/>
+                </properties>
+              </component>
+              <component id="9afb8" class="javax.swing.JButton" binding="filterBtn">
+                <constraints/>
+                <properties>
+                  <text value="Filtrer"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="9ed02" binding="centerPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <splitpane id="4809d">
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="2c2f" binding="tablePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints>
+                  <splitpane position="left"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <scrollpane id="eee41">
+                    <constraints border-constraint="Center"/>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="34d81" class="javax.swing.JTable" binding="table1" default-binding="true">
+                        <constraints/>
+                        <properties/>
+                      </component>
+                    </children>
+                  </scrollpane>
+                </children>
+              </grid>
+              <grid id="95219" binding="detailsContainer" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints>
+                  <splitpane position="right"/>
+                </constraints>
+                <properties>
+                  <visible value="true"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="60048" binding="detailsTitlePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                    <constraints border-constraint="North"/>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="5b300" class="javax.swing.JLabel" binding="detailsTitle">
+                        <constraints border-constraint="Center"/>
+                        <properties>
+                          <horizontalAlignment value="0"/>
+                          <text value="Sélectionnez un achat dans la liste"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="e1eab" binding="detailsPanel" layout-manager="GridLayoutManager" row-count="7" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints border-constraint="Center"/>
+                    <properties>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="16acc" class="javax.swing.JLabel" binding="dateLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Date : "/>
+                        </properties>
+                      </component>
+                      <component id="5215a" class="javax.swing.JLabel" binding="dateLabelDetail">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Label"/>
+                        </properties>
+                      </component>
+                      <component id="437dc" class="javax.swing.JLabel" binding="customerLabelDetail">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Label"/>
+                        </properties>
+                      </component>
+                      <component id="c4f1e" class="javax.swing.JLabel" binding="customerNameLabel">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Client : "/>
+                        </properties>
+                      </component>
+                      <component id="1140f" class="javax.swing.JLabel" binding="typeDetail">
+                        <constraints>
+                          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Label"/>
+                        </properties>
+                      </component>
+                      <component id="4910a" class="javax.swing.JLabel" binding="typeLabel">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Type d'achat : "/>
+                        </properties>
+                      </component>
+                      <component id="37c3e" class="javax.swing.JLabel" binding="doctorDetail">
+                        <constraints>
+                          <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Label"/>
+                        </properties>
+                      </component>
+                      <component id="92fc1" class="javax.swing.JLabel" binding="totatAmountDetail">
+                        <constraints>
+                          <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Label"/>
+                        </properties>
+                      </component>
+                      <component id="49709" class="javax.swing.JLabel" binding="doctorNameLabel">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Médecin : "/>
+                        </properties>
+                      </component>
+                      <component id="1baa3" class="javax.swing.JLabel" binding="totalAmount">
+                        <constraints>
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Montant total : "/>
+                        </properties>
+                      </component>
+                      <component id="d614f" class="javax.swing.JLabel" binding="medicinesLabel">
+                        <constraints>
+                          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Médicaments prescrits :"/>
+                        </properties>
+                      </component>
+                      <scrollpane id="70b6e">
+                        <constraints>
+                          <grid row="6" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="2524a" class="javax.swing.JTextArea" binding="detailMedicinesArea">
+                            <constraints/>
+                            <properties>
+                              <editable value="false"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </scrollpane>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+            </children>
+          </splitpane>
+        </children>
+      </grid>
+      <grid id="54717" binding="buttonPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="722f" class="javax.swing.JButton" binding="detailsBtn">
+            <constraints/>
+            <properties>
+              <text value="Afficher le detail de l'achat"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
