@@ -1,14 +1,14 @@
-package fr.sparadrah.ecf.controller.medecine;
+package fr.sparadrap.ecf.controller.medecine;
 
-import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
-import fr.sparadrah.ecf.model.lists.person.CustomersList;
-import fr.sparadrah.ecf.model.lists.person.DoctorList;
-import fr.sparadrah.ecf.model.lists.medicine.PrescriptionList;
-import fr.sparadrah.ecf.model.medicine.Medicine;
-import fr.sparadrah.ecf.model.medicine.Prescription;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.model.person.Doctor;
-import fr.sparadrah.ecf.model.purchase.Purchase;
+import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
+import fr.sparadrap.ecf.model.lists.medicine.PrescriptionList;
+import fr.sparadrap.ecf.model.lists.person.CustomersList;
+import fr.sparadrap.ecf.model.lists.person.DoctorList;
+import fr.sparadrap.ecf.model.medicine.Medicine;
+import fr.sparadrap.ecf.model.medicine.Prescription;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.model.person.Doctor;
+import fr.sparadrap.ecf.model.purchase.Purchase;
 
 import java.util.Arrays;
 import java.util.List;

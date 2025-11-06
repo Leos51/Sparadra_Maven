@@ -1,6 +1,6 @@
-package fr.sparadrah.ecf.model.lists.person;
+package fr.sparadrap.ecf.model.lists.person;
 
-import fr.sparadrah.ecf.model.person.MutualInsurance;
+import fr.sparadrap.ecf.model.person.MutualInsurance;
 
 import java.util.ArrayList;
 import java.util.List;

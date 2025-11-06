@@ -1,7 +1,7 @@
-package fr.sparadrah.ecf.model.lists.purchase;
+package fr.sparadrap.ecf.model.lists.purchase;
 
-import fr.sparadrah.ecf.model.purchase.Purchase;
-import fr.sparadrah.ecf.utils.DateFormat;
+import fr.sparadrap.ecf.model.purchase.Purchase;
+import fr.sparadrap.ecf.utils.DateFormat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,9 +1,9 @@
-package fr.sparadrah.ecf.view.swingview;
+package fr.sparadrap.ecf.view.swingview;
 
-import fr.sparadrah.ecf.model.lists.person.CustomersList;
-import fr.sparadrah.ecf.model.lists.person.DoctorList;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.model.person.Doctor;
+import fr.sparadrap.ecf.model.lists.person.CustomersList;
+import fr.sparadrap.ecf.model.lists.person.DoctorList;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.model.person.Doctor;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,6 +27,7 @@ public class HomePanel extends JPanel {
     private JTextPane doctorPane;
 
     public HomePanel() {
+        homePanel = new JPanel();
         this.add(homePanel);
 
 

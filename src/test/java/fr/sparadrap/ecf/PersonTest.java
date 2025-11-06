@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.test;
+package fr.sparadrap.ecf;
 
 import org.junit.jupiter.api.Test;
 

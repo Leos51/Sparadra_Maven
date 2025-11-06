@@ -1,12 +1,12 @@
-package fr.sparadrah.ecf.view.swingview;
+package fr.sparadrap.ecf.view.swingview;
 
-import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
-import fr.sparadrah.ecf.model.lists.medicine.PrescriptionList;
-import fr.sparadrah.ecf.model.lists.person.CustomersList;
-import fr.sparadrah.ecf.model.lists.person.DoctorList;
-import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
-import fr.sparadrah.ecf.view.swingview.purchases.PurchaseManagementPanel;
-import fr.sparadrah.ecf.view.swingview.tablemodele.TableModele;
+import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
+import fr.sparadrap.ecf.model.lists.medicine.PrescriptionList;
+import fr.sparadrap.ecf.model.lists.person.CustomersList;
+import fr.sparadrap.ecf.model.lists.person.DoctorList;
+import fr.sparadrap.ecf.model.lists.purchase.PurchasesList;
+import fr.sparadrap.ecf.view.swingview.purchases.PurchaseManagementPanel;
+import fr.sparadrap.ecf.view.swingview.tablemodele.TableModele;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;

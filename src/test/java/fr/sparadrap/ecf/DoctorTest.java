@@ -1,12 +1,12 @@
-package fr.sparadrah.ecf.test;
+package fr.sparadrap.ecf;
 
-import fr.sparadrah.ecf.model.person.Doctor;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.model.person.Doctor;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DoctorTest {
     Doctor doctor;

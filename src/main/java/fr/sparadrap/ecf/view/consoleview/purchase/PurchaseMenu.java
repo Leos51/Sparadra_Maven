@@ -1,17 +1,17 @@
-package fr.sparadrah.ecf.view.consoleview.purchase;
+package fr.sparadrap.ecf.view.consoleview.purchase;
 
-import fr.sparadrah.ecf.controller.purchase.PurchaseController;
-import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
-import fr.sparadrah.ecf.model.lists.person.CustomersList;
-import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
-import fr.sparadrah.ecf.model.medicine.Medicine;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.model.purchase.Purchase;
-import fr.sparadrah.ecf.utils.UserInput;
-import fr.sparadrah.ecf.utils.exception.StockInsuffisantException;
-import fr.sparadrah.ecf.view.consoleview.MainMenu;
+import fr.sparadrap.ecf.controller.purchase.PurchaseController;
+import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
+import fr.sparadrap.ecf.model.lists.person.CustomersList;
+import fr.sparadrap.ecf.model.lists.purchase.PurchasesList;
+import fr.sparadrap.ecf.model.medicine.Medicine;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.model.purchase.Purchase;
+import fr.sparadrap.ecf.utils.UserInput;
+import fr.sparadrap.ecf.utils.exception.StockInsuffisantException;
+import fr.sparadrap.ecf.view.consoleview.MainMenu;
 
-import static fr.sparadrah.ecf.utils.UserInput.exitApp;
+import static fr.sparadrap.ecf.utils.UserInput.exitApp;
 
 public class PurchaseMenu {
 
@@ -123,7 +123,7 @@ public class PurchaseMenu {
                 "Sans prescription";
 
         System.out.println("============================");
-        System.out.println("Ticket de caisse - Sparadrah");
+        System.out.println("Ticket de caisse - sparadrap");
         System.out.println("============================");
         System.out.println("Client : " + customerName);
         System.out.println("Date: " + purchaseDate);

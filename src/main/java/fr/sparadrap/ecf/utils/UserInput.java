@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.utils;
+package fr.sparadrap.ecf.utils;
 
 import java.util.Scanner;
 

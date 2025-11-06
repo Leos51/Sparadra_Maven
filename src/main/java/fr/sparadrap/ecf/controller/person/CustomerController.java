@@ -1,13 +1,12 @@
-package fr.sparadrah.ecf.controller.person;
+package fr.sparadrap.ecf.controller.person;
 
-import fr.sparadrah.ecf.model.lists.person.DoctorList;
-import fr.sparadrah.ecf.model.lists.person.MutualInsuranceList;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.model.lists.person.CustomersList;
-import fr.sparadrah.ecf.model.person.Doctor;
-import fr.sparadrah.ecf.model.person.MutualInsurance;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.view.consoleview.MainMenu;
+import fr.sparadrap.ecf.model.lists.person.CustomersList;
+import fr.sparadrap.ecf.model.lists.person.DoctorList;
+import fr.sparadrap.ecf.model.lists.person.MutualInsuranceList;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.model.person.Doctor;
+import fr.sparadrap.ecf.model.person.MutualInsurance;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
 
 public class CustomerController {
 
@@ -18,8 +17,8 @@ public class CustomerController {
 
 
 
-        MutualInsurance selectedMutual1 = MutualInsuranceList.getMutualInsuranceList().getFirst();
-        MutualInsurance selectedMutual2 = MutualInsuranceList.getMutualInsuranceList().getLast();
+        MutualInsurance selectedMutual1 = MutualInsuranceList.getMutualInsuranceList().get(0);
+        MutualInsurance selectedMutual2 = MutualInsuranceList.getMutualInsuranceList().get(1);
 
         Customer Customer1 = new Customer("Martin", "Jean", "123 rue de la Paix",
                 "75001", "Paris", "0123456789",

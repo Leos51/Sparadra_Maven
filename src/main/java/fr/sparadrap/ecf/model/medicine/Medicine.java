@@ -1,9 +1,10 @@
-package fr.sparadrah.ecf.model.medicine;
+package fr.sparadrap.ecf.model.medicine;
 
-import fr.sparadrah.ecf.utils.DateFormat;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.utils.exception.StockInsuffisantException;
-import fr.sparadrah.ecf.utils.validator.Validator;
+
+import fr.sparadrap.ecf.utils.DateFormat;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.utils.exception.StockInsuffisantException;
+import fr.sparadrap.ecf.utils.validator.Validator;
 
 import java.time.LocalDate;
 

@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.utils;
+package fr.sparadrap.ecf.utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

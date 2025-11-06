@@ -1,9 +1,9 @@
-package fr.sparadrah.ecf.view.swingview.doctor;
+package fr.sparadrap.ecf.view.swingview.doctor;
 
-import fr.sparadrah.ecf.model.lists.person.DoctorList;
-import fr.sparadrah.ecf.model.person.Doctor;
-import fr.sparadrah.ecf.utils.DateFormat;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.model.lists.person.DoctorList;
+import fr.sparadrap.ecf.model.person.Doctor;
+import fr.sparadrap.ecf.utils.DateFormat;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

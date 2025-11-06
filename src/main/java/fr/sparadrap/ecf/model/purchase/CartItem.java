@@ -1,6 +1,6 @@
-package fr.sparadrah.ecf.model.purchase;
+package fr.sparadrap.ecf.model.purchase;
 
-import fr.sparadrah.ecf.model.medicine.Medicine;
+import fr.sparadrap.ecf.model.medicine.Medicine;
 
 public class CartItem {
     private Medicine medicine;

@@ -1,16 +1,16 @@
-package fr.sparadrah.ecf.view.swingview.doctor;
+package fr.sparadrap.ecf.view.swingview.doctor;
 
-import fr.sparadrah.ecf.model.lists.person.CustomersList;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.model.person.Doctor;
-import fr.sparadrah.ecf.view.swingview.DisplayList;
+import fr.sparadrap.ecf.model.lists.person.CustomersList;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.model.person.Doctor;
+import fr.sparadrap.ecf.view.swingview.DisplayList;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.stream.Collectors;
 
-import static fr.sparadrah.ecf.view.swingview.DisplayList.HEADER_CUSTOMERS;
-import static fr.sparadrah.ecf.view.swingview.DisplayList.USER_COLUMN_CLASSES;
+import static fr.sparadrap.ecf.view.swingview.DisplayList.HEADER_CUSTOMERS;
+import static fr.sparadrap.ecf.view.swingview.DisplayList.USER_COLUMN_CLASSES;
 
 public class DoctorCustomersDialog extends JDialog {
     private Doctor doctor;

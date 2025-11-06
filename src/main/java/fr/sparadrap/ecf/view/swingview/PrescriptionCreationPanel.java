@@ -1,15 +1,15 @@
-package fr.sparadrah.ecf.view.swingview;
+package fr.sparadrap.ecf.view.swingview;
 
-import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
-import fr.sparadrah.ecf.model.lists.medicine.PrescriptionList;
-import fr.sparadrah.ecf.model.lists.person.DoctorList;
-import fr.sparadrah.ecf.model.medicine.Medicine;
-import fr.sparadrah.ecf.model.medicine.Prescription;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.model.person.Doctor;
-import fr.sparadrah.ecf.utils.DateFormat;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.utils.validator.Validator;
+import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
+import fr.sparadrap.ecf.model.lists.medicine.PrescriptionList;
+import fr.sparadrap.ecf.model.lists.person.DoctorList;
+import fr.sparadrap.ecf.model.medicine.Medicine;
+import fr.sparadrap.ecf.model.medicine.Prescription;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.model.person.Doctor;
+import fr.sparadrap.ecf.utils.DateFormat;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.utils.validator.Validator;
 
 import javax.swing.*;
 import java.awt.*;

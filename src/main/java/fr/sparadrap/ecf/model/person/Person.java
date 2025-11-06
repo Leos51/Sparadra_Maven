@@ -1,9 +1,9 @@
-package fr.sparadrah.ecf.model.person;
+package fr.sparadrap.ecf.model.person;
 
-import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.utils.validator.Validator;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.utils.validator.Validator;
 
-import static fr.sparadrah.ecf.utils.UserInput.capitalize;
+import static fr.sparadrap.ecf.utils.UserInput.capitalize;
 
 public class Person {
     private String firstName;

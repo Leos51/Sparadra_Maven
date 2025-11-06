@@ -1,9 +1,8 @@
-package fr.sparadrah.ecf.controller.person;
+package fr.sparadrap.ecf.controller.person;
 
-import fr.sparadrah.ecf.model.lists.person.DoctorList;
-import fr.sparadrah.ecf.model.person.Doctor;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.view.consoleview.MainMenu;
+import fr.sparadrap.ecf.model.lists.person.DoctorList;
+import fr.sparadrap.ecf.model.person.Doctor;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
 
 public class DoctorController {
 

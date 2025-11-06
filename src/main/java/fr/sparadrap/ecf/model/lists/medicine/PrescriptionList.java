@@ -1,8 +1,8 @@
-package fr.sparadrah.ecf.model.lists.medicine;
+package fr.sparadrap.ecf.model.lists.medicine;
 
-import fr.sparadrah.ecf.model.medicine.Prescription;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.model.person.Doctor;
+import fr.sparadrap.ecf.model.medicine.Prescription;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.model.person.Doctor;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

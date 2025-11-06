@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.utils.exception;
+package fr.sparadrap.ecf.utils.exception;
 
 public class SaisieException extends Exception {
 

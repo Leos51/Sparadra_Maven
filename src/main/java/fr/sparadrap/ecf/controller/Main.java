@@ -1,18 +1,18 @@
-package fr.sparadrah.ecf.controller;
+package fr.sparadrap.ecf.controller;
 
 
-import fr.sparadrah.ecf.model.lists.person.CustomersList;
-import fr.sparadrah.ecf.utils.UserInput;
-import fr.sparadrah.ecf.view.consoleview.MainMenu;
-import fr.sparadrah.ecf.view.swingview.MainFrame;
+import fr.sparadrap.ecf.model.lists.person.CustomersList;
+import fr.sparadrap.ecf.utils.UserInput;
+import fr.sparadrap.ecf.view.consoleview.MainMenu;
+import fr.sparadrap.ecf.view.swingview.MainFrame;
 
-import static fr.sparadrah.ecf.controller.medecine.CategoriesController.seedCategoriesData;
-import static fr.sparadrah.ecf.controller.medecine.MedicationController.seedMedicationData;
-import static fr.sparadrah.ecf.controller.medecine.PrescriptionController.seedPrecriptionData;
-import static fr.sparadrah.ecf.controller.person.CustomerController.seedCustomersData;
-import static fr.sparadrah.ecf.controller.person.DoctorController.seedDoctorData;
-import static fr.sparadrah.ecf.controller.person.MutualInsuranceController.seedMutualInsuranceData;
-import static fr.sparadrah.ecf.controller.purchase.PurchaseController.seedPurchaseData;
+import static fr.sparadrap.ecf.controller.medecine.CategoriesController.seedCategoriesData;
+import static fr.sparadrap.ecf.controller.medecine.MedicationController.seedMedicationData;
+import static fr.sparadrap.ecf.controller.medecine.PrescriptionController.seedPrecriptionData;
+import static fr.sparadrap.ecf.controller.person.CustomerController.seedCustomersData;
+import static fr.sparadrap.ecf.controller.person.DoctorController.seedDoctorData;
+import static fr.sparadrap.ecf.controller.person.MutualInsuranceController.seedMutualInsuranceData;
+import static fr.sparadrap.ecf.controller.purchase.PurchaseController.seedPurchaseData;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.

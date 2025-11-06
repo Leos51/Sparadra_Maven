@@ -1,15 +1,13 @@
-package fr.sparadrah.ecf.controller.purchase;
+package fr.sparadrap.ecf.controller.purchase;
 
-import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
-import fr.sparadrah.ecf.model.medicine.Medicine;
-import fr.sparadrah.ecf.model.purchase.Purchase;
-import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
-import fr.sparadrah.ecf.model.lists.person.CustomersList;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.utils.DateFormat;
-import fr.sparadrah.ecf.view.consoleview.purchase.PurchaseHistoryMenu;
-
-import java.time.LocalDate;
+import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
+import fr.sparadrap.ecf.model.lists.person.CustomersList;
+import fr.sparadrap.ecf.model.lists.purchase.PurchasesList;
+import fr.sparadrap.ecf.model.medicine.Medicine;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.model.purchase.Purchase;
+import fr.sparadrap.ecf.utils.DateFormat;
+import fr.sparadrap.ecf.view.consoleview.purchase.PurchaseHistoryMenu;
 
 
 public class PurchaseController {

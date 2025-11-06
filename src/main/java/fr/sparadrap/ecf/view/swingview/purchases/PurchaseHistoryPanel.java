@@ -1,14 +1,14 @@
-package fr.sparadrah.ecf.view.swingview.purchases;
+package fr.sparadrap.ecf.view.swingview.purchases;
 
-import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.model.purchase.CartItem;
-import fr.sparadrah.ecf.model.purchase.Purchase;
-import fr.sparadrah.ecf.utils.DateFormat;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.utils.validator.Validator;
-import fr.sparadrah.ecf.view.swingview.DisplayList;
-import fr.sparadrah.ecf.view.swingview.tablemodele.TableModele;
+import fr.sparadrap.ecf.model.lists.purchase.PurchasesList;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.model.purchase.CartItem;
+import fr.sparadrap.ecf.model.purchase.Purchase;
+import fr.sparadrap.ecf.utils.DateFormat;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.utils.validator.Validator;
+import fr.sparadrap.ecf.view.swingview.DisplayList;
+import fr.sparadrap.ecf.view.swingview.tablemodele.TableModele;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,8 +16,8 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.List;
 
-import static fr.sparadrah.ecf.model.lists.purchase.PurchasesList.getOldestPurchaseDate;
-import static fr.sparadrah.ecf.view.swingview.DisplayList.*;
+import static fr.sparadrap.ecf.model.lists.purchase.PurchasesList.getOldestPurchaseDate;
+import static fr.sparadrap.ecf.view.swingview.DisplayList.*;
 
 public class PurchaseHistoryPanel extends JPanel {
     private JPanel contentPane;
@@ -56,6 +56,7 @@ public class PurchaseHistoryPanel extends JPanel {
     JTable purchasesTable;
 
     public PurchaseHistoryPanel() {
+        contentPane = new JPanel();
         this.add(contentPane);
 
         purchases = new DisplayList(4);
@@ -212,8 +213,6 @@ public class PurchaseHistoryPanel extends JPanel {
         }
         purchases.configTable(filteredPurchases, HEADER_PURCHASES, PURCHASE_COLUMN_CLASSES );
     }
-
-
 
 
 }

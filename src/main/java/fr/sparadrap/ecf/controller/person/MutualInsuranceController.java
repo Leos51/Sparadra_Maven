@@ -1,8 +1,8 @@
-package fr.sparadrah.ecf.controller.person;
+package fr.sparadrap.ecf.controller.person;
 
-import fr.sparadrah.ecf.model.person.MutualInsurance;
-import fr.sparadrah.ecf.model.lists.person.MutualInsuranceList;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.model.lists.person.MutualInsuranceList;
+import fr.sparadrap.ecf.model.person.MutualInsurance;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
 
 public class MutualInsuranceController {
     public static void seedMutualInsuranceData() throws SaisieException {

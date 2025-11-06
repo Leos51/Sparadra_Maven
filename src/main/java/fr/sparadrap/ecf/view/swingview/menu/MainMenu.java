@@ -1,11 +1,11 @@
-package fr.sparadrah.ecf.view.swingview.menu;
+package fr.sparadrap.ecf.view.swingview.menu;
 
-import fr.sparadrah.ecf.view.swingview.HomePanel;
-import fr.sparadrah.ecf.view.swingview.MainPanel;
-import fr.sparadrah.ecf.view.swingview.customer.CustomersPanel;
-import fr.sparadrah.ecf.view.swingview.doctor.DoctorsPanel;
-import fr.sparadrah.ecf.view.swingview.purchases.PurchaseHistoryPanel;
-import fr.sparadrah.ecf.view.swingview.purchases.PurchaseManagementPanel;
+import fr.sparadrap.ecf.view.swingview.HomePanel;
+import fr.sparadrap.ecf.view.swingview.MainPanel;
+import fr.sparadrap.ecf.view.swingview.customer.CustomersPanel;
+import fr.sparadrap.ecf.view.swingview.doctor.DoctorsPanel;
+import fr.sparadrap.ecf.view.swingview.purchases.PurchaseHistoryPanel;
+import fr.sparadrap.ecf.view.swingview.purchases.PurchaseManagementPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,6 +44,7 @@ public  class MainMenu extends JPanel {
         this.setBackground(Color.lightGray);
         this.mainPanel = mainPanel;
         showHome();
+        //containerMenu = new JPanel();
         this.add(containerMenu);
 
         homeBtn.addActionListener(new ActionListener() {

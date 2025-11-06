@@ -1,10 +1,10 @@
-package fr.sparadrah.ecf.controller.medecine;
+package fr.sparadrap.ecf.controller.medecine;
 
-import fr.sparadrah.ecf.model.lists.medicine.CategoriesList;
-import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
-import fr.sparadrah.ecf.model.medicine.Category;
-import fr.sparadrah.ecf.model.medicine.Medicine;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.model.lists.medicine.CategoriesList;
+import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
+import fr.sparadrap.ecf.model.medicine.Category;
+import fr.sparadrap.ecf.model.medicine.Medicine;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
 
 public class MedicationController {
     public static void seedMedicationData() {

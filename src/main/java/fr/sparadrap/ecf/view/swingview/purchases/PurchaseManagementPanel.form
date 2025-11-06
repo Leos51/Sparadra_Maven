@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fr.sparadrah.ecf.view.swingview.purchases.PurchaseManagementPanel">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fr.sparadrap.ecf.view.swingview.purchases.PurchaseManagementPanel">
   <grid id="27dc6" binding="purchasePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="1133" height="671"/>
@@ -54,7 +54,7 @@
                         <constraints/>
                         <properties>
                           <enabled value="false"/>
-                          <icon value="fr/sparadrah/ecf/view/swingview/ressources/moins.png"/>
+                          <icon value="fr/sparadrap/ecf/view/swingview/ressources/moins.png"/>
                           <text value=""/>
                           <toolTipText value="Retirer 1 unité a la ligne sélectionné"/>
                         </properties>
@@ -63,7 +63,7 @@
                         <constraints/>
                         <properties>
                           <enabled value="false"/>
-                          <icon value="fr/sparadrah/ecf/view/swingview/ressources/plus.png"/>
+                          <icon value="fr/sparadrap/ecf/view/swingview/ressources/plus.png"/>
                           <text value=""/>
                           <toolTipText value="Ajouter 1 unité a la ligne"/>
                         </properties>
@@ -74,7 +74,7 @@
                           <background color="-13947600"/>
                           <enabled value="false"/>
                           <horizontalAlignment value="0"/>
-                          <icon value="fr/sparadrah/ecf/view/swingview/ressources/delete.png"/>
+                          <icon value="fr/sparadrap/ecf/view/swingview/ressources/delete.png"/>
                           <text value=""/>
                           <toolTipText value="Effacer la ligne selectionnée"/>
                         </properties>

@@ -1,10 +1,10 @@
-package fr.sparadrah.ecf.model.person;
+package fr.sparadrap.ecf.model.person;
 
 
-import fr.sparadrah.ecf.model.lists.person.DoctorList;
-import fr.sparadrah.ecf.utils.DateFormat;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.utils.validator.Validator;
+import fr.sparadrap.ecf.model.lists.person.DoctorList;
+import fr.sparadrap.ecf.utils.DateFormat;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.utils.validator.Validator;
 
 import java.time.LocalDate;
 

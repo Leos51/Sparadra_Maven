@@ -1,7 +1,7 @@
-package fr.sparadrah.ecf.utils.validator;
+package fr.sparadrap.ecf.utils.validator;
 
 
-import fr.sparadrah.ecf.utils.RegexPatterns;
+import fr.sparadrap.ecf.utils.RegexPatterns;
 
 public class Validator {
 

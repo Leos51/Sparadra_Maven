@@ -1,11 +1,11 @@
-package fr.sparadrah.ecf.view.consoleview;
+package fr.sparadrap.ecf.view.consoleview;
 
-import fr.sparadrah.ecf.model.lists.person.DoctorList;
-import fr.sparadrah.ecf.model.person.Doctor;
-import fr.sparadrah.ecf.utils.UserInput;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.model.lists.person.DoctorList;
+import fr.sparadrap.ecf.model.person.Doctor;
+import fr.sparadrap.ecf.utils.UserInput;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
 
-import static fr.sparadrah.ecf.utils.UserInput.exitApp;
+import static fr.sparadrap.ecf.utils.UserInput.exitApp;
 
 
 public class DoctorMenu {

@@ -1,4 +1,4 @@
-package fr.sparadrah.ecf.view.swingview;
+package fr.sparadrap.ecf.view.swingview;
 
 import javax.swing.*;
 import java.awt.*;

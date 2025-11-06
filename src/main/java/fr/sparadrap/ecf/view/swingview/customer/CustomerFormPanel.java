@@ -1,13 +1,13 @@
-package fr.sparadrah.ecf.view.swingview.customer;
+package fr.sparadrap.ecf.view.swingview.customer;
 
-import fr.sparadrah.ecf.model.lists.person.CustomersList;
-import fr.sparadrah.ecf.model.lists.person.DoctorList;
-import fr.sparadrah.ecf.model.lists.person.MutualInsuranceList;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.model.person.Doctor;
-import fr.sparadrah.ecf.model.person.MutualInsurance;
-import fr.sparadrah.ecf.utils.DateFormat;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.model.lists.person.CustomersList;
+import fr.sparadrap.ecf.model.lists.person.DoctorList;
+import fr.sparadrap.ecf.model.lists.person.MutualInsuranceList;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.model.person.Doctor;
+import fr.sparadrap.ecf.model.person.MutualInsurance;
+import fr.sparadrap.ecf.utils.DateFormat;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

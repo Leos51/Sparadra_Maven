@@ -1,8 +1,8 @@
-package fr.sparadrah.ecf.model.person;
+package fr.sparadrap.ecf.model.person;
 
-import fr.sparadrah.ecf.utils.RegexPatterns;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.utils.validator.Validator;
+import fr.sparadrap.ecf.utils.RegexPatterns;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.utils.validator.Validator;
 
 public class Doctor extends Person {
     private String rpps;

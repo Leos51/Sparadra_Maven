@@ -1,8 +1,8 @@
-package fr.sparadrah.ecf.model.lists.medicine;
+package fr.sparadrap.ecf.model.lists.medicine;
 
-import fr.sparadrah.ecf.model.medicine.Category;
-import fr.sparadrah.ecf.model.medicine.Medicine;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.model.medicine.Category;
+import fr.sparadrap.ecf.model.medicine.Medicine;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,13 +1,13 @@
-package fr.sparadrah.ecf.view.consoleview;
+package fr.sparadrap.ecf.view.consoleview;
 
-import fr.sparadrah.ecf.controller.person.CustomerController;
-import fr.sparadrah.ecf.controller.person.DoctorController;
-import fr.sparadrah.ecf.controller.purchase.PurchaseController;
+import fr.sparadrap.ecf.controller.person.CustomerController;
+import fr.sparadrap.ecf.controller.person.DoctorController;
+import fr.sparadrap.ecf.controller.purchase.PurchaseController;
 
-import fr.sparadrah.ecf.utils.UserInput;
-import fr.sparadrah.ecf.view.consoleview.purchase.PurchaseMenu;
+import fr.sparadrap.ecf.utils.UserInput;
+import fr.sparadrap.ecf.view.consoleview.purchase.PurchaseMenu;
 
-import static fr.sparadrah.ecf.utils.UserInput.exitApp;
+import static fr.sparadrap.ecf.utils.UserInput.exitApp;
 
 
 /**
@@ -17,7 +17,7 @@ public class MainMenu {
     public static void display(){
         while(true){
             System.out.println("---------------------------------");
-            System.out.println("| \uD83E\uDE79 Sparadrah - Menu Principal |");
+            System.out.println("| \uD83E\uDE79 sparadrap - Menu Principal |");
             System.out.println("---------------------------------");
             System.out.println("1 - Effectuer un achat");
             System.out.println("2 - Consulter l'historique d'achat");

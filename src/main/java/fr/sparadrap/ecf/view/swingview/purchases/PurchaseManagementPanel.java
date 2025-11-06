@@ -1,20 +1,20 @@
-package fr.sparadrah.ecf.view.swingview.purchases;
+package fr.sparadrap.ecf.view.swingview.purchases;
 
-import fr.sparadrah.ecf.model.lists.medicine.CategoriesList;
-import fr.sparadrah.ecf.model.lists.medicine.MedicineList;
-import fr.sparadrah.ecf.model.lists.medicine.PrescriptionList;
-import fr.sparadrah.ecf.model.lists.person.CustomersList;
-import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
-import fr.sparadrah.ecf.model.medicine.Category;
-import fr.sparadrah.ecf.model.medicine.Medicine;
-import fr.sparadrah.ecf.model.medicine.Prescription;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.model.purchase.Purchase;
-import fr.sparadrah.ecf.model.purchase.CartItem;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.view.swingview.DisplayList;
-import fr.sparadrah.ecf.view.swingview.PrescriptionCreationPanel;
-import fr.sparadrah.ecf.view.swingview.tablemodele.TableModele;
+import fr.sparadrap.ecf.model.lists.medicine.CategoriesList;
+import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
+import fr.sparadrap.ecf.model.lists.medicine.PrescriptionList;
+import fr.sparadrap.ecf.model.lists.person.CustomersList;
+import fr.sparadrap.ecf.model.lists.purchase.PurchasesList;
+import fr.sparadrap.ecf.model.medicine.Category;
+import fr.sparadrap.ecf.model.medicine.Medicine;
+import fr.sparadrap.ecf.model.medicine.Prescription;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.model.purchase.Purchase;
+import fr.sparadrap.ecf.model.purchase.CartItem;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.view.swingview.DisplayList;
+import fr.sparadrap.ecf.view.swingview.PrescriptionCreationPanel;
+import fr.sparadrap.ecf.view.swingview.tablemodele.TableModele;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static fr.sparadrah.ecf.view.swingview.DisplayList.*;
+import static fr.sparadrap.ecf.view.swingview.DisplayList.*;
 
 public class PurchaseManagementPanel extends  JPanel {
     private static List<CartItem> cart = new ArrayList<>();

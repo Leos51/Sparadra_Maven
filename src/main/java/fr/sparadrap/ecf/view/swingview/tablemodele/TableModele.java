@@ -1,12 +1,12 @@
-package fr.sparadrah.ecf.view.swingview.tablemodele;
+package fr.sparadrap.ecf.view.swingview.tablemodele;
 
-import fr.sparadrah.ecf.model.medicine.Medicine;
-import fr.sparadrah.ecf.model.medicine.Prescription;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.model.person.Doctor;
-import fr.sparadrah.ecf.model.purchase.CartItem;
-import fr.sparadrah.ecf.model.purchase.Purchase;
-import fr.sparadrah.ecf.utils.DateFormat;
+import fr.sparadrap.ecf.model.medicine.Medicine;
+import fr.sparadrap.ecf.model.medicine.Prescription;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.model.person.Doctor;
+import fr.sparadrap.ecf.model.purchase.CartItem;
+import fr.sparadrap.ecf.model.purchase.Purchase;
+import fr.sparadrap.ecf.utils.DateFormat;
 
 import javax.swing.table.AbstractTableModel;
 import java.text.DecimalFormat;

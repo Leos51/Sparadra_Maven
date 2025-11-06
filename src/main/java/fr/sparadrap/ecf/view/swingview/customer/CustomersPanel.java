@@ -1,9 +1,9 @@
-package fr.sparadrah.ecf.view.swingview.customer;
+package fr.sparadrap.ecf.view.swingview.customer;
 
-import fr.sparadrah.ecf.model.lists.person.CustomersList;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.view.swingview.DisplayList;
-import fr.sparadrah.ecf.view.swingview.tablemodele.TableModele;
+import fr.sparadrap.ecf.model.lists.person.CustomersList;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.view.swingview.DisplayList;
+import fr.sparadrap.ecf.view.swingview.tablemodele.TableModele;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import static fr.sparadrah.ecf.view.swingview.DisplayList.*;
+import static fr.sparadrap.ecf.view.swingview.DisplayList.*;
 
 public class CustomersPanel extends JPanel {
     private JPanel customersPanel;
@@ -41,7 +41,9 @@ public class CustomersPanel extends JPanel {
     }
 
     public CustomersPanel(){
+
         this.setLayout(new GridLayout(1,1));
+        customersPanel = new JPanel();
         this.add(customersPanel);
         customerDisplayList = new DisplayList(0);
         tablePanel.add(customerDisplayList);

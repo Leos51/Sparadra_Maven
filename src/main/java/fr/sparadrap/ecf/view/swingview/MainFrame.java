@@ -1,6 +1,6 @@
-package fr.sparadrah.ecf.view.swingview;
+package fr.sparadrap.ecf.view.swingview;
 
-import fr.sparadrah.ecf.view.swingview.menu.MainMenu;
+import fr.sparadrap.ecf.view.swingview.menu.MainMenu;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,16 +1,16 @@
-package fr.sparadrah.ecf.test;
+package fr.sparadrap.ecf;
 
-import fr.sparadrah.ecf.model.person.MutualInsurance;
-import fr.sparadrah.ecf.model.person.Customer;
-import fr.sparadrah.ecf.utils.DateFormat;
-import fr.sparadrah.ecf.utils.exception.SaisieException;
+import fr.sparadrap.ecf.model.person.MutualInsurance;
+import fr.sparadrap.ecf.model.person.Customer;
+import fr.sparadrap.ecf.utils.DateFormat;
+import fr.sparadrap.ecf.utils.exception.SaisieException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static fr.sparadrah.ecf.utils.UserInput.capitalize;
+import static fr.sparadrap.ecf.utils.UserInput.capitalize;
 import static org.junit.jupiter.api.Assertions.*;
 class CustomerTest {
     Customer customer;
@@ -18,7 +18,7 @@ class CustomerTest {
 
     @BeforeEach
     void setUp() throws SaisieException {
-        macif = new MutualInsurance("Bourso", "Marne", 30, "address","51000","Ville", "0612324565","email@email.com");
+        macif = new MutualInsurance("Bourso", "Marne", 0.3, "address","51000","Ville", "0612324565","email@email.com");
 
         customer = new Customer("Recto", "Verso", "Adresse 1", "51000", "Chalons en Champagne", "03 26 68 03 00", "rectoverso@gmail.com", "1825194528231", "28/02/2010", macif, null);
     }
@@ -178,7 +178,7 @@ class CustomerTest {
 
     @Test
     void setInsuranceCompagny() throws SaisieException {
-        MutualInsurance a = new MutualInsurance("m1", "ter", 0.05, "adress", "75000", "aze", "789654123", "mail@mail.fr");
+        MutualInsurance a = new MutualInsurance("m1", "ter", 0.05, "adress", "75000", "aze", "0789654123", "mail@mail.fr");
         customer.setMutualInsurance(a);
         assertEquals(a.getCompagnyName(), customer.getMutualInsurance().getCompagnyName());
     }

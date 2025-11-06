@@ -1,14 +1,14 @@
-package fr.sparadrah.ecf.view.consoleview.purchase;
+package fr.sparadrap.ecf.view.consoleview.purchase;
 
-import fr.sparadrah.ecf.model.lists.purchase.PurchasesList;
-import fr.sparadrah.ecf.model.purchase.Purchase;
-import fr.sparadrah.ecf.utils.UserInput;
-import fr.sparadrah.ecf.view.consoleview.MainMenu;
+import fr.sparadrap.ecf.model.lists.purchase.PurchasesList;
+import fr.sparadrap.ecf.model.purchase.Purchase;
+import fr.sparadrap.ecf.utils.UserInput;
+import fr.sparadrap.ecf.view.consoleview.MainMenu;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.sparadrah.ecf.utils.UserInput.exitApp;
+import static fr.sparadrap.ecf.utils.UserInput.exitApp;
 
 public class PurchaseHistoryMenu {
 

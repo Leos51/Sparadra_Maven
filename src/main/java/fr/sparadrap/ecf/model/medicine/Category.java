@@ -1,7 +1,7 @@
-package fr.sparadrah.ecf.model.medicine;
+package fr.sparadrap.ecf.model.medicine;
 
-import fr.sparadrah.ecf.utils.exception.SaisieException;
-import fr.sparadrah.ecf.utils.validator.Validator;
+
+import fr.sparadrap.ecf.utils.exception.SaisieException;
 
 public class Category {
     private String categoryName;
