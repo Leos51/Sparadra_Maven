@@ -43,10 +43,25 @@ public class CustomersPanel extends JPanel {
     public CustomersPanel(){
 
         this.setLayout(new GridLayout(1,1));
-        customersPanel = new JPanel();
+
+        // Vérifier que customersPanel est initialisé
+        if (customersPanel == null) {
+            customersPanel = new JPanel(new BorderLayout());
+        }
+
         this.add(customersPanel);
+
+        // Vérifier que tablePanel existe avant d'ajouter le DisplayList
+        if (tablePanel == null) {
+            tablePanel = new JPanel(new BorderLayout());
+            // Ajouter tablePanel au customersPanel si nécessaire
+            if (centerPanel != null) {
+                centerPanel.add(tablePanel, BorderLayout.CENTER);
+            }
+        }
+
         customerDisplayList = new DisplayList(0);
-        tablePanel.add(customerDisplayList);
+        tablePanel.add(customerDisplayList, BorderLayout.CENTER);
 
 
         customerDisplayList.getTable().getSelectionModel().addListSelectionListener(e -> {
@@ -179,8 +194,7 @@ public class CustomersPanel extends JPanel {
         );
         if (confirm == JOptionPane.YES_OPTION) {
             CustomersList.removeCustomer(selectedCustomer);
-            repaint();
-            revalidate();
+            refreshTable();
             updateButtonsState();
         }
     }

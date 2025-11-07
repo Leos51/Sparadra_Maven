@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fr.sparadrap.ecf.view.swingview.purchases.PurchaseManagementPanel">
   <grid id="27dc6" binding="purchasePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="1133" height="671"/>
+      <xy x="20" y="20" width="1153" height="671"/>
     </constraints>
     <properties>
       <preferredSize width="1200" height="750"/>
@@ -54,8 +54,7 @@
                         <constraints/>
                         <properties>
                           <enabled value="false"/>
-                          <icon value="fr/sparadrap/ecf/view/swingview/ressources/moins.png"/>
-                          <text value=""/>
+                          <text value="-"/>
                           <toolTipText value="Retirer 1 unité a la ligne sélectionné"/>
                         </properties>
                       </component>
@@ -63,8 +62,7 @@
                         <constraints/>
                         <properties>
                           <enabled value="false"/>
-                          <icon value="fr/sparadrap/ecf/view/swingview/ressources/plus.png"/>
-                          <text value=""/>
+                          <text value="+"/>
                           <toolTipText value="Ajouter 1 unité a la ligne"/>
                         </properties>
                       </component>
@@ -74,8 +72,7 @@
                           <background color="-13947600"/>
                           <enabled value="false"/>
                           <horizontalAlignment value="0"/>
-                          <icon value="fr/sparadrap/ecf/view/swingview/ressources/delete.png"/>
-                          <text value=""/>
+                          <text value="poubelle"/>
                           <toolTipText value="Effacer la ligne selectionnée"/>
                         </properties>
                       </component>
@@ -178,7 +175,7 @@
                               <component id="89421" class="javax.swing.JButton" binding="searchMedicineBtn">
                                 <constraints/>
                                 <properties>
-                                  <text value="🔍"/>
+                                  <text value="recherche"/>
                                 </properties>
                               </component>
                               <component id="a6b90" class="javax.swing.JSpinner" binding="quantitySpinner">
@@ -237,7 +234,7 @@
                               <component id="a1a1e" class="javax.swing.JButton" binding="searchCustomerBtn">
                                 <constraints/>
                                 <properties>
-                                  <text value="🔍"/>
+                                  <text value="Search"/>
                                 </properties>
                               </component>
                               <hspacer id="b997a">

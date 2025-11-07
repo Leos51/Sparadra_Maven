@@ -28,8 +28,7 @@
                 <properties>
                   <background color="-12020664"/>
                   <foreground color="-328193"/>
-                  <icon value="fr/sparadrap/ecf/view/swingview/ressources/ajouter.png"/>
-                  <text value=""/>
+                  <text value="ajout medecin"/>
                   <toolTipText value="Nouveau client"/>
                 </properties>
               </component>

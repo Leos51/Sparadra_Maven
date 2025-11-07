@@ -28,7 +28,7 @@
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="🛒 Achat Direct"/>
+              <text value="Achat Direct"/>
               <toolTipText value=""/>
             </properties>
           </component>
@@ -37,7 +37,7 @@
               <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="📋 Achat avec Ordonnance"/>
+              <text value="Achat avec Ordonnance"/>
             </properties>
           </component>
           <component id="22200" class="javax.swing.JSeparator">
@@ -54,20 +54,12 @@
               <text value="Gestion"/>
             </properties>
           </component>
-          <component id="291d5" class="javax.swing.JButton" binding="customerManagerBtn">
-            <constraints>
-              <grid row="10" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="👥 Gestion Clients"/>
-            </properties>
-          </component>
           <component id="4f1df" class="javax.swing.JButton" binding="doctorsManagerBtn">
             <constraints>
               <grid row="11" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="👨‍  Gestion Médecins"/>
+              <text value="Gestion Médecins"/>
             </properties>
           </component>
           <component id="12fce" class="javax.swing.JButton" binding="medicineManagerBtn">
@@ -75,7 +67,7 @@
               <grid row="12" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="💊 Gestion des Stocks"/>
+              <text value="Gestion des Stocks"/>
             </properties>
           </component>
           <component id="da326" class="javax.swing.JSeparator">
@@ -89,7 +81,7 @@
               <grid row="15" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="❌ Quitter"/>
+              <text value="Quitter"/>
             </properties>
           </component>
           <component id="b2ebf" class="javax.swing.JButton" binding="homeBtn">
@@ -139,6 +131,14 @@
             </constraints>
             <properties>
               <text value="Historique"/>
+            </properties>
+          </component>
+          <component id="291d5" class="javax.swing.JButton" binding="customerManagerBtn">
+            <constraints>
+              <grid row="10" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Gestion Clients"/>
             </properties>
           </component>
         </children>
