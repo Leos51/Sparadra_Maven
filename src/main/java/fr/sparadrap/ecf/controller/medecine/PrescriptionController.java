@@ -1,5 +1,6 @@
 package fr.sparadrap.ecf.controller.medecine;
 
+import fr.sparadrap.ecf.database.dao.CustomerDAO;
 import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrap.ecf.model.lists.medicine.PrescriptionList;
 import fr.sparadrap.ecf.model.lists.person.CustomersList;
@@ -16,10 +17,11 @@ import java.util.List;
 public class PrescriptionController {
 
     public static void seedPrecriptionData(){
+        CustomerDAO customerDAO = new CustomerDAO();
         try{
             // Récupérer des clients et médecins existants
-            Customer customer1 = CustomersList.findByNir("1885621486527");
-            Customer customer2 = CustomersList.findByNir("1885621486522");
+            Customer customer1 = customerDAO.findById(1);
+            Customer customer2 = customerDAO.findById(2);
             Doctor doctor1 = DoctorList.findDoctorByLicenseNumber("12345678913");
             Doctor doctor2 = DoctorList.findDoctorByLicenseNumber("12345678076");
 

@@ -1,5 +1,8 @@
 package fr.sparadrap.ecf.view.swingview.purchases;
 
+import com.intellij.uiDesigner.core.Spacer;
+import fr.sparadrap.ecf.database.dao.CategoryDAO;
+import fr.sparadrap.ecf.database.dao.CustomerDAO;
 import fr.sparadrap.ecf.model.lists.medicine.CategoriesList;
 import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrap.ecf.model.lists.medicine.PrescriptionList;
@@ -17,16 +20,19 @@ import fr.sparadrap.ecf.view.swingview.PrescriptionCreationPanel;
 import fr.sparadrap.ecf.view.swingview.tablemodele.TableModele;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
-
 import static fr.sparadrap.ecf.view.swingview.DisplayList.*;
 
-public class PurchaseManagementPanel extends  JPanel {
+public class PurchaseManagementPanel extends JPanel {
     private static List<CartItem> cart = new ArrayList<>();
 
     private Customer selectedCustomer;
@@ -73,7 +79,6 @@ public class PurchaseManagementPanel extends  JPanel {
     private JButton addToCartBtn;
     private JButton searchMedicineBtn;
     private JButton searchCustomerBtn;
-    private JButton prescriptionScanBtn;
     private JTextField medicineSearchField;
     private JButton createPrescriptionBtn;
     private JButton addItemCartBtn;
@@ -95,30 +100,27 @@ public class PurchaseManagementPanel extends  JPanel {
     Purchase currentPurchase = new Purchase();
 
 
-
-    public PurchaseManagementPanel(Boolean hasPrescription){
+    public PurchaseManagementPanel(Boolean hasPrescription) {
         this.hasPrescription = hasPrescription;
 
         this.add(purchasePanel);
-        if(hasPrescription){
+        if (hasPrescription) {
             this.titleLabel.setText("Achat avec ordonnance!");
-        }else{
+        } else {
             this.titleLabel.setText("Achat direct!");
         }
-try{
-    initialize();
-    cartDisplayList.getTable().getSelectionModel().addListSelectionListener(e -> {
-        boolean selected = customerDisplayList.getTable().getSelectedRow() != -1;
-        addItemCartBtn.setEnabled(selected);
-        removeFromCartBtn.setEnabled(selected);
-        removeUnitItemCartBtn.setEnabled(selected);
-    });
-    updateButtonStates();
-}catch(Exception e){
-    System.out.println("Erreur init" + e.getMessage());
-}
-
-
+        try {
+            initialize();
+            cartDisplayList.getTable().getSelectionModel().addListSelectionListener(e -> {
+                boolean selected = customerDisplayList.getTable().getSelectedRow() != -1;
+                addItemCartBtn.setEnabled(selected);
+                removeFromCartBtn.setEnabled(selected);
+                removeUnitItemCartBtn.setEnabled(selected);
+            });
+            updateButtonStates();
+        } catch (Exception e) {
+            System.out.println("Erreur init" + e.getMessage());
+        }
 
 
         selectCustomerButton.addActionListener(new ActionListener() {
@@ -210,12 +212,19 @@ try{
 
 
     private void initialize() throws SaisieException {
+        CategoryDAO categoryDAO = new CategoryDAO();
+
         //Combobox Selection des categories des médicaments
-        Category allCategories = new Category("Catégorie : Toutes");
-        categoryComboBox.addItem(allCategories);
-        CategoriesList.getCategories().forEach(category -> {
-            categoryComboBox.addItem(category);
-        });
+        Category allCategories = new Category("Catégorie : Toutes", null);
+        categoryComboBox.addItem(allCategories.getCategoryName());
+        try {
+            for (Category c : categoryDAO.findAll()) {
+                categoryComboBox.addItem(c.getCategoryName());
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur init" + e.getMessage());
+        }
+
 
         // Utilisation de DisplayList pour les clients (type 0)
         customerDisplayList = new DisplayList(0);
@@ -249,7 +258,7 @@ try{
                     if (selectedCustomer.getMutualInsurance() != null) {
                         double rate = selectedCustomer.getMutualInsurance().getReimbursementRate();
                         info.append("Mutuelle: ").append(selectedCustomer.getMutualInsurance().getCompagnyName()).append("\n");
-                        info.append("Taux de remboursement: ").append((int)(rate * 100)).append("%");
+                        info.append("Taux de remboursement: ").append((int) (rate * 100)).append("%");
                     } else {
                         info.append("Aucune mutuelle\n");
                         info.append("Pas de remboursement");
@@ -291,7 +300,7 @@ try{
         }
     }
 
-    private void addToCart(){
+    private void addToCart() {
         selectedMedicine = getSelectedItem(medicineDisplayList.getTable(), (TableModele<Medicine>) medicineDisplayList.getTable().getModel());
         int quantity = (Integer) quantitySpinner.getValue();
         if (!(quantity > 0)) {
@@ -302,7 +311,7 @@ try{
         }
 
         // Vérifier le stock
-        if(quantity > selectedMedicine.getStock()){
+        if (quantity > selectedMedicine.getStock()) {
             JOptionPane.showMessageDialog(this,
                     "Stock insuffisant! Stock disponible: " + selectedMedicine.getStock(),
                     "Stock insuffisant", JOptionPane.WARNING_MESSAGE);
@@ -311,13 +320,13 @@ try{
 
         // Verifier si Item deja au panier
         CartItem existingItem = cart.stream()
-                .filter(item-> item.getMedicine().equals(selectedMedicine))
+                .filter(item -> item.getMedicine().equals(selectedMedicine))
                 .findFirst()
                 .orElse(null);
 
-        if(existingItem != null){
+        if (existingItem != null) {
             int newQuantity = existingItem.getQuantity() + quantity;
-            if(newQuantity > selectedMedicine.getStock()){
+            if (newQuantity > selectedMedicine.getStock()) {
                 JOptionPane.showMessageDialog(this,
                         "Stock insuffisant! Stock disponible: " + selectedMedicine.getStock() +
                                 ", Quantité déjà dans le panier: " + existingItem.getQuantity(),
@@ -328,7 +337,7 @@ try{
             updateTotal();
 
 
-        }else{
+        } else {
             cart.add(new CartItem(selectedMedicine, quantity, selectedMedicine.getPrice()));
             updateTotal();
         }
@@ -339,8 +348,8 @@ try{
     }
 
     private void removeFromCart() {
-        if(cart.isEmpty()){
-            JOptionPane.showMessageDialog(this,"Le Panier est deja vide!");
+        if (cart.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Le Panier est deja vide!");
             return;
         }
         CartItem selectedItem = getSelectedItem(cartTable, (TableModele<CartItem>) cartTable.getModel());
@@ -357,10 +366,10 @@ try{
         }
     }
 
-    private void addCartItem(){
+    private void addCartItem() {
         CartItem selectedItem = getSelectedItem(cartTable, (TableModele<CartItem>) cartTable.getModel());
 
-        if(selectedItem.getQuantity() >= selectedItem.getMedicine().getStock()){
+        if (selectedItem.getQuantity() >= selectedItem.getMedicine().getStock()) {
             JOptionPane.showMessageDialog(this,
                     "Stock insuffisant! Stock disponible: " + selectedMedicine.getStock(),
                     "Stock insuffisant", JOptionPane.WARNING_MESSAGE);
@@ -374,12 +383,12 @@ try{
     }
 
     private void removeCartItem() {
-        CartItem selectedItem =  getSelectedItem(cartTable, (TableModele<CartItem>) cartTable.getModel());
-        if(selectedItem.getQuantity() <= 1 ){
+        CartItem selectedItem = getSelectedItem(cartTable, (TableModele<CartItem>) cartTable.getModel());
+        if (selectedItem.getQuantity() <= 1) {
             removeFromCart();
             updateButtonStates();
             return;
-        }else{
+        } else {
             selectedItem.setQuantity(selectedItem.getQuantity() - 1);
         }
         updateTotal();
@@ -388,7 +397,7 @@ try{
     }
 
 
-    private double calculateTotal(){
+    private double calculateTotal() {
         return cart.stream().mapToDouble(CartItem::getLinePrice).sum();
     }
 
@@ -405,7 +414,7 @@ try{
         }
     }
 
-    private void validatePurchase(){
+    private void validatePurchase() {
         if (cart.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Le panier est vide!", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
@@ -457,9 +466,9 @@ try{
         }
     }
 
-    private void processPurchase(){
+    private void processPurchase() {
         // Ajouter les médicaments à l'achat et réduire les stocks
-        for(CartItem item : cart){
+        for (CartItem item : cart) {
             currentPurchase.addMedicine(item.getMedicine(), item.getQuantity(), item.getLinePrice());
         }
         // Ajouter l'achat à la liste des achats
@@ -483,7 +492,7 @@ try{
     private void resetForm() {
         selectedCustomer = null;
         currentPurchase = new Purchase();
-        for(CartItem cartItem : cart){
+        for (CartItem cartItem : cart) {
             cart.remove(cartItem);
         }
         customerSelectedLabel.setText("Aucun client sélectionné");
@@ -503,8 +512,14 @@ try{
      */
     private void searchCustomers() {
         String search = customerSearchField.getText().trim();
-        List<Customer> filteredList = CustomersList.filterCustomers(search);
-        customerDisplayList.configTable(filteredList,HEADER_CUSTOMERS, USER_COLUMN_CLASSES);
+        CustomerDAO customerDAO = new CustomerDAO();
+        try {
+            List<Customer> filteredList = customerDAO.search(search);
+            customerDisplayList.configTable(filteredList, HEADER_CUSTOMERS, USER_COLUMN_CLASSES);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
 
@@ -514,9 +529,8 @@ try{
     private void searchMedicines() {
         String search = medicineSearchField.getText().trim();
         List<Medicine> filteredList = MedicineList.filterMedicines(search);
-        medicineDisplayList.configTable(filteredList,HEADER_MEDICINE, MEDICINE_COLUMN_CLASSES);
+        medicineDisplayList.configTable(filteredList, HEADER_MEDICINE, MEDICINE_COLUMN_CLASSES);
     }
-
 
 
     private List<Medicine> searchMedicinesByCategory() {
@@ -534,7 +548,7 @@ try{
                     .collect(Collectors.toList());
         }
 
-            return filteredList;
+        return filteredList;
 
         //medicineDisplayList.configTable(filteredList,HEADER_MEDICINE, MEDICINE_COLUMN_CLASSES);
 
@@ -542,8 +556,8 @@ try{
 
     private void searchMedicinesWithCategoryFilter(List<Medicine> filteredCategoryList) {
         String search = medicineSearchField.getText().trim();
-        List<Medicine> filteredList = filteredCategoryList.stream().filter(item -> item.getMedicineName().toLowerCase().contains(search)).toList() ;
-        medicineDisplayList.configTable(filteredList,HEADER_MEDICINE, MEDICINE_COLUMN_CLASSES);
+        List<Medicine> filteredList = filteredCategoryList.stream().filter(item -> item.getMedicineName().toLowerCase().contains(search)).toList();
+        medicineDisplayList.configTable(filteredList, HEADER_MEDICINE, MEDICINE_COLUMN_CLASSES);
     }
 
     private void updateButtonStates() {
@@ -553,8 +567,6 @@ try{
 
         addToCartBtn.setEnabled(hasCustomer);
         validatePurchaseBtn.setEnabled(hasCustomer && hasItemsInCart);
-        prescriptionScanBtn.setVisible(hasPrescription);
-        prescriptionScanBtn.setEnabled(hasCustomer);
         createPrescriptionBtn.setVisible(hasPrescription);
         addItemCartBtn.setEnabled(hasItemsInCart);
         removeFromCartBtn.setEnabled(hasItemsInCart);
@@ -562,16 +574,15 @@ try{
     }
 
 
-
     private void showPrescriptionDialog() {
         List<Prescription> prescriptions = PrescriptionList.findRecentPrescriptions(selectedCustomer);
 
-        if(prescriptions.isEmpty()) {
+        if (prescriptions.isEmpty()) {
             int choice = JOptionPane.showConfirmDialog(this,
                     "Aucune ordonnance trouvée pour ce client.\nVoulez-vous créer une nouvelle ordonnance ?",
                     "Pas d'ordonnance", JOptionPane.YES_NO_OPTION);
 
-            if(choice == JOptionPane.YES_OPTION) {
+            if (choice == JOptionPane.YES_OPTION) {
                 openPrescriptionCreationDialog();
             }
             return;
@@ -585,7 +596,7 @@ try{
                 prescriptions.toArray(),
                 prescriptions.get(0));
 
-        if(selected != null) {
+        if (selected != null) {
             selectedPrescription = selected;
             currentPurchase.setPrescription(selected);
             populateCartFromPrescription(selected);
@@ -716,11 +727,211 @@ try{
     }
 
 
+    {
+// GUI initializer generated by IntelliJ IDEA GUI Designer
+// >>> IMPORTANT!! <<<
+// DO NOT EDIT OR ADD ANY CODE HERE!
+        $$$setupUI$$$();
+    }
 
+    /**
+     * Method generated by IntelliJ IDEA GUI Designer
+     * >>> IMPORTANT!! <<<
+     * DO NOT edit this method OR call it in your code!
+     *
+     * @noinspection ALL
+     */
+    private void $$$setupUI$$$() {
+        purchasePanel = new JPanel();
+        purchasePanel.setLayout(new BorderLayout(0, 0));
+        purchasePanel.setPreferredSize(new Dimension(1200, 750));
+        purchasePanel.setRequestFocusEnabled(true);
+        purchasePanel.setVerifyInputWhenFocusTarget(true);
+        titlePanel = new JPanel();
+        titlePanel.setLayout(new BorderLayout(0, 0));
+        purchasePanel.add(titlePanel, BorderLayout.NORTH);
+        titleLabel = new JLabel();
+        titleLabel.setHorizontalAlignment(0);
+        titleLabel.setText("Achat de médicaments");
+        titlePanel.add(titleLabel, BorderLayout.NORTH);
+        centerPanel = new JPanel();
+        centerPanel.setLayout(new BorderLayout(0, 0));
+        purchasePanel.add(centerPanel, BorderLayout.CENTER);
+        final JSplitPane splitPane1 = new JSplitPane();
+        centerPanel.add(splitPane1, BorderLayout.CENTER);
+        cartPanel = new JPanel();
+        cartPanel.setLayout(new BorderLayout(0, 0));
+        cartPanel.setEnabled(true);
+        cartPanel.setPreferredSize(new Dimension(400, 0));
+        splitPane1.setRightComponent(cartPanel);
+        cartPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "3. Panier d'Achat", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        cartButtonPanel = new JPanel();
+        cartButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+        cartPanel.add(cartButtonPanel, BorderLayout.NORTH);
+        removeUnitItemCartBtn = new JButton();
+        removeUnitItemCartBtn.setEnabled(false);
+        removeUnitItemCartBtn.setText("-");
+        removeUnitItemCartBtn.setToolTipText("Retirer 1 unité a la ligne sélectionné");
+        cartButtonPanel.add(removeUnitItemCartBtn);
+        addItemCartBtn = new JButton();
+        addItemCartBtn.setEnabled(false);
+        addItemCartBtn.setText("+");
+        addItemCartBtn.setToolTipText("Ajouter 1 unité a la ligne");
+        cartButtonPanel.add(addItemCartBtn);
+        removeFromCartBtn = new JButton();
+        removeFromCartBtn.setBackground(new Color(-13947600));
+        removeFromCartBtn.setEnabled(false);
+        removeFromCartBtn.setHorizontalAlignment(0);
+        removeFromCartBtn.setText("poubelle");
+        removeFromCartBtn.setToolTipText("Effacer la ligne selectionnée");
+        cartButtonPanel.add(removeFromCartBtn);
+        bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BorderLayout(0, 0));
+        cartPanel.add(bottomPanel, BorderLayout.SOUTH);
+        totalPanel = new JPanel();
+        totalPanel.setLayout(new BorderLayout(0, 0));
+        bottomPanel.add(totalPanel, BorderLayout.NORTH);
+        totalPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Total", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        totalLabel = new JLabel();
+        totalLabel.setHorizontalAlignment(4);
+        totalLabel.setText("0.00");
+        totalPanel.add(totalLabel, BorderLayout.NORTH);
+        InformationsPanel = new JPanel();
+        InformationsPanel.setLayout(new BorderLayout(0, 0));
+        bottomPanel.add(InformationsPanel, BorderLayout.SOUTH);
+        InformationsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Informations", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        infoArea = new JTextArea();
+        infoArea.setEditable(false);
+        infoArea.setText("Sélectionnez un client pour voir les informations de remboursement.");
+        InformationsPanel.add(infoArea, BorderLayout.CENTER);
+        cartTablePanel = new JPanel();
+        cartTablePanel.setLayout(new BorderLayout(0, 0));
+        cartPanel.add(cartTablePanel, BorderLayout.CENTER);
+        leftPanel = new JPanel();
+        leftPanel.setLayout(new BorderLayout(0, 0));
+        splitPane1.setLeftComponent(leftPanel);
+        final JSplitPane splitPane2 = new JSplitPane();
+        splitPane2.setOrientation(0);
+        leftPanel.add(splitPane2, BorderLayout.CENTER);
+        medicinePanel = new JPanel();
+        medicinePanel.setLayout(new BorderLayout(0, 0));
+        medicinePanel.setEnabled(true);
+        medicinePanel.setOpaque(true);
+        medicinePanel.setVisible(true);
+        splitPane2.setRightComponent(medicinePanel);
+        medicinePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "2. Selection des médicaments", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, -1, -1, medicinePanel.getFont()), null));
+        medicineSearchPanel = new JPanel();
+        medicineSearchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        medicinePanel.add(medicineSearchPanel, BorderLayout.NORTH);
+        categoryComboBox = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+        categoryComboBox.setModel(defaultComboBoxModel1);
+        medicineSearchPanel.add(categoryComboBox);
+        final JLabel label1 = new JLabel();
+        label1.setText("Rechercher:");
+        medicineSearchPanel.add(label1);
+        medicineSearchField = new JTextField();
+        medicineSearchField.setMinimumSize(new Dimension(100, 25));
+        medicineSearchField.setPreferredSize(new Dimension(100, 25));
+        medicineSearchPanel.add(medicineSearchField);
+        searchMedicineBtn = new JButton();
+        searchMedicineBtn.setText("recherche");
+        medicineSearchPanel.add(searchMedicineBtn);
+        quantitySpinner = new JSpinner();
+        quantitySpinner.setMaximumSize(new Dimension(150, 34));
+        quantitySpinner.setPreferredSize(new Dimension(93, 34));
+        medicineSearchPanel.add(quantitySpinner);
+        addToCartBtn = new JButton();
+        addToCartBtn.setBackground(new Color(-14513374));
+        addToCartBtn.setEnabled(false);
+        addToCartBtn.setText("Ajouter");
+        medicineSearchPanel.add(addToCartBtn);
+        medicineTablePanel = new JPanel();
+        medicineTablePanel.setLayout(new BorderLayout(0, 0));
+        medicinePanel.add(medicineTablePanel, BorderLayout.CENTER);
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+        purchasePanel.add(buttonPanel, BorderLayout.SOUTH);
+        createPrescriptionBtn = new JButton();
+        createPrescriptionBtn.setEnabled(true);
+        createPrescriptionBtn.setText("Ordonnance");
+        createPrescriptionBtn.setVisible(false);
+        buttonPanel.add(createPrescriptionBtn);
+        annulerButton = new JButton();
+        annulerButton.setBackground(new Color(-5658199));
+        annulerButton.setText("Annuler");
+        buttonPanel.add(annulerButton);
+        validatePurchaseBtn = new JButton();
+        validatePurchaseBtn.setBackground(new Color(-16744448));
+        validatePurchaseBtn.setEnabled(false);
+        validatePurchaseBtn.setSelected(false);
+        validatePurchaseBtn.setText("Valider");
+        buttonPanel.add(validatePurchaseBtn);
+        customerPanel = new JPanel();
+        customerPanel.setLayout(new BorderLayout(0, 0));
+        customerPanel.setMinimumSize(new Dimension(340, 200));
+        customerPanel.setPreferredSize(new Dimension(340, 200));
+        buttonPanel.add(customerPanel);
+        customerPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "1. Sélection du Client", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        customerSearchPanel = new JPanel();
+        customerSearchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        customerPanel.add(customerSearchPanel, BorderLayout.NORTH);
+        final JLabel label2 = new JLabel();
+        label2.setText("Rechercher:");
+        customerSearchPanel.add(label2);
+        customerSearchField = new JTextField();
+        customerSearchField.setPreferredSize(new Dimension(100, 25));
+        customerSearchField.setText("");
+        customerSearchPanel.add(customerSearchField);
+        searchCustomerBtn = new JButton();
+        searchCustomerBtn.setText("Search");
+        customerSearchPanel.add(searchCustomerBtn);
+        final Spacer spacer1 = new Spacer();
+        customerSearchPanel.add(spacer1);
+        final Spacer spacer2 = new Spacer();
+        customerSearchPanel.add(spacer2);
+        final Spacer spacer3 = new Spacer();
+        customerSearchPanel.add(spacer3);
+        selectCustomerButton = new JButton();
+        selectCustomerButton.setBackground(new Color(-12156236));
+        selectCustomerButton.setText("Selectionner le client");
+        customerSearchPanel.add(selectCustomerButton);
+        customerTablePanel = new JPanel();
+        customerTablePanel.setLayout(new BorderLayout(0, 0));
+        customerPanel.add(customerTablePanel, BorderLayout.CENTER);
+        customerSelectedLabel = new JLabel();
+        customerSelectedLabel.setForeground(new Color(-8388608));
+        customerSelectedLabel.setText("Aucun client sélectionné");
+        customerPanel.add(customerSelectedLabel, BorderLayout.SOUTH);
+    }
 
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
+        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
+        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
+    }
 
-
-
-
+    /**
+     * @noinspection ALL
+     */
+    public JComponent $$$getRootComponent$$$() {
+        return purchasePanel;
+    }
 
 }

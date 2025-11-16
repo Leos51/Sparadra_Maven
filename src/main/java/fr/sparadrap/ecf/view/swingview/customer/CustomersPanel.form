@@ -10,8 +10,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="e455c" binding="bottomBar" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="e455c" binding="bottomBar" layout-manager="GridBagLayout">
         <constraints border-constraint="South"/>
         <properties/>
         <border type="none"/>
@@ -19,6 +18,7 @@
           <grid id="2c7b2" binding="right" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -37,6 +37,7 @@
           <grid id="bf151" binding="left" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -66,30 +67,30 @@
                   <text value="Supprimer"/>
                 </properties>
               </component>
-            </children>
-          </grid>
-        </children>
-      </grid>
-      <grid id="41af0" binding="topPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="10" left="10" bottom="10" right="10"/>
-        <constraints border-constraint="North"/>
-        <properties/>
-        <border type="line"/>
-        <children>
-          <grid id="475bf" binding="titlePanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <component id="d0f91" class="javax.swing.JLabel" binding="titleLabel">
+              <grid id="41af0" binding="topPanel" layout-manager="GridBagLayout">
                 <constraints/>
-                <properties>
-                  <horizontalAlignment value="0"/>
-                  <text value="Gestion des Clients"/>
-                </properties>
-              </component>
+                <properties/>
+                <border type="line"/>
+                <children>
+                  <grid id="475bf" binding="titlePanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="1.0" weighty="1.0"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="d0f91" class="javax.swing.JLabel" binding="titleLabel">
+                        <constraints/>
+                        <properties>
+                          <horizontalAlignment value="0"/>
+                          <text value="Gestion des Clients"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
             </children>
           </grid>
         </children>
@@ -112,6 +113,7 @@
                   <columns value="20"/>
                   <minimumSize width="50" height="25"/>
                   <preferredSize width="226" height="25"/>
+                  <text value=""/>
                   <toolTipText value="votre recherche"/>
                 </properties>
               </component>
@@ -149,7 +151,7 @@
     </children>
   </grid>
   <buttonGroups>
-    <group name="searchTypeCustomer">
+    <group name="searchTypeCustomer" bound="true">
       <member id="72423"/>
       <member id="334bf"/>
       <member id="3b293"/>

@@ -4,6 +4,7 @@ import fr.sparadrap.ecf.utils.exception.SaisieException;
 import fr.sparadrap.ecf.utils.validator.Validator;
 
 public class MutualInsurance {
+    private Integer id;
     private String compagnyName;
     private String address;
     private String postCode;
@@ -26,6 +27,13 @@ public class MutualInsurance {
         this.setReimbursementRate(reimbursementRate);
     }
 
+
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     /**
      * mets a jour le nom de la mutuelle

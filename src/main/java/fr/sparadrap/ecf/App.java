@@ -7,12 +7,12 @@ import fr.sparadrap.ecf.view.consoleview.MainMenu;
 import fr.sparadrap.ecf.view.swingview.MainFrame;
 import fr.sparadrap.ecf.view.swingview.customer.CustomersPanel;
 
+import javax.swing.*;
 import java.net.URL;
 
 import static fr.sparadrap.ecf.controller.medecine.CategoriesController.seedCategoriesData;
 import static fr.sparadrap.ecf.controller.medecine.MedicationController.seedMedicationData;
 import static fr.sparadrap.ecf.controller.medecine.PrescriptionController.seedPrecriptionData;
-import static fr.sparadrap.ecf.controller.person.CustomerController.seedCustomersData;
 import static fr.sparadrap.ecf.controller.person.DoctorController.seedDoctorData;
 import static fr.sparadrap.ecf.controller.person.MutualInsuranceController.seedMutualInsuranceData;
 import static fr.sparadrap.ecf.controller.purchase.PurchaseController.seedPurchaseData;
@@ -22,6 +22,7 @@ import static fr.sparadrap.ecf.controller.purchase.PurchaseController.seedPurcha
  */
 public class App {
     public static void main(String[] args) {
+
         System.out.println("Hello World!");
         App main = new App();
         main.run();
@@ -29,7 +30,7 @@ public class App {
     private void run(){
         URL url = CustomersPanel.class.getResource("/fr/sparadrap/ecf/view/swingview/ressources/ajouter.png");
         System.out.println("URL image : " + url);
-        initData();
+        //initData();
         //askConsoleOrSwing();
         startSwing();
         //startConsole();
@@ -49,7 +50,6 @@ public class App {
             seedMedicationData();
             seedMutualInsuranceData();
             seedDoctorData();
-            seedCustomersData();
             seedPrecriptionData();
             seedPurchaseData();
             System.out.println("Nombre client : " + CustomersList.getCustomers().size());

@@ -9,6 +9,7 @@ import fr.sparadrap.ecf.utils.validator.Validator;
 import java.time.LocalDate;
 
 public class Medicine {
+    private Integer id;
     private String medicineName;
     private Category category;
     private double price;
@@ -17,7 +18,7 @@ public class Medicine {
     private int threshold = 10;
 
 
-    public Medicine(String medicineName, Category category, double price, String releaseDate, int stockQuantity) throws SaisieException {
+    public Medicine(String medicineName, Category category, double price, String releaseDate,  int stockQuantity) throws SaisieException {
         this.setMedicineName(medicineName);
         this.setCategory(category);
         this.setPrice(price);
@@ -25,6 +26,13 @@ public class Medicine {
         this.setStock(stockQuantity);
     }
 
+    public Medicine() {
+
+    }
+
+
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
     /**
      * Recupere le nom du médicament
      * @return

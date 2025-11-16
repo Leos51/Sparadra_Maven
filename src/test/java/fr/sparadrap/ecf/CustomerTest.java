@@ -20,7 +20,7 @@ class CustomerTest {
     void setUp() throws SaisieException {
         macif = new MutualInsurance("Bourso", "Marne", 0.3, "address","51000","Ville", "0612324565","email@email.com");
 
-        customer = new Customer("Recto", "Verso", "Adresse 1", "51000", "Chalons en Champagne", "03 26 68 03 00", "rectoverso@gmail.com", "1825194528231", "28/02/2010", macif, null);
+        customer = new Customer("Recto", "Verso", "Adresse 1", "51000", "Chalons en Champagne", "03 26 68 03 00", "rectoverso@gmail.com", "285057823456789", "28/02/2010", macif, null);
     }
 
     @AfterEach
@@ -38,7 +38,7 @@ class CustomerTest {
         assertEquals("Chalons en Champagne", customer.getCity());
         assertEquals("rectoverso@gmail.com", customer.getEmail());
         assertEquals("03 26 68 03 00", customer.getPhone());
-        assertEquals("1825194528231", customer.getNir());
+        assertEquals("285057823456789", customer.getNir());
         assertEquals("28/02/2010", DateFormat.formatDate(customer.getBirthDate(), "dd/MM/yyyy"));
         assertEquals(macif, customer.getMutualInsurance());
         assertEquals(null, customer.getDoctor());
@@ -145,12 +145,12 @@ class CustomerTest {
 
     @Test
     void testGetNIR() {
-        assertEquals("1825194528231", customer.getNir());
+        assertEquals("285057823456789", customer.getNir());
     }
 
 
     @ParameterizedTest(name = "{0} : le setter fonctionne correctement")
-    @ValueSource(strings = {"1850751234567", "2920339876543", "1901314567890"} )
+    @ValueSource(strings = {"285057823456789", "285057823456789", "190103934567890"} )
     void testSetNir_Success(String nir) throws SaisieException {
         customer.setNir(nir);
         assertEquals(nir, customer.getNir());

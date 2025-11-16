@@ -8,10 +8,10 @@ import fr.sparadrap.ecf.utils.exception.SaisieException;
 public class CategoriesController {
     public static void seedCategoriesData(){
         try {
-            CategoriesList.addCategory(new Category("Analgésiques"));
-            CategoriesList.addCategory(new Category("Antiviraux"));
-            CategoriesList.addCategory(new Category("Antibiotiques"));
-            CategoriesList.addCategory(new Category("Anti-inflammatoires"));
+            CategoriesList.addCategory(new Category("Analgésiques", ""));
+            CategoriesList.addCategory(new Category("Antiviraux", ""));
+            CategoriesList.addCategory(new Category("Antibiotiques", ""));
+            CategoriesList.addCategory(new Category("Anti-inflammatoires", ""));
         }catch(SaisieException e){
             System.out.println("Erreur d'initialisation des categories : " + e.getMessage());
         }

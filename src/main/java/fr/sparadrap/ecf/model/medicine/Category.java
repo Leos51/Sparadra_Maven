@@ -4,10 +4,16 @@ package fr.sparadrap.ecf.model.medicine;
 import fr.sparadrap.ecf.utils.exception.SaisieException;
 
 public class Category {
+    private int id;
     private String categoryName;
+    private String description;
 
-    public Category(String categoryName) throws SaisieException {
+    public Category(String categoryName, String description) throws SaisieException {
         this.setCategoryName(categoryName);
+    }
+
+    public Category() {
+
     }
 
     /**
@@ -31,11 +37,26 @@ public class Category {
         this.categoryName = categoryName;
     }
 
+    public String getDescription() {
+        return description;
 
+
+    }
+    public void setDescription(String description) throws SaisieException {
+        this.description = description;
+    }
 
     @Override
     public String toString() {
         return this.getCategoryName();
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
 

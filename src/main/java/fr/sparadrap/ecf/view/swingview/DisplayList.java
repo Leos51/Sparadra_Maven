@@ -1,5 +1,6 @@
 package fr.sparadrap.ecf.view.swingview;
 
+import fr.sparadrap.ecf.database.dao.CustomerDAO;
 import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrap.ecf.model.lists.medicine.PrescriptionList;
 import fr.sparadrap.ecf.model.lists.person.CustomersList;
@@ -11,6 +12,7 @@ import fr.sparadrap.ecf.view.swingview.tablemodele.TableModele;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.List;
 
 public class DisplayList extends JPanel {
@@ -37,7 +39,8 @@ public class DisplayList extends JPanel {
 
 
 
-    public DisplayList(int type) {
+    public DisplayList(int type)  {
+        CustomerDAO customerDAO = new CustomerDAO();
         this.setLayout(new BorderLayout());
         JLabel tableLabel = new JLabel();
         tableLabel.setForeground(Color.white);
@@ -45,40 +48,47 @@ public class DisplayList extends JPanel {
        this.add(scrollPane, BorderLayout.CENTER);
        scrollPane.setViewportView(table);
 
-        switch (type) {
-            case 0:
-                tableTitleBorder = "Liste des CLients";
-                scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                configTable(CustomersList.getCustomers(),HEADER_CUSTOMERS,USER_COLUMN_CLASSES);
-                break;
-            case 1:
-                tableTitleBorder = "Liste des Medecins";
-                scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                configTable(DoctorList.getDoctors(),HEADER_DOCTORS,USER_COLUMN_CLASSES);
-                break;
-            case 2:
-                tableTitleBorder = "Liste des médicaments";
-                scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                configTable(MedicineList.getMedicines(),HEADER_MEDICINE,MEDICINE_COLUMN_CLASSES);
-                break;
-            case 3:
-                tableTitleBorder = "Panier";
-                scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                configTable(PurchaseManagementPanel.getCart() ,HEADER_CARTITEM,CARTITEM_COLUMN_CLASSES);
-                break;
-            case 4:
-                tableTitleBorder = "Historique des achats";
-                scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                configTable(PurchasesList.getPurchases(),HEADER_PURCHASES,PURCHASE_COLUMN_CLASSES);
-                break;
-            case 5:
-                tableTitleBorder = "Historique des prescriptions";
-                scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                configTable(PrescriptionList.getPrescriptionList(),HEADER_PRESCRIPTIONS,PRESCRIPTION_COLUMN_CLASSES);
-                break;
-            default:
-                break;
-        }
+       try{
+           switch (type) {
+               case 0:
+                   tableTitleBorder = "Liste des CLients";
+                   scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
+                   configTable(customerDAO.findAll(),HEADER_CUSTOMERS,USER_COLUMN_CLASSES);
+                   System.out.println("NB clients:" + customerDAO.findAll().size());
+                   break;
+               case 1:
+                   tableTitleBorder = "Liste des Medecins";
+                   scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
+                   configTable(DoctorList.getDoctors(),HEADER_DOCTORS,USER_COLUMN_CLASSES);
+                   break;
+               case 2:
+                   tableTitleBorder = "Liste des médicaments";
+                   scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
+                   configTable(MedicineList.getMedicines(),HEADER_MEDICINE,MEDICINE_COLUMN_CLASSES);
+                   break;
+               case 3:
+                   tableTitleBorder = "Panier";
+                   scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
+                   configTable(PurchaseManagementPanel.getCart() ,HEADER_CARTITEM,CARTITEM_COLUMN_CLASSES);
+                   break;
+               case 4:
+                   tableTitleBorder = "Historique des achats";
+                   scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
+                   configTable(PurchasesList.getPurchases(),HEADER_PURCHASES,PURCHASE_COLUMN_CLASSES);
+                   break;
+               case 5:
+                   tableTitleBorder = "Historique des prescriptions";
+                   scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
+                   configTable(PrescriptionList.getPrescriptionList(),HEADER_PRESCRIPTIONS,PRESCRIPTION_COLUMN_CLASSES);
+                   break;
+               default:
+                   break;
+           }
+       }catch(Exception e){
+           System.out.println(e.getMessage());;
+       }
+
+
     }
 
 

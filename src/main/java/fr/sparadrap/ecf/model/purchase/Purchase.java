@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Purchase {
+    private Integer id;
     private LocalDate purchaseDate ;
     private Customer customer;
     private boolean isPrescriptionBased;
@@ -19,6 +20,7 @@ public class Purchase {
 
 
     public Purchase() {
+
         this.setPurchaseDate(LocalDate.now());
         this.customer = new Customer();
         this.setPrescriptionBased(false);
@@ -47,7 +49,8 @@ public class Purchase {
     }
 
 
-
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     public void setPrescription(Prescription prescription) {
         this.prescription = prescription;

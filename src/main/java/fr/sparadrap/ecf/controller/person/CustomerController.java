@@ -9,7 +9,7 @@ import fr.sparadrap.ecf.model.person.MutualInsurance;
 import fr.sparadrap.ecf.utils.exception.SaisieException;
 
 public class CustomerController {
-
+/*
     public static void seedCustomersData() throws SaisieException {
 
         Doctor selectedDoctor1 = DoctorList.findDoctorByLicenseNumber("12345678913");
@@ -36,7 +36,7 @@ public class CustomerController {
         CustomersList.addCustomer(new Customer("Recto", "Verso", "3 rue Maurice de Broglie", "51000", "Chalons en Champagne", " 03 26 68 03 00", "rectoverso@gmail.com", "1885621486527", "18/01/1988" , selectedMutual1, selectedDoctor1));
         CustomersList.addCustomer(new Customer("Lunch", "Happy", "10 rue des hauts", "51510", "Soudail", " 03 26 68 02 00", "happylunch@gmail.com", "1885621486522", "18/01/1782" , selectedMutual2, selectedDoctor2 ));
     }
-
+*/
     public static void displayCustomersData(){
         System.out.println("Liste des Clients:");
         System.out.println("--------------------");

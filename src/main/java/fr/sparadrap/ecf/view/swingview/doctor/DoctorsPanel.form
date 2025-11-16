@@ -10,8 +10,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="e455c" binding="bottomBar" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="e455c" binding="bottomBar" layout-manager="GridBagLayout">
         <constraints border-constraint="South"/>
         <properties/>
         <border type="none"/>
@@ -19,6 +18,7 @@
           <grid id="2c7b2" binding="right" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
             <constraints>
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -37,6 +37,7 @@
           <grid id="bf151" binding="left" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="2">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -71,6 +72,7 @@
           <grid id="9d7ea" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -93,8 +95,7 @@
           </grid>
         </children>
       </grid>
-      <grid id="41af0" binding="topPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="10" left="10" bottom="10" right="10"/>
+      <grid id="41af0" binding="topPanel" layout-manager="GridBagLayout">
         <constraints border-constraint="North"/>
         <properties/>
         <border type="line"/>
@@ -102,6 +103,7 @@
           <grid id="475bf" binding="titlePanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties/>
             <border type="none"/>

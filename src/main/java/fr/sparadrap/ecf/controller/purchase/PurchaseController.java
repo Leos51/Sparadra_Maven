@@ -1,5 +1,6 @@
 package fr.sparadrap.ecf.controller.purchase;
 
+import fr.sparadrap.ecf.database.dao.CustomerDAO;
 import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrap.ecf.model.lists.person.CustomersList;
 import fr.sparadrap.ecf.model.lists.purchase.PurchasesList;
@@ -16,8 +17,9 @@ public class PurchaseController {
      * Initialisation d'achats
      */
     public static void seedPurchaseData() {
+        CustomerDAO customerDAO = new CustomerDAO();
+        Customer c = customerDAO.findById(2);
 
-        Customer c = CustomersList.findByNir("1885621486527");
         Purchase p1 = new Purchase(c, true);
         Purchase p2 = new Purchase(DateFormat.parseDateFromString("18/10/2022"),c, false);
         p1.setCustomer(c);

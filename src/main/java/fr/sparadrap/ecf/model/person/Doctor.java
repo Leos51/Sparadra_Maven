@@ -5,6 +5,7 @@ import fr.sparadrap.ecf.utils.exception.SaisieException;
 import fr.sparadrap.ecf.utils.validator.Validator;
 
 public class Doctor extends Person {
+    private Integer id;
     private String rpps;
 
     public Doctor(){
@@ -16,6 +17,8 @@ public class Doctor extends Person {
         this.setRpps(rpps);
     }
 
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     /**
      * recupere le n°d'agréement du médecin

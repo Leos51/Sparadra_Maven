@@ -9,7 +9,6 @@ import fr.sparadrap.ecf.view.swingview.MainFrame;
 import static fr.sparadrap.ecf.controller.medecine.CategoriesController.seedCategoriesData;
 import static fr.sparadrap.ecf.controller.medecine.MedicationController.seedMedicationData;
 import static fr.sparadrap.ecf.controller.medecine.PrescriptionController.seedPrecriptionData;
-import static fr.sparadrap.ecf.controller.person.CustomerController.seedCustomersData;
 import static fr.sparadrap.ecf.controller.person.DoctorController.seedDoctorData;
 import static fr.sparadrap.ecf.controller.person.MutualInsuranceController.seedMutualInsuranceData;
 import static fr.sparadrap.ecf.controller.purchase.PurchaseController.seedPurchaseData;
@@ -22,8 +21,8 @@ public class Main {
         main.run();
         }
 
-        private void run(){
-            initData();
+        private void run(){/*
+            initData();*/
 //            askConsoleOrSwing();
             startSwing();
     }
@@ -55,11 +54,12 @@ public class Main {
 
     private void initData() {
         try{
+
             seedCategoriesData();
             seedMedicationData();
             seedMutualInsuranceData();
             seedDoctorData();
-            seedCustomersData();
+
             seedPrecriptionData();
             seedPurchaseData();
             System.out.println("Nombre client : " + CustomersList.getCustomers().size());

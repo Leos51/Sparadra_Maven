@@ -37,19 +37,19 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+        <!-- https://mvnrepository.com/artifact/com.jetbrains.intellij.java/java-gui-forms-designer -->
+        <dependency>
+            <groupId>com.jetbrains.intellij.java</groupId>
+            <artifactId>java-gui-forms-designer</artifactId>
+            <version>242.26775.15</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
   </dependencyManagement>
 
 
   <dependencies>
 
-    <!-- https://mvnrepository.com/artifact/com.jetbrains.intellij.java/java-gui-forms-designer -->
-    <dependency>
-      <groupId>com.jetbrains.intellij.java</groupId>
-      <artifactId>java-gui-forms-designer</artifactId>
-      <version>242.26775.15</version>
-      <scope>runtime</scope>
-    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -68,6 +68,27 @@
       <artifactId>mysql-connector-j</artifactId>
       <version>9.5.0</version>
     </dependency>
+      <!-- SLF4J API -->
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>2.0.7</version>
+      </dependency>
+
+      <!-- Logback (implémentation) -->
+      <dependency>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+          <version>1.4.11</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/com.intellij/forms_rt -->
+      <dependency>
+          <groupId>com.intellij</groupId>
+          <artifactId>forms_rt</artifactId>
+          <version>7.0.3</version>
+      </dependency>
+
+
   </dependencies>
 
   <build>
@@ -139,28 +160,7 @@
             <mainClass>fr.sparadrap.ecf.App</mainClass>
           </configuration>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-shade-plugin</artifactId>
-          <version>3.5.1</version>
-          <executions>
-            <execution>
-              <phase>package</phase>
-              <goals>
-                <goal>shade</goal>
-              </goals>
-              <configuration>
-                <transformers>
-                  <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                    <mainClass>fr.sparadrap.ecf.App</mainClass>
-                  </transformer>
-                </transformers>
-              </configuration>
-            </execution>
 
-          </executions>
-
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -187,25 +187,45 @@
         </executions>
       </plugin>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.3.0</version>
-        <executions>
-          <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${project.build.directory}/generated-sources/forms</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.codehaus.mojo</groupId>-->
+<!--        <artifactId>build-helper-maven-plugin</artifactId>-->
+<!--        <version>3.3.0</version>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <id>add-source</id>-->
+<!--            <phase>generate-sources</phase>-->
+<!--            <goals>-->
+<!--              <goal>add-source</goal>-->
+<!--            </goals>-->
+<!--            <configuration>-->
+<!--              <sources>-->
+<!--                <source>${project.build.directory}/generated-sources/forms</source>-->
+<!--              </sources>-->
+<!--            </configuration>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
+
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.3.0</version>
+            <executions>
+                <execution>
+                    <id>add-source</id>
+                    <phase>generate-sources</phase>
+                    <goals>
+                        <goal>add-source</goal>
+                    </goals>
+                    <configuration>
+                        <sources>
+                            <source>target/generated-sources/forms</source>
+                        </sources>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -218,6 +238,28 @@
           </archive>
         </configuration>
       </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.5.1</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                    <configuration>
+                        <transformers>
+                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <mainClass>fr.sparadrap.ecf.App</mainClass>
+                            </transformer>
+                        </transformers>
+                    </configuration>
+                </execution>
+
+            </executions>
+
+        </plugin>
 
     </plugins>
 
@@ -226,7 +268,8 @@
       <resource>
         <directory>src/main/resources</directory>
         <includes>
-          <include>**/*.png</include>
+            <include>**/*.properties</include>
+            <include>**/*.png</include>
           <include>**/*.jpg</include>
         </includes>
       </resource>

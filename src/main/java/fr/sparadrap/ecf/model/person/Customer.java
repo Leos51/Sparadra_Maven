@@ -10,6 +10,7 @@ import java.time.LocalDate;
 
 
 public class Customer extends Person {
+    private Integer id;
     private String nir; //  Le NIR (Numéro d'inscription au Répertoire) est aussi appelé numéro de Sécurité sociale.
     private LocalDate birthDate;
     private MutualInsurance mutualInsurance;
@@ -25,6 +26,16 @@ public class Customer extends Person {
         this.setMutualInsurance(mutualInsurance);
         this.setDoctor(doctor);
         this.setNir(nir);
+    }
+
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     /**
