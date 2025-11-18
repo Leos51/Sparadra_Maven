@@ -61,8 +61,12 @@ public class PurchaseHistoryPanel extends JPanel {
     public PurchaseHistoryPanel() {
         contentPane = new JPanel();
         this.add(contentPane);
+        try {
+            purchases = new DisplayList(4);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-        purchases = new DisplayList(4);
         purchasesTable = purchases.getTable();
         tablePanel.add(purchases);
 

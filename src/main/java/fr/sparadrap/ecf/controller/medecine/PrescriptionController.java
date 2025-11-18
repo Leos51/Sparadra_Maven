@@ -17,8 +17,8 @@ import java.util.List;
 public class PrescriptionController {
 
     public static void seedPrecriptionData(){
-        CustomerDAO customerDAO = new CustomerDAO();
-        try{
+/*
+        try(){
             // Récupérer des clients et médecins existants
             Customer customer1 = customerDAO.findById(1);
             Customer customer2 = customerDAO.findById(2);
@@ -46,6 +46,7 @@ public class PrescriptionController {
         }catch(Exception e){
             System.err.println("Erreur init ordonnances: " + e.getMessage());
         }
+        */
     }
 
     public static void displayPrescription(){
@@ -64,5 +65,4 @@ public class PrescriptionController {
         double reimbursement = totalPrice * reimbursementRate;
         return reimbursement;
     }
-
 }

@@ -4,22 +4,18 @@ import java.util.Properties;
 import java.io.InputStream;
 import java.io.IOException;
 
-public class dbConnection {
+public class DatabaseConnection {
 
-    private final String PATHCONF = "conf.properties";
-    private static final Properties props = new Properties();
-    private static Connection connection;
-
+    private static final String PATHCONF = "conf.properties";
+    private static Connection connection = initConnection();
 
 
-    private dbConnection() throws SQLException, IOException, ClassNotFoundException {
 
-        try(InputStream is = dbConnection.class.getClassLoader().getResourceAsStream(PATHCONF)) {
-            if (is == null) {
-                throw new IOException("Fichier conf.properties introuvable dans le classpath");
-            }
+    private DatabaseConnection() throws SQLException, IOException, ClassNotFoundException {}
 
-            // chargement de properties
+    private static Connection initConnection(){
+        Properties props = new Properties();
+        try (InputStream is = DatabaseConnection.class.getClassLoader().getResourceAsStream(PATHCONF)) {
             props.load(is);
             // chargement du driver
             Class.forName(props.getProperty("jdbc.driver.class"));
@@ -27,19 +23,21 @@ public class dbConnection {
             String  url = props.getProperty("jdbc.url");
             String  login = props.getProperty("jdbc.login");
             String  password = props.getProperty("jdbc.password");
-            // création de la connexion
-            connection = DriverManager.getConnection(url, login, password);
-
-            System.out.println("Connected to database : " + connection);
+            return DriverManager.getConnection(url, login, password);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-    }
+    };
 
     public static Connection getInstanceDB() throws SQLException, IOException, ClassNotFoundException {
 
         try {
             if (getConnection() == null || getConnection().isClosed()) {
-
-                new dbConnection();
+                new DatabaseConnection();
                 System.out.println("Connected to database : " + getConnection());
             } else {
                 System.out.println("Connection already existing");

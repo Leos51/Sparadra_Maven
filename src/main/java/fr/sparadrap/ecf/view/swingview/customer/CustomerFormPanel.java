@@ -52,7 +52,12 @@ public class CustomerFormPanel extends JFrame {
         this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        this.setContentPane(formPanel);
+        // Vérifier que formPanel est initialisé
+        if (editPanel == null) {
+            editPanel = new JPanel(new BorderLayout());
+            System.out.println("edit null");
+        }
+        this.setContentPane(editPanel);
         this.setTitle(
                 mode == CustomersPanel.FormModes.ADD ?
                         "Nouveau client" :
@@ -166,6 +171,10 @@ public class CustomerFormPanel extends JFrame {
         if (c.getDoctor() != null) {
             doctorField.setText(c.getDoctor().getRpps());
         }
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 
     /**
@@ -397,9 +406,5 @@ public class CustomerFormPanel extends JFrame {
      */
     public JComponent $$$getRootComponent$$$() {
         return editPanel;
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 }

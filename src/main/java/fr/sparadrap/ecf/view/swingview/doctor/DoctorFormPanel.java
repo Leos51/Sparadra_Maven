@@ -383,5 +383,4 @@ public class DoctorFormPanel extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return editPanel;
     }
-
 }

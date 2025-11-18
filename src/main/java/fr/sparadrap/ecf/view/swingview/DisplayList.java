@@ -12,6 +12,7 @@ import fr.sparadrap.ecf.view.swingview.tablemodele.TableModele;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class DisplayList extends JPanel {
 
 
 
-    public DisplayList(int type)  {
+    public DisplayList(int type) throws SQLException, IOException, ClassNotFoundException {
         CustomerDAO customerDAO = new CustomerDAO();
         this.setLayout(new BorderLayout());
         JLabel tableLabel = new JLabel();

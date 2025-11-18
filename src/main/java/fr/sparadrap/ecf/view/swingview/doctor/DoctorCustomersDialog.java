@@ -27,7 +27,13 @@ public class DoctorCustomersDialog extends JDialog {
     public DoctorCustomersDialog(Doctor doctor) {
         this.doctor = doctor;
         this.setContentPane(contentPane);
-        customersDisplayList = new DisplayList(0);
+
+        try {
+            customersDisplayList = new DisplayList(0);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
         setupDialog();
         initializeComponents();
     }
@@ -117,4 +123,5 @@ public class DoctorCustomersDialog extends JDialog {
     public JComponent $$$getRootComponent$$$() {
         return contentPane;
     }
+
 }

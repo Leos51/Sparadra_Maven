@@ -26,6 +26,8 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -211,7 +213,7 @@ public class PurchaseManagementPanel extends JPanel {
     }
 
 
-    private void initialize() throws SaisieException {
+    private void initialize() throws SaisieException, SQLException, IOException, ClassNotFoundException {
         CategoryDAO categoryDAO = new CategoryDAO();
 
         //Combobox Selection des categories des médicaments
@@ -512,8 +514,9 @@ public class PurchaseManagementPanel extends JPanel {
      */
     private void searchCustomers() {
         String search = customerSearchField.getText().trim();
-        CustomerDAO customerDAO = new CustomerDAO();
+
         try {
+            CustomerDAO customerDAO = new CustomerDAO();
             List<Customer> filteredList = customerDAO.search(search);
             customerDisplayList.configTable(filteredList, HEADER_CUSTOMERS, USER_COLUMN_CLASSES);
         } catch (Exception e) {
@@ -933,5 +936,4 @@ public class PurchaseManagementPanel extends JPanel {
     public JComponent $$$getRootComponent$$$() {
         return purchasePanel;
     }
-
 }

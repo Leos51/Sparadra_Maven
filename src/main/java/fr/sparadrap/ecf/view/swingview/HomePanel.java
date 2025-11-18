@@ -174,5 +174,4 @@ public class HomePanel extends JPanel {
     public JComponent $$$getRootComponent$$$() {
         return homePanel;
     }
-
 }

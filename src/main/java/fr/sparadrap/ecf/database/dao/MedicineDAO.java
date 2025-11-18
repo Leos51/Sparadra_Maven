@@ -1,6 +1,6 @@
 package fr.sparadrap.ecf.database.dao;
 
-import fr.sparadrap.ecf.database.dbConnection;
+import fr.sparadrap.ecf.database.DatabaseConnection;
 import fr.sparadrap.ecf.model.medicine.Medicine;
 import fr.sparadrap.ecf.utils.exception.SaisieException;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class MedicineDAO {
         sql.append("VALUES (?, ?, ?, ?, ?, ?, ?)");
 
 
-        try (Connection conn = dbConnection.getInstanceDB();) {
+        try (Connection conn = DatabaseConnection.getInstanceDB();) {
             PreparedStatement stmt = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, medicine.getMedicineName());
             stmt.setInt(2, medicine.getCategory().getId());
@@ -56,7 +56,7 @@ public class MedicineDAO {
                 "JOIN categories c ON m.category_id = c.id " +
                 "ORDER BY m.medicine_name";
 
-        try (Connection conn = dbConnection.getInstanceDB()) {
+        try (Connection conn = DatabaseConnection.getInstanceDB()) {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -77,7 +77,7 @@ public class MedicineDAO {
         Medicine medicine = new Medicine();
         String sql = "CALL sp_search_medicines(?, ?)";
 
-        try (Connection conn = dbConnection.getInstanceDB();
+        try (Connection conn = DatabaseConnection.getInstanceDB();
              CallableStatement stmt = conn.prepareCall(sql)) {
 
             if (searchTerm != null && !searchTerm.isEmpty()) {
@@ -110,7 +110,7 @@ public class MedicineDAO {
     public boolean updateStock(int medicineId, int quantity) throws SQLException {
         String sql = "UPDATE medicines SET stock = stock - ? WHERE id = ? ";
 
-        try (Connection conn = dbConnection.getInstanceDB();
+        try (Connection conn = DatabaseConnection.getInstanceDB();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, quantity);

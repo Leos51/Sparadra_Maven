@@ -27,7 +27,11 @@ public class DoctorPrescriptionsDialog extends JDialog {
     public DoctorPrescriptionsDialog(Doctor doctor) {
         this.doctor = doctor;
         this.setContentPane(contentPane);
-        prescriptionsDisplayList = new DisplayList(5);
+        try {
+            prescriptionsDisplayList = new DisplayList(5);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         setupDialog();
         initializeComponents();
     }
@@ -109,4 +113,5 @@ public class DoctorPrescriptionsDialog extends JDialog {
     public JComponent $$$getRootComponent$$$() {
         return contentPane;
     }
+
 }

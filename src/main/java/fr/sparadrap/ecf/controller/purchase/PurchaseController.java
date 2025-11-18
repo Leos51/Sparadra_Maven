@@ -17,6 +17,7 @@ public class PurchaseController {
      * Initialisation d'achats
      */
     public static void seedPurchaseData() {
+        /*
         CustomerDAO customerDAO = new CustomerDAO();
         Customer c = customerDAO.findById(2);
 
@@ -36,7 +37,7 @@ public class PurchaseController {
         p2.addMedicine(m4, 1,   m4.getPrice() );
         PurchasesList.addPurchase(p1);
         PurchasesList.addPurchase(p2);
-        System.out.println("price m1: " + p1.getMedicines().stream().findFirst().get().getPrice());
+        System.out.println("price m1: " + p1.getMedicines().stream().findFirst().get().getPrice());*/
     }
 
 

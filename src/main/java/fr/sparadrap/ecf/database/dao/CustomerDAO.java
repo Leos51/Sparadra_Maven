@@ -1,7 +1,7 @@
 package fr.sparadrap.ecf.database.dao;
 
 
-import fr.sparadrap.ecf.database.dbConnection;
+import fr.sparadrap.ecf.database.DatabaseConnection;
 import fr.sparadrap.ecf.model.person.Customer;
 import fr.sparadrap.ecf.utils.exception.SaisieException;
 
@@ -9,41 +9,29 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class CustomerDAO {
+public class CustomerDAO extends DAO<Customer> {
 
-    public void create(Customer customer)
+    public CustomerDAO() throws SQLException, IOException, ClassNotFoundException {
+    }
+
+    /**
+     * Permet de creer un client dans la bdd
+     * @param customer
+     * @return boolean
+     */
+    @Override
+    public boolean create(Customer customer)
     {
-
-        PreparedStatement pstmt = null;
+        boolean result = false;
 
         String sql = "INSERT INTO customers (last_name, first_name, nir, birth_date, phone, email, " +
                 "address, post_code, city, mutual_insurance_id, doctor_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try(Connection connection = dbConnection.getInstanceDB()){
-            pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, customer.getLastName());
-            pstmt.setString(2, customer.getFirstName());
-            pstmt.setString(3, customer.getNir());
-            pstmt.setDate(4, Date.valueOf(customer.getBirthDate()));
-            pstmt.setString(5, customer.getPhone());
-            pstmt.setString(6, customer.getEmail());
-            pstmt.setString(7, customer.getAddress());
-            pstmt.setString(8, customer.getPostCode());
-            pstmt.setString(9, customer.getCity());
-
-            if (customer.getMutualInsurance() != null) {
-                pstmt.setInt(10, customer.getMutualInsurance().getId());
-            } else {
-                pstmt.setNull(10, Types.INTEGER);
-            }
-
-            if (customer.getDoctor() != null) {
-                pstmt.setInt(11, customer.getDoctor().getId());
-            } else {
-                pstmt.setNull(11, Types.INTEGER);
-            }
+        try(PreparedStatement pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
+            mapCustomerToStatement(pstmt, customer);
 
             int rowsAffected = pstmt.executeUpdate();
 
@@ -54,79 +42,75 @@ public class CustomerDAO {
                         customer.setId(rs.getInt(1));
                     }
                 }
+                result = true;
             }
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println("Erreur de connexion");
         }
+        return result;
     }
 
-    public void update(Customer customer)
-    {
+    /**
+     * Permet de mettre a jour les données d'un client dasn la base
+     * @param customer
+     */
+    @Override
+    public boolean update(Customer customer){
+        boolean result = false;
         String sql = "UPDATE customers SET last_name=?, first_name=?, nir=?, birth_date=?, " +
                 "phone=?, email=?, address=?, post_code=?, city=?, " +
                 "mutual_insurance_id=?, doctor_id=? WHERE id=?";
 
-        try (Connection conn = dbConnection.getInstanceDB()) {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-
-            stmt.setString(1, customer.getLastName());
-            stmt.setString(2, customer.getFirstName());
-            stmt.setString(3, customer.getNir());
-            stmt.setDate(4, Date.valueOf(customer.getBirthDate()));
-            stmt.setString(5, customer.getPhone());
-            stmt.setString(6, customer.getEmail());
-            stmt.setString(7, customer.getAddress());
-            stmt.setString(8, customer.getPostCode());
-            stmt.setString(9, customer.getCity());
-
-            if (customer.getMutualInsurance() != null) {
-                stmt.setInt(10, customer.getMutualInsurance().getId());
-            } else {
-                stmt.setNull(10, Types.INTEGER);
-            }
-
-            if (customer.getDoctor() != null) {
-                stmt.setInt(11, customer.getDoctor().getId());
-            } else {
-                stmt.setNull(11, Types.INTEGER);
-            }
-
-            stmt.setInt(12, customer.getId());
-
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            mapCustomerToStatement(stmt, customer);
             stmt.executeUpdate();
-        } catch (SQLException | ClassNotFoundException | IOException e) {
+            result = true;
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return result;
+
 
     }
-    /**
-     * Supprimer un client
-     */
-    public void delete(int p_id) throws SQLException {
-        String sql = "DELETE FROM customers WHERE id = ?";
 
-        try (Connection conn = dbConnection.getInstanceDB()) {
-            PreparedStatement stmt = conn.prepareStatement(sql);
+
+
+    /**
+     * Permet de supprimer un client de la bdd via son id
+     * @param p_id
+     * @return
+     * @throws SQLException
+     */
+    @Override
+    public boolean deleteById(int p_id) throws SQLException {
+        String sql = "DELETE FROM customers WHERE id = ?";
+        boolean result = false;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            ;
             stmt.setInt(1, p_id);
             stmt.executeUpdate();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            result = true;
         }
+        return result;
     }
 
+
+    @Override
     public Customer findById(int p_id){
         Customer customer = new Customer();
-        String sql = "SELECT c.*, m.company_name, m.reimbursement_rate, " +
-                "d.last_name AS doctor_last_name, d.first_name AS doctor_first_name, " +
-                "d.license_number " +
-                "FROM customers c " +
-                "LEFT JOIN mutual_insurances m ON c.mutual_insurance_id = m.id " +
-                "LEFT JOIN doctors d ON c.doctor_id = d.id " +
-                "WHERE c.id = ?";
-        try{
-            Connection conn = dbConnection.getInstanceDB();
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        StringBuilder sql = new StringBuilder(
+                "SELECT c.*, m.company_name, m.reimbursement_rate, ");
+        sql.append("d.last_name AS doctor_last_name, d.first_name AS doctor_first_name, ");
+        sql.append("d.birth_date AS doctor_birth_date, d.license_number ,");
+        sql.append("FROM customers c ");
+        sql.append("LEFT JOIN mutual_insurances m ON c.mutual_insurance_id = m.id ");
+        sql.append("LEFT JOIN doctors d ON c.id = doctors.id ");
+        sql.append("WHERE c.id = ?");
+
+        try(PreparedStatement stmt = connection.prepareStatement(String.valueOf(sql));){
+
             stmt.setInt(1, p_id);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
@@ -135,25 +119,23 @@ public class CustomerDAO {
             return customer;
         }catch(SQLException e){
             throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } catch (SaisieException e) {
             throw new RuntimeException(e);
         }
     }
 
+
+
     /**
      * Récupérer tous les clients
      */
+    @Override
     public List<Customer> findAll() throws SQLException {
 
         List<Customer> customers = new ArrayList<>();
         String sql = "SELECT * FROM v_customer_details ORDER BY last_name, first_name";
 
-        try (Connection conn = dbConnection.getInstanceDB()) {
-            Statement stmt = conn.createStatement();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 try{
@@ -164,8 +146,6 @@ public class CustomerDAO {
                 }
 
             }
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
         return customers;
     }
@@ -178,8 +158,7 @@ public class CustomerDAO {
         List<Customer> customers = new ArrayList<>();
         String sql = "CALL sp_search_customers(?)";
 
-        try (Connection conn = dbConnection.getInstanceDB();
-             CallableStatement stmt = conn.prepareCall(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setString(1, searchTerm);
 
@@ -190,10 +169,51 @@ public class CustomerDAO {
             } catch (SaisieException e) {
                 throw new RuntimeException(e);
             }
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
         return customers;
+    }
+
+    /**
+     * Methode de cloture de la connexion
+     */
+    @Override
+    public void closeConnection() throws SQLException {
+        if (connection != null || !connection.isClosed()) {
+            connection.close();
+        }
+    }
+
+
+
+    /**
+     * Remplit un PreparedStatement avec les données d'un Customer
+     * Utilisable pour INSERT ou UPDATE selon la requête SQL
+     */
+    private void mapCustomerToStatement(PreparedStatement stmt, Customer customer) throws SQLException {
+        int index = 1;
+        // Champs principaux
+        stmt.setString(index++, customer.getLastName());
+        stmt.setString(index++, customer.getFirstName());
+        stmt.setString(index++, customer.getNir());
+        stmt.setDate(index++, Date.valueOf(customer.getBirthDate()));
+        stmt.setString(index++, customer.getPhone());
+        stmt.setString(index++, customer.getEmail());
+        stmt.setString(index++, customer.getAddress());
+        stmt.setString(index++, customer.getPostCode());
+        stmt.setString(index++, customer.getCity());
+
+        // Champs optionnels (Mutuelle, Médecin)
+        if (customer.getMutualInsurance() != null) {
+            stmt.setInt(index++, customer.getMutualInsurance().getId());
+        } else {
+            stmt.setNull(index++, Types.INTEGER);
+        }
+
+        if (customer.getDoctor() != null) {
+            stmt.setInt(index++, customer.getDoctor().getId());
+        } else {
+            stmt.setNull(index++, Types.INTEGER);
+        }
     }
 
     /**

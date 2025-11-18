@@ -377,5 +377,4 @@ public class MainMenu extends JPanel {
     public JComponent $$$getRootComponent$$$() {
         return containerMenu;
     }
-
 }

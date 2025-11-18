@@ -181,7 +181,12 @@ public class DoctorsPanel extends JPanel {
     public DoctorsPanel() {
         this.setLayout(new GridLayout(1, 1));
         this.add(doctorsPanel);
-        doctorsDisplayList = new DisplayList(1);
+        try {
+            doctorsDisplayList = new DisplayList(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         tablePanel.add(doctorsDisplayList);
         updateButtonsState();
 

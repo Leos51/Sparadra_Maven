@@ -181,8 +181,9 @@ public class CustomersPanel extends JPanel {
             }
         }
 
-        customerDisplayList = new DisplayList(0);
+
         try {
+            customerDisplayList = new DisplayList(0);
             CustomerDAO customerDAO = new CustomerDAO();
             for (Customer c : customerDAO.findAll()) {
                 System.out.println(c.getFullName());
@@ -242,13 +243,13 @@ public class CustomersPanel extends JPanel {
      * recherche des patients dans le tableau  et affiche un nouveau tableau filtré
      */
     private void searchCustomers() {
-        CustomerDAO customerDAO = new CustomerDAO();
         String search = searchField.getText().trim();
         try {
+            CustomerDAO customerDAO = new CustomerDAO();
             List<Customer> filteredList = customerDAO.search(search);
             customerDisplayList.configTable(filteredList, HEADER_CUSTOMERS, USER_COLUMN_CLASSES);
         } catch (Exception e) {
-            System.out.println("Erreur searchCustomers" + e.getMessage());
+            System.err.println("Erreur searchCustomers" + e.getMessage());
         }
 
     }
@@ -318,28 +319,35 @@ public class CustomersPanel extends JPanel {
      * supprime le patient selectionné
      */
     private void deleteCustomer() {
-        CustomerDAO customerDAO = new CustomerDAO();
-        Customer selectedCustomer = getSelectedCustomer();
-        if (selectedCustomer == null) {
-            JOptionPane.showMessageDialog(this, "Selectionner d'abord un client", "Aucun client selectionné", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        int confirm = JOptionPane.showConfirmDialog(
-                this,
-                "Voulez-vous vraiment supprimer le client \"" + selectedCustomer.getFullName() + "\" ?",
-                "Confirmation de suppression",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE
-        );
-        if (confirm == JOptionPane.YES_OPTION) {
-            try {
-                customerDAO.delete(selectedCustomer.getId());
-                refreshTable();
-                updateButtonsState();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+        try {
+
+            Customer selectedCustomer = getSelectedCustomer();
+            if (selectedCustomer == null) {
+                JOptionPane.showMessageDialog(this, "Selectionner d'abord un client", "Aucun client selectionné", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+            int confirm = JOptionPane.showConfirmDialog(
+                    this,
+                    "Voulez-vous vraiment supprimer le client \"" + selectedCustomer.getFullName() + "\" ?",
+                    "Confirmation de suppression",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+            );
+            if (confirm == JOptionPane.YES_OPTION) {
+                try {
+                    CustomerDAO customerDAO = new CustomerDAO();
+                    customerDAO.deleteById(selectedCustomer.getId());
+                    refreshTable();
+                    updateButtonsState();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erreur occured" + e.getMessage());
         }
+
+
     }
 
     /**
