@@ -2,20 +2,54 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fr.sparadrap.ecf.view.swingview.customer.CustomerFormPanel">
   <grid id="27dc6" binding="editPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="500" height="502"/>
+      <xy x="20" y="20" width="500" height="520"/>
     </constraints>
-    <properties/>
+    <properties>
+      <enabled value="true"/>
+    </properties>
     <border type="none"/>
     <children>
-      <grid id="690df" binding="formPanel" custom-create="true" layout-manager="GridBagLayout">
+      <grid id="690df" binding="formPanel" layout-manager="FormLayout">
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:d:grow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <colspec value="fill:d:grow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:d:grow"/>
         <constraints border-constraint="Center"/>
-        <properties/>
+        <properties>
+          <enabled value="true"/>
+        </properties>
         <border type="none"/>
         <children>
           <component id="e4adc" class="javax.swing.JLabel" binding="lastNameLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <forms/>
             </constraints>
             <properties>
               <labelFor value="bcf28"/>
@@ -24,17 +58,17 @@
           </component>
           <component id="bcf28" class="javax.swing.JTextField" binding="lastNameField">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <forms defaultalign-horz="false"/>
             </constraints>
             <properties/>
           </component>
           <component id="9ae1b" class="javax.swing.JLabel" binding="addressLabel">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
               <labelFor value="c81d8"/>
@@ -43,17 +77,17 @@
           </component>
           <component id="c81d8" class="javax.swing.JTextField" binding="addressField">
             <constraints>
-              <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="6" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <forms defaultalign-horz="false"/>
             </constraints>
             <properties/>
           </component>
           <component id="544a1" class="javax.swing.JLabel" binding="firstNameLabel">
             <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
               <labelFor value="203c3"/>
@@ -62,17 +96,17 @@
           </component>
           <component id="203c3" class="javax.swing.JTextField" binding="firstNameField">
             <constraints>
-              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <forms defaultalign-horz="false"/>
             </constraints>
             <properties/>
           </component>
           <component id="5f3fc" class="javax.swing.JLabel" binding="postCodeLabel">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
               <labelFor value="f5564"/>
@@ -81,8 +115,8 @@
           </component>
           <component id="a95da" class="javax.swing.JLabel" binding="cityLabel">
             <constraints>
-              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
               <labelFor value="422b5"/>
@@ -91,26 +125,26 @@
           </component>
           <component id="f5564" class="javax.swing.JTextField" binding="postCodeField">
             <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <forms defaultalign-horz="false"/>
             </constraints>
             <properties/>
           </component>
           <component id="422b5" class="javax.swing.JTextField" binding="cityField">
             <constraints>
-              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <forms defaultalign-horz="false"/>
             </constraints>
             <properties/>
           </component>
           <component id="74982" class="javax.swing.JLabel" binding="phoneLabel">
             <constraints>
-              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
               <labelFor value="9a17"/>
@@ -119,8 +153,8 @@
           </component>
           <component id="96feb" class="javax.swing.JLabel" binding="emailLabel">
             <constraints>
-              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <grid row="12" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
               <labelFor value="d62e"/>
@@ -129,10 +163,10 @@
           </component>
           <component id="9a17" class="javax.swing.JTextField" binding="phoneField">
             <constraints>
-              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <forms defaultalign-horz="false"/>
             </constraints>
             <properties>
               <text value=""/>
@@ -140,17 +174,17 @@
           </component>
           <component id="d62e" class="javax.swing.JTextField" binding="emailField">
             <constraints>
-              <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="14" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <forms defaultalign-horz="false"/>
             </constraints>
             <properties/>
           </component>
           <component id="6679c" class="javax.swing.JLabel" binding="mutualInsurranceLabel">
             <constraints>
-              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <grid row="20" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
               <labelFor value="8e0e3"/>
@@ -159,8 +193,8 @@
           </component>
           <component id="56102" class="javax.swing.JLabel" binding="doctorLabel">
             <constraints>
-              <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <grid row="20" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
               <labelFor value="d0765"/>
@@ -170,8 +204,8 @@
           </component>
           <component id="b7b36" class="javax.swing.JButton" binding="cancelButton">
             <constraints>
-              <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <grid row="26" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
               <text value="Annuler"/>
@@ -179,8 +213,8 @@
           </component>
           <component id="cf930" class="javax.swing.JButton" binding="submitButton">
             <constraints>
-              <grid row="13" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <grid row="26" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
               <text value="Ajouter"/>
@@ -188,35 +222,26 @@
           </component>
           <component id="d0765" class="javax.swing.JTextField" binding="doctorField">
             <constraints>
-              <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="22" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <forms defaultalign-horz="false"/>
             </constraints>
             <properties/>
           </component>
           <component id="8e0e3" class="javax.swing.JTextField" binding="mutualField">
             <constraints>
-              <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="22" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
-              <gridbag weightx="1.0" weighty="0.0"/>
-            </constraints>
-            <properties/>
-          </component>
-          <component id="51ca" class="javax.swing.JTextField" binding="birthDateField">
-            <constraints>
-              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <forms defaultalign-horz="false"/>
             </constraints>
             <properties/>
           </component>
           <component id="d18da" class="javax.swing.JLabel" binding="birthDateLabel">
             <constraints>
-              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
               <labelFor value="51ca"/>
@@ -225,33 +250,34 @@
           </component>
           <component id="6364d" class="javax.swing.JTextField" binding="nirField">
             <constraints>
-              <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="18" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <forms defaultalign-horz="false"/>
             </constraints>
             <properties/>
           </component>
           <component id="860b3" class="javax.swing.JLabel" binding="nirLabel">
             <constraints>
-              <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
+              <grid row="16" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
             </constraints>
             <properties>
               <labelFor value="6364d"/>
               <text value="Numero securité Sociale"/>
             </properties>
           </component>
+          <component id="51ca" class="javax.swing.JTextField" binding="birthDateField">
+            <constraints>
+              <grid row="18" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+              <forms defaultalign-horz="false"/>
+            </constraints>
+            <properties/>
+          </component>
         </children>
       </grid>
-      <component id="c3daf" class="javax.swing.JLabel" binding="titleLabel">
-        <constraints border-constraint="Center"/>
-        <properties>
-          <horizontalAlignment value="0"/>
-          <horizontalTextPosition value="10"/>
-          <text value="Ajouter un client"/>
-        </properties>
-      </component>
     </children>
   </grid>
 </form>

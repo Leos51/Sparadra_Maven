@@ -32,7 +32,7 @@ public class CategoryDAO extends DAO<Category> {
         PreparedStatement pstmt = null;
         String sql = "INSERT INTO categories (name, description) VALUES (?, ?)";
 
-        try(Connection connection = DatabaseConnection.getInstanceDB()) {
+        try(Connection connection = DatabaseConnection.getConnection()) {
             pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, c.getCategoryName());
             pstmt.setString(2, c.getDescription());
@@ -82,7 +82,7 @@ public class CategoryDAO extends DAO<Category> {
         List<Category> categories = new ArrayList<>();
         String sql = "SELECT * FROM categories";
 
-        try(Connection conn = DatabaseConnection.getInstanceDB()){
+        try(Connection conn = DatabaseConnection.getConnection()){
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -102,8 +102,23 @@ public class CategoryDAO extends DAO<Category> {
      * @return
      */
     @Override
-    public Category findById(int id) {
-        return null;
+    public Category findById(int id) throws SQLException {
+        String sql = "SELECT * FROM categories WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Category category = new Category();
+                    category.setId(rs.getInt("id"));
+                    category.setCategoryName(rs.getString("category_name"));
+                    category.setDescription(rs.getString("description"));
+                    return category;
+                }
+            } catch (SaisieException | SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return null; // si aucune catégorie trouvée
     }
 
     /**
@@ -111,6 +126,7 @@ public class CategoryDAO extends DAO<Category> {
      */
     @Override
     public void closeConnection() throws SQLException {
+        System.out.println("Closing connection : CatDAO");
         if (connection != null) {
             connection.close();
         }

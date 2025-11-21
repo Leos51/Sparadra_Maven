@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public abstract class DAO<T> {
-   protected Connection connection = DatabaseConnection.getInstanceDB();
+   protected Connection connection = DatabaseConnection.getConnection();
 
     public DAO() throws SQLException, IOException, ClassNotFoundException {
     }
@@ -43,7 +43,7 @@ public abstract class DAO<T> {
      * @param id
      * @return
      */
-    public abstract T findById(int id);
+    public abstract T findById(int id) throws SQLException;
 
  /**
   * Methode de cloture de la connexion

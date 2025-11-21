@@ -122,9 +122,6 @@ public class Customer extends Person {
      * @param doctor
      */
     private void setDoctor(Doctor doctor) {
-        if(doctor == null){
-            System.err.println("Le medecin n'a pas été enregistré sur la fiche client");
-        }
         this.doctor = doctor;
     }
 
@@ -135,9 +132,6 @@ public class Customer extends Person {
      */
     public void setDoctorByLicenseNumber(String str) throws SaisieException {
         Doctor doctorTemp = DoctorList.findDoctorByLicenseNumber(str);
-        if(doctorTemp == null){
-            throw new SaisieException("Numéro d’agréement inconnu");
-        }
         this.setDoctor(doctorTemp);
     }
 

@@ -11,14 +11,14 @@ import java.time.LocalDate;
 public class Medicine {
     private Integer id;
     private String medicineName;
-    private Category category;
+    private String categoryName;
     private double price;
     private LocalDate releaseDate;
     private int stockQuantity;
     private int threshold = 10;
 
 
-    public Medicine(String medicineName, Category category, double price, String releaseDate,  int stockQuantity) throws SaisieException {
+    public Medicine(String medicineName, String category, double price, String releaseDate,  int stockQuantity) throws SaisieException {
         this.setMedicineName(medicineName);
         this.setCategory(category);
         this.setPrice(price);
@@ -50,9 +50,6 @@ public class Medicine {
         if(medicineName == null || medicineName.isEmpty()){
             throw new SaisieException("Le nom du médicament ne doit pas etre vide");
         }
-        if (!Validator.isValidName(medicineName)) {
-            throw new SaisieException("Nom de medicament invalide");
-        }
         this.medicineName = medicineName;
     }
 
@@ -60,20 +57,20 @@ public class Medicine {
      * recupere la catégorie
      * @return
      */
-    public Category getCategory() {
-        return category;
+    public String getCategory() {
+        return categoryName;
     }
 
     /**
      * Met a jour la categorie du médicament avec celle en param
-     * @param category
+     * @param categoryName
      * @throws SaisieException
      */
-    public void setCategory(Category category) throws SaisieException {
-        if(category == null){
+    public void setCategory(String categoryName) throws SaisieException {
+        if(categoryName == null){
             throw new SaisieException("La categorie ne peut pas etre vide");
         }
-        this.category = category;
+        this.categoryName = categoryName;
     }
 
     /**

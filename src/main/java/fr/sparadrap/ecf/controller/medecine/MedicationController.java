@@ -15,14 +15,14 @@ public class MedicationController {
 
 
             // Médicaments fictifs
-            Medicine medicine1 = new Medicine("Paracétamol", analgesique, 5.50,
+            Medicine medicine1 = new Medicine("Paracétamol", "analgesique", 5.50,
                     "01/01/2020", 100);
 
-            Medicine doliprane = new Medicine("Doliprane", analgesique,2.3,"18/10/1982", 200);
-            Medicine ibuprofen = new Medicine("Ibuprofen",analgesique,1.9, "03/06/1990", 50);
-            Medicine advil = new Medicine("Advil", analgesique,2.3,"18/10/1982", 200);
-            Medicine clamoxyl = new Medicine("Clamoxyl", analgesique,2.3,"18/10/1982", 150);
-            Medicine pfizer = new Medicine("Pfizer", analgesique,2.3,"18/10/1982", 200);
+            Medicine doliprane = new Medicine("Doliprane", "analgesique",2.3,"18/10/1982", 200);
+            Medicine ibuprofen = new Medicine("Ibuprofen","analgesique",1.9, "03/06/1990", 50);
+            Medicine advil = new Medicine("Advil", "analgesique",2.3,"18/10/1982", 200);
+            Medicine clamoxyl = new Medicine("Clamoxyl", "analgesique",2.3,"18/10/1982", 150);
+            Medicine pfizer = new Medicine("Pfizer", "analgesique",2.3,"18/10/1982", 200);
 
             MedicineList.addMedicine(medicine1);
             MedicineList.addMedicine(doliprane);

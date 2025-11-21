@@ -3,6 +3,7 @@ package fr.sparadrap.ecf.view.swingview.purchases;
 import com.intellij.uiDesigner.core.Spacer;
 import fr.sparadrap.ecf.database.dao.CategoryDAO;
 import fr.sparadrap.ecf.database.dao.CustomerDAO;
+import fr.sparadrap.ecf.database.dao.MedicineDAO;
 import fr.sparadrap.ecf.model.lists.medicine.CategoriesList;
 import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrap.ecf.model.lists.medicine.PrescriptionList;
@@ -545,8 +546,7 @@ public class PurchaseManagementPanel extends JPanel {
         } else {
             filteredList = MedicineList.getMedicines().stream()
                     .filter(item -> item
-                            .getCategory()
-                            .getCategoryName().toLowerCase()
+                            .getCategory().toLowerCase()
                             .equals(selectedCategory))
                     .collect(Collectors.toList());
         }

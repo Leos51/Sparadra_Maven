@@ -1,5 +1,10 @@
 package fr.sparadrap.ecf.view.swingview.customer;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+import fr.sparadrap.ecf.database.dao.CustomerDAO;
 import fr.sparadrap.ecf.model.lists.person.CustomersList;
 import fr.sparadrap.ecf.model.lists.person.DoctorList;
 import fr.sparadrap.ecf.model.lists.person.MutualInsuranceList;
@@ -13,6 +18,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class CustomerFormPanel extends JFrame {
     private JPanel editPanel;
@@ -81,7 +88,7 @@ public class CustomerFormPanel extends JFrame {
                 try {
                     submitForm(currentCustomer, mode);
 
-                } catch (SaisieException exception) {
+                } catch (SaisieException | SQLException | IOException | ClassNotFoundException exception) {
                     JOptionPane.showMessageDialog(CustomerFormPanel.this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
 
@@ -98,7 +105,7 @@ public class CustomerFormPanel extends JFrame {
      * @param mode     FormMode.ADD ou FormModes.EDIT
      * @throws SaisieException
      */
-    private void submitForm(Customer customer, CustomersPanel.FormModes mode) throws SaisieException {
+    private void submitForm(Customer customer, CustomersPanel.FormModes mode) throws SaisieException, SQLException, IOException, ClassNotFoundException {
         String lastName = lastNameField.getText().trim();
         String firstName = firstNameField.getText().trim();
         String address = addressField.getText().trim();
@@ -117,17 +124,15 @@ public class CustomerFormPanel extends JFrame {
             throw new SaisieException("Champs obligatoires manquants.");
         }
 
-
+        CustomerDAO customerDAO = new CustomerDAO();
         if (mode == CustomersPanel.FormModes.ADD) {
             customer = new Customer(lastName, firstName, address, postCode, city, phone, email, nir, birthDate, mutualInsurance, doctor);
-            CustomersList.addCustomer(customer);
-
-
+            customerDAO.create(customer);
             JOptionPane.showMessageDialog(this, "Client ajouté !");
         } else {
-
             customer.setLastName(lastName);
             customer.setFirstName(firstName);
+            customer.setNir(nir);
             customer.setAddress(address);
             customer.setPostCode(postCode);
             customer.setCity(city);
@@ -137,6 +142,7 @@ public class CustomerFormPanel extends JFrame {
             customer.setBirthDate(DateFormat.parseDateFromString(birthDate));
             customer.setDoctorByLicenseNumber(doctorNir);
             customer.setMutualInsurance(mutualInsurance);
+            customerDAO.update(customer);
             JOptionPane.showMessageDialog(this, "Client mis à jour !");
         }
         repaint();
@@ -146,14 +152,18 @@ public class CustomerFormPanel extends JFrame {
 
     }
 
+    private void populateCustomerFromFields(Customer currentCustomer) {
+
+    }
+
 
     /**
-     * Remplis le formulaiure avec les donnée du client en parametre
+     * Remplis le formulaire avec les donnée du client en parametre
      *
      * @param c Le client
      */
     private void populateFields(Customer c) {
-        titleLabel.setText("Modifier le client");
+        System.out.println(c.toString());
         submitButton.setText("Valider la modification");
 
         lastNameField.setText(c.getLastName());
@@ -185,209 +195,77 @@ public class CustomerFormPanel extends JFrame {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
-        createUIComponents();
         editPanel = new JPanel();
         editPanel.setLayout(new BorderLayout(0, 0));
-        formPanel.setLayout(new GridBagLayout());
+        editPanel.setEnabled(true);
+        formPanel = new JPanel();
+        formPanel.setLayout(new FormLayout("fill:d:grow,left:4dlu:noGrow,fill:d:grow", "center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
+        formPanel.setEnabled(true);
         editPanel.add(formPanel, BorderLayout.CENTER);
         lastNameLabel = new JLabel();
         lastNameLabel.setText("Nom");
-        GridBagConstraints gbc;
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        formPanel.add(lastNameLabel, gbc);
+        CellConstraints cc = new CellConstraints();
+        formPanel.add(lastNameLabel, cc.xy(1, 1));
         lastNameField = new JTextField();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(lastNameField, gbc);
+        formPanel.add(lastNameField, cc.xy(1, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
         addressLabel = new JLabel();
         addressLabel.setText("Adresse");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        formPanel.add(addressLabel, gbc);
+        formPanel.add(addressLabel, cc.xy(1, 5));
         addressField = new JTextField();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(addressField, gbc);
+        formPanel.add(addressField, cc.xyw(1, 7, 2, CellConstraints.FILL, CellConstraints.DEFAULT));
         firstNameLabel = new JLabel();
         firstNameLabel.setText("Prenom");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        formPanel.add(firstNameLabel, gbc);
+        formPanel.add(firstNameLabel, cc.xy(3, 1));
         firstNameField = new JTextField();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(firstNameField, gbc);
+        formPanel.add(firstNameField, cc.xy(3, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
         postCodeLabel = new JLabel();
         postCodeLabel.setText("Code Postal");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        formPanel.add(postCodeLabel, gbc);
+        formPanel.add(postCodeLabel, cc.xy(1, 9));
         cityLabel = new JLabel();
         cityLabel.setText("Ville");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 4;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        formPanel.add(cityLabel, gbc);
+        formPanel.add(cityLabel, cc.xy(3, 9));
         postCodeField = new JTextField();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(postCodeField, gbc);
+        formPanel.add(postCodeField, cc.xy(1, 11, CellConstraints.FILL, CellConstraints.DEFAULT));
         cityField = new JTextField();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 5;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(cityField, gbc);
+        formPanel.add(cityField, cc.xy(3, 11, CellConstraints.FILL, CellConstraints.DEFAULT));
         phoneLabel = new JLabel();
         phoneLabel.setText("Téléphone");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        formPanel.add(phoneLabel, gbc);
+        formPanel.add(phoneLabel, cc.xy(1, 13));
         emailLabel = new JLabel();
         emailLabel.setText("Email");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 6;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        formPanel.add(emailLabel, gbc);
+        formPanel.add(emailLabel, cc.xy(3, 13));
         phoneField = new JTextField();
         phoneField.setText("");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(phoneField, gbc);
+        formPanel.add(phoneField, cc.xy(1, 15, CellConstraints.FILL, CellConstraints.DEFAULT));
         emailField = new JTextField();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 7;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(emailField, gbc);
+        formPanel.add(emailField, cc.xy(3, 15, CellConstraints.FILL, CellConstraints.DEFAULT));
         mutualInsurranceLabel = new JLabel();
         mutualInsurranceLabel.setText("Mutuelle");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 10;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        formPanel.add(mutualInsurranceLabel, gbc);
+        formPanel.add(mutualInsurranceLabel, cc.xy(1, 21));
         doctorLabel = new JLabel();
         doctorLabel.setText("Medecin");
         doctorLabel.setToolTipText("N° agreement");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 10;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        formPanel.add(doctorLabel, gbc);
+        formPanel.add(doctorLabel, cc.xy(3, 21));
         cancelButton = new JButton();
         cancelButton.setText("Annuler");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 13;
-        gbc.weightx = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(cancelButton, gbc);
+        formPanel.add(cancelButton, cc.xy(1, 27));
         submitButton = new JButton();
         submitButton.setText("Ajouter");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 13;
-        gbc.weightx = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(submitButton, gbc);
+        formPanel.add(submitButton, cc.xy(3, 27));
         doctorField = new JTextField();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 11;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(doctorField, gbc);
+        formPanel.add(doctorField, cc.xy(3, 23, CellConstraints.FILL, CellConstraints.DEFAULT));
         mutualField = new JTextField();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 11;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(mutualField, gbc);
-        birthDateField = new JTextField();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 9;
-        gbc.weightx = 1.0;
-        formPanel.add(birthDateField, gbc);
+        formPanel.add(mutualField, cc.xy(1, 23, CellConstraints.FILL, CellConstraints.DEFAULT));
         birthDateLabel = new JLabel();
         birthDateLabel.setText("Date de naissance");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 8;
-        gbc.weightx = 1.0;
-        formPanel.add(birthDateLabel, gbc);
+        formPanel.add(birthDateLabel, cc.xy(1, 17));
         nirField = new JTextField();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 9;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        formPanel.add(nirField, gbc);
+        formPanel.add(nirField, cc.xy(3, 19, CellConstraints.FILL, CellConstraints.DEFAULT));
         nirLabel = new JLabel();
         nirLabel.setText("Numero securité Sociale");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 8;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        formPanel.add(nirLabel, gbc);
-        titleLabel = new JLabel();
-        titleLabel.setHorizontalAlignment(0);
-        titleLabel.setHorizontalTextPosition(10);
-        titleLabel.setText("Ajouter un client");
-        editPanel.add(titleLabel, BorderLayout.CENTER);
+        formPanel.add(nirLabel, cc.xy(3, 17));
+        birthDateField = new JTextField();
+        formPanel.add(birthDateField, cc.xy(1, 19, CellConstraints.FILL, CellConstraints.DEFAULT));
         lastNameLabel.setLabelFor(lastNameField);
         addressLabel.setLabelFor(addressField);
         firstNameLabel.setLabelFor(firstNameField);
@@ -407,4 +285,5 @@ public class CustomerFormPanel extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return editPanel;
     }
+
 }

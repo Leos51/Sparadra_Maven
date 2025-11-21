@@ -1,7 +1,6 @@
 package fr.sparadrap.ecf.view.swingview.customer;
 
 import fr.sparadrap.ecf.database.dao.CustomerDAO;
-import fr.sparadrap.ecf.model.lists.person.CustomersList;
 import fr.sparadrap.ecf.model.person.Customer;
 import fr.sparadrap.ecf.view.swingview.DisplayList;
 import fr.sparadrap.ecf.view.swingview.tablemodele.TableModele;
@@ -11,6 +10,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -184,10 +184,7 @@ public class CustomersPanel extends JPanel {
 
         try {
             customerDisplayList = new DisplayList(0);
-            CustomerDAO customerDAO = new CustomerDAO();
-            for (Customer c : customerDAO.findAll()) {
-                System.out.println(c.getFullName());
-            }
+
         } catch (Exception e) {
             System.out.println("Erreur occured" + e.getMessage());
         }
@@ -353,8 +350,10 @@ public class CustomersPanel extends JPanel {
     /**
      * Remise a zero du tableau
      */
-    private void refreshTable() {
-        customerDisplayList.configTable(CustomersList.getCustomers(), HEADER_CUSTOMERS, USER_COLUMN_CLASSES);
+    private void refreshTable() throws SQLException, IOException, ClassNotFoundException {
+        CustomerDAO customerDAO = new CustomerDAO();
+        customerDisplayList.configTable(customerDAO.findAll(), HEADER_CUSTOMERS, USER_COLUMN_CLASSES);
+
     }
 }
 

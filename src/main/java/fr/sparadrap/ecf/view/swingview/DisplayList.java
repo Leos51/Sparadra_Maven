@@ -1,10 +1,11 @@
 package fr.sparadrap.ecf.view.swingview;
 
 import fr.sparadrap.ecf.database.dao.CustomerDAO;
+import fr.sparadrap.ecf.database.dao.DoctorDAO;
+import fr.sparadrap.ecf.database.dao.MedicineDAO;
 import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrap.ecf.model.lists.medicine.PrescriptionList;
-import fr.sparadrap.ecf.model.lists.person.CustomersList;
-import fr.sparadrap.ecf.model.lists.person.DoctorList;
+
 import fr.sparadrap.ecf.model.lists.purchase.PurchasesList;
 import fr.sparadrap.ecf.view.swingview.purchases.PurchaseManagementPanel;
 import fr.sparadrap.ecf.view.swingview.tablemodele.TableModele;
@@ -15,6 +16,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+
 
 public class DisplayList extends JPanel {
     JPanel listTitlePanel;
@@ -41,7 +43,8 @@ public class DisplayList extends JPanel {
 
 
     public DisplayList(int type) throws SQLException, IOException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAO();
+
+
         this.setLayout(new BorderLayout());
         JLabel tableLabel = new JLabel();
         tableLabel.setForeground(Color.white);
@@ -52,20 +55,23 @@ public class DisplayList extends JPanel {
        try{
            switch (type) {
                case 0:
+                   CustomerDAO customerDAO = new CustomerDAO();
                    tableTitleBorder = "Liste des CLients";
                    scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
                    configTable(customerDAO.findAll(),HEADER_CUSTOMERS,USER_COLUMN_CLASSES);
                    System.out.println("NB clients:" + customerDAO.findAll().size());
                    break;
                case 1:
+                   DoctorDAO doctorDAO = new DoctorDAO();
                    tableTitleBorder = "Liste des Medecins";
                    scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                   configTable(DoctorList.getDoctors(),HEADER_DOCTORS,USER_COLUMN_CLASSES);
+                   configTable(doctorDAO.findAll(),HEADER_DOCTORS,USER_COLUMN_CLASSES);
                    break;
                case 2:
+                   MedicineDAO medicineDAO = new MedicineDAO();
                    tableTitleBorder = "Liste des médicaments";
                    scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                   configTable(MedicineList.getMedicines(),HEADER_MEDICINE,MEDICINE_COLUMN_CLASSES);
+                   configTable(medicineDAO.findAll(),HEADER_MEDICINE,MEDICINE_COLUMN_CLASSES);
                    break;
                case 3:
                    tableTitleBorder = "Panier";

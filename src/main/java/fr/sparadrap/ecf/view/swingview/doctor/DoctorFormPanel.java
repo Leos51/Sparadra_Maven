@@ -1,5 +1,6 @@
 package fr.sparadrap.ecf.view.swingview.doctor;
 
+import fr.sparadrap.ecf.database.dao.DoctorDAO;
 import fr.sparadrap.ecf.model.lists.person.DoctorList;
 import fr.sparadrap.ecf.model.person.Doctor;
 import fr.sparadrap.ecf.utils.DateFormat;
@@ -109,11 +110,15 @@ public class DoctorFormPanel extends JFrame {
 
 
         if (mode == DoctorsPanel.FormModes.ADD) {
-            if (DoctorList.findDoctorByLicenseNumber(rpps) != null) {
-                throw new SaisieException("Un médecin avec ce numero D'agréement existe deja");
-            }
+
             Doctor newDoctor = new Doctor(lastName, firstName, address, postCode, city, phone, email, rpps);
-            DoctorList.addDoctor(newDoctor);
+            try{
+                DoctorDAO doctorDAO = new DoctorDAO();
+                doctorDAO.create(newDoctor);
+            }catch(Exception exception){
+                JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+
             JOptionPane.showMessageDialog(this, "Médecin ajouté avec succès!",
                     "Succès", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -126,6 +131,13 @@ public class DoctorFormPanel extends JFrame {
             doctor.setPhone(phone);
             doctor.setEmail(email);
             doctor.setRpps(rpps);
+
+            try{
+                DoctorDAO doctorDAO = new DoctorDAO();
+                doctorDAO.update(doctor);
+            }catch(Exception exception){
+                JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
 
 
             JOptionPane.showMessageDialog(this, "Medecin mis à jour !", "Succes", JOptionPane.INFORMATION_MESSAGE);
@@ -141,7 +153,6 @@ public class DoctorFormPanel extends JFrame {
     private void populateFields(Doctor doctor) {
 
         titleLabel.setText("Modifier le medecin");
-
         lastNameField.setText(doctor.getLastName());
         firstNameField.setText(doctor.getFirstName());
         addressField.setText(doctor.getAddress());

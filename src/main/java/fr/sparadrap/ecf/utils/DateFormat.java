@@ -1,6 +1,8 @@
 package fr.sparadrap.ecf.utils;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -36,6 +38,21 @@ public class DateFormat {
             System.err.println("Format de date invalide. Utilisez \"dd/MM/yyyy\".\n" + e.getMessage());
         }
         return null;
+    }
+
+
+    /**
+     *  transforme une date en BDD en  String  afin de l'enregistrer dans une instance
+     * @param sqlDate : Date
+     * @return : String
+     */
+    public static String dateToString(Date sqlDate) {
+        String formattedDate = "";
+        if (sqlDate != null) {
+            LocalDate localDate = sqlDate.toLocalDate();
+            formattedDate = localDate.format(FORMATTER_DATE_FRENCH);
+        }
+        return formattedDate;
     }
 
 }

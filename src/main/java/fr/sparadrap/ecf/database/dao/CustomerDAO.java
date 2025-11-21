@@ -5,13 +5,18 @@ import fr.sparadrap.ecf.database.DatabaseConnection;
 import fr.sparadrap.ecf.model.person.Customer;
 import fr.sparadrap.ecf.utils.exception.SaisieException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class CustomerDAO extends DAO<Customer> {
+
+
+public class CustomerDAO extends DAO<Customer>  {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerDAO.class);
 
     public CustomerDAO() throws SQLException, IOException, ClassNotFoundException {
     }
@@ -46,7 +51,7 @@ public class CustomerDAO extends DAO<Customer> {
             }
 
         } catch (Exception e) {
-            System.out.println("Erreur de connexion");
+            logger.error("Erreur de connexion - create customer : {}", e.getMessage());
         }
         return result;
     }
@@ -60,14 +65,14 @@ public class CustomerDAO extends DAO<Customer> {
         boolean result = false;
         String sql = "UPDATE customers SET last_name=?, first_name=?, nir=?, birth_date=?, " +
                 "phone=?, email=?, address=?, post_code=?, city=?, " +
-                "mutual_insurance_id=?, doctor_id=? WHERE id=?";
+                "mutual_insurance_id=?, doctor_id=? WHERE id="+customer.getId();
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             mapCustomerToStatement(stmt, customer);
             stmt.executeUpdate();
             result = true;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {;
+            logger.error("Erreur de connexion -update customer : {}", e.getMessage());
         }
         return result;
 
@@ -99,6 +104,7 @@ public class CustomerDAO extends DAO<Customer> {
 
     @Override
     public Customer findById(int p_id){
+        logger.debug("Recherche du client avec l'ID: {}", p_id);
         Customer customer = new Customer();
         StringBuilder sql = new StringBuilder(
                 "SELECT c.*, m.company_name, m.reimbursement_rate, ");
@@ -116,12 +122,15 @@ public class CustomerDAO extends DAO<Customer> {
             while(rs.next()){
                customer = mapResultSetToCustomer(rs);
             }
+            logger.info("Client trouvé : {}", customer.getFullName());
             return customer;
         }catch(SQLException e){
-            throw new RuntimeException(e);
+            logger.error("Erreur lors de la recherche du client ID : {}", p_id, e);
         } catch (SaisieException e) {
-            throw new RuntimeException(e);
+            System.out.println("Erreur de saisie -findById : " + e.getMessage());
         }
+
+        return null;
     }
 
 
@@ -147,6 +156,24 @@ public class CustomerDAO extends DAO<Customer> {
 
             }
         }
+        return customers;
+    }
+
+    public List<Customer> findCustomersByDoctorID(int p_id) {
+        String sql = "SELECT * FROM customers WHERE doctor_id = ?";
+        List<Customer> customers = new ArrayList<>();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, p_id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    customers.add(mapResultSetToCustomer(rs));
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         return customers;
     }
 
@@ -178,6 +205,7 @@ public class CustomerDAO extends DAO<Customer> {
      */
     @Override
     public void closeConnection() throws SQLException {
+        System.out.println("Closing connection : CustomerDAO");
         if (connection != null || !connection.isClosed()) {
             connection.close();
         }

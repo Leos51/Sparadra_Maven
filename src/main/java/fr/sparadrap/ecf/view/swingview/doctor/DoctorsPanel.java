@@ -1,5 +1,6 @@
 package fr.sparadrap.ecf.view.swingview.doctor;
 
+import fr.sparadrap.ecf.database.dao.DoctorDAO;
 import fr.sparadrap.ecf.model.lists.person.CustomersList;
 import fr.sparadrap.ecf.model.lists.person.DoctorList;
 import fr.sparadrap.ecf.model.person.Customer;
@@ -12,6 +13,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import static fr.sparadrap.ecf.view.swingview.DisplayList.*;
@@ -197,7 +200,15 @@ public class DoctorsPanel extends JPanel {
 
         // Boutons d'action
 
-        searchField.addActionListener(e -> searchDoctors());
+        searchField.addActionListener(e -> {
+            try {
+                searchDoctors();
+            } catch (SQLException | IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         showDetailsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -221,7 +232,11 @@ public class DoctorsPanel extends JPanel {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchDoctors();
+                try {
+                    searchDoctors();
+                } catch (SQLException | IOException | ClassNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
@@ -249,14 +264,18 @@ public class DoctorsPanel extends JPanel {
     }
 
 
-    private void searchDoctors() {
+    private void searchDoctors() throws SQLException, IOException, ClassNotFoundException {
+
         String search = searchField.getText().trim();
-        if (search.isEmpty()) {
-            refreshTable();
-            return;
+        try{
+            DoctorDAO doctorDAO = new DoctorDAO();
+            List<Doctor> filteredList = doctorDAO.search(search);
+            doctorsDisplayList.configTable(filteredList, HEADER_DOCTORS, USER_COLUMN_CLASSES);
+
+        }catch(Exception e){
+            System.err.println("Erreur searchDoctors : " + e.getMessage());
         }
-        List<Doctor> filteredList = DoctorList.filterDoctor(search);
-        doctorsDisplayList.configTable(filteredList, HEADER_DOCTORS, USER_COLUMN_CLASSES);
+
     }
 
 
@@ -387,20 +406,31 @@ public class DoctorsPanel extends JPanel {
                     JOptionPane.showMessageDialog(this, "Le patient " + c.getFullName() + " n'a plus de médecin réferent", "Patients abandonné", JOptionPane.WARNING_MESSAGE);
                 }
             }
+            try{
+                DoctorDAO doctorDAO = new DoctorDAO();
+                if (doctorDAO.deleteById(selectedDoctor.getId())){
+                    refreshTable();
+                    updateButtonsState();
+                    JOptionPane.showMessageDialog(this,
+                            "Médecin supprimé avec succès!",
+                            "Suppression réussie",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+
+            }catch(Exception ex){
+                System.out.println(ex.getMessage());
+            }
+
         }
-        DoctorList.removeDoctor(selectedDoctor);
-        refreshTable();
-        updateButtonsState();
-        JOptionPane.showMessageDialog(this,
-                "Médecin supprimé avec succès!",
-                "Suppression réussie",
-                JOptionPane.INFORMATION_MESSAGE);
+
+
 
 
     }
 
-    private void refreshTable() {
-        doctorsDisplayList.configTable(DoctorList.getDoctors(), HEADER_DOCTORS, USER_COLUMN_CLASSES);
+    private void refreshTable() throws SQLException, IOException, ClassNotFoundException {
+        DoctorDAO doctorDAO = new DoctorDAO();
+        doctorsDisplayList.configTable(doctorDAO.findAll(), HEADER_DOCTORS, USER_COLUMN_CLASSES);
     }
 
 

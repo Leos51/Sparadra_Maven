@@ -1,5 +1,10 @@
 package fr.sparadrap.ecf.database;
-import java.sql.*;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.io.InputStream;
 import java.io.IOException;
@@ -7,61 +12,48 @@ import java.io.IOException;
 public class DatabaseConnection {
 
     private static final String PATHCONF = "conf.properties";
-    private static Connection connection = initConnection();
+    private static final HikariDataSource dataSource;
 
+    static {
+        try {
+            dataSource = initDataSource();
+        } catch (IOException e) {
+            throw new RuntimeException("❌ Erreur lors de l'initialisation du pool HikariCP", e);
+        }
+    }
 
+    private DatabaseConnection() {}
 
-    private DatabaseConnection() throws SQLException, IOException, ClassNotFoundException {}
-
-    private static Connection initConnection(){
+    private static HikariDataSource initDataSource() throws IOException {
         Properties props = new Properties();
         try (InputStream is = DatabaseConnection.class.getClassLoader().getResourceAsStream(PATHCONF)) {
             props.load(is);
-            // chargement du driver
-            Class.forName(props.getProperty("jdbc.driver.class"));
-            // Création de la connection
-            String  url = props.getProperty("jdbc.url");
-            String  login = props.getProperty("jdbc.login");
-            String  password = props.getProperty("jdbc.password");
-            return DriverManager.getConnection(url, login, password);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    };
 
-    public static Connection getInstanceDB() throws SQLException, IOException, ClassNotFoundException {
+            HikariConfig config = new HikariConfig();
+            config.setDriverClassName(props.getProperty("jdbc.driver.class"));
+            config.setJdbcUrl(props.getProperty("jdbc.url"));
+            config.setUsername(props.getProperty("jdbc.login"));
+            config.setPassword(props.getProperty("jdbc.password"));
 
-        try {
-            if (getConnection() == null || getConnection().isClosed()) {
-                new DatabaseConnection();
-                System.out.println("Connected to database : " + getConnection());
-            } else {
-                System.out.println("Connection already existing");
-            }
-        } finally {
+            // Options recommandées
+            config.setMaximumPoolSize(500);
+            config.setMinimumIdle(100);
+            config.setIdleTimeout(30000);
+            config.setConnectionTimeout(30000);
+            config.setMaxLifetime(1800000);
 
-        }
-        return connection;
-    }
-
-    public static void closeInstanceDB() throws SQLException {
-        try {
-            if (getConnection() != null && !getConnection().isClosed()) {
-                getConnection().close();
-            }
-        } catch (SQLException ex) {
-            System.err.println("❌ Erreur lors de la fermeture de la connexion : " + ex.getMessage());
+            return new HikariDataSource(config);
         }
     }
 
-    private static Connection getConnection() {
-        return connection;
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
     }
 
-
-
+    public static void closePool() {
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
+            System.out.println("✅ Pool HikariCP fermé proprement");
+        }
+    }
 }

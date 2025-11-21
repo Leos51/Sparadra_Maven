@@ -38,7 +38,7 @@ public class Doctor extends Person {
             throw new SaisieException("Le numero d'agréement ne peut pas etre vide ou null");
         }
         if (!rpps.matches(RegexPatterns.RPPS_REGEX)) {
-            throw new SaisieException("Numero d'agréement invalide");
+            throw new SaisieException("Numero d'agréement invalide : " + rpps);
         }
 
         this.rpps = rpps;
