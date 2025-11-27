@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PurchaseDAO extends DAO<Purchase> implements AutoCloseable {
-    private static final Logger log = LoggerFactory.getLogger(PurchaseDAO.class);
+    private static final Logger logger = LoggerFactory.getLogger(PurchaseDAO.class);
 
     public PurchaseDAO() throws SQLException, IOException, ClassNotFoundException {
     }
@@ -46,20 +46,21 @@ public class PurchaseDAO extends DAO<Purchase> implements AutoCloseable {
                 stmt.executeUpdate();
 
                 int purchaseId = stmt.getInt(3);
+                purchase.setId(purchaseId);
 
                 // Insérer les items liés
-                String itemSql = "CALL sp_add_purchase_item(?, ?, ?, ?)";
-                try (PreparedStatement itemStmt = conn.prepareStatement(itemSql)) {
+                String itemSql = "CALL sp_add_purchase_item(?, ?, ?)";
+                try (CallableStatement itemStmt = conn.prepareCall(itemSql)) {
                     for (CartItem item : purchase.getMedicines()) {
                         itemStmt.setInt(1, purchaseId);
                         itemStmt.setInt(2, item.getMedicine().getId());
                         itemStmt.setInt(3, item.getQuantity());
-                        itemStmt.setDouble(4, item.getPrice());
                         itemStmt.addBatch();
                     }
                     itemStmt.executeBatch();
                 }
                 conn.commit();
+                logger.info("Achat créé avec l'ID: {}", purchaseId);
                 result = true;
 
 
@@ -67,18 +68,16 @@ public class PurchaseDAO extends DAO<Purchase> implements AutoCloseable {
                 if(conn != null){
                     conn.rollback();
                 }
-                throw new RuntimeException(e);
+                logger.error("Erreur lors de la création de l'achat: {}",e.getMessage(), e);
+                throw new SQLException(e);
             }finally {
                 if(conn != null){
                     conn.setAutoCommit(true);
                     conn.close();
-                    conn.setAutoCommit(true);
                 }
 
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
         return result;
@@ -87,23 +86,49 @@ public class PurchaseDAO extends DAO<Purchase> implements AutoCloseable {
     /**
      * Permet de mettre a jour les données d'une entrée dasn la base
      *
-     * @param obj
+     * @param purchase
      */
     @Override
-    public boolean update(Purchase obj) throws SQLException {
+    public boolean update(Purchase purchase) throws SQLException {
+        String sql =  "UPDATE purchases SET is_prescription_based = ?, notes = ? WHERE id = ?";
         boolean result = false;
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setBoolean(1, purchase.isPrescriptionBased());
+            stmt.setString(2, null);
+            stmt.setInt(3, purchase.getId());
+            int updateCount = stmt.executeUpdate();
+            if(updateCount > 0){
+                logger.info("Achat mis à jour - ID: {}", purchase.getId());
+                result = true;
+            }
+        }
         return  result;
 
     }
 
     /**
-     * Permet de supprimer un objet de la bdd
-     *
-     * @param id
+     * Supprime un achat par son ID
+     * @param id L'ID de l'achat
+     * @return true si succès
      */
     @Override
     public boolean deleteById(int id) throws SQLException {
-        return false;
+        String sql = "DELETE FROM purchases WHERE id = ?";
+        boolean result = false;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            int rowsAffected = stmt.executeUpdate();
+            result = rowsAffected > 0;
+
+            if (result) {
+                logger.info("Achat supprimé - ID: {}", id);
+            }
+        }
+        return result;
     }
 
     /**
@@ -113,7 +138,7 @@ public class PurchaseDAO extends DAO<Purchase> implements AutoCloseable {
      */
     @Override
     public List<Purchase> findAll() throws SQLException {
-        String sql = "SELECT * FROM purchases";
+        String sql = "SELECT * FROM purchases  ORDER BY purchase_date DESC";
         List<Purchase> purchases = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -132,16 +157,33 @@ public class PurchaseDAO extends DAO<Purchase> implements AutoCloseable {
     }
 
     /**
-     * Permet de recuperer un objet via son id
-     *
-     * @param id
-     * @return
+     * Récupère un achat par son ID
+     * @param id L'ID de l'achat
+     * @return L'achat trouvé ou null
      */
     @Override
     public Purchase findById(int id) throws SQLException {
+        String sql = "SELECT * FROM purchases WHERE id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Purchase purchase = new Purchase();
+                    purchase.setId(rs.getInt("id"));
+                    purchase.setCustomer(rs.getInt("customer_id"));
+                    purchase.setPrescriptionBased(rs.getBoolean("is_prescription_based"));
+                    purchase.setPurchaseDate(rs.getDate("purchase_date").toLocalDate());
+                    loadPurchaseItems(conn, purchase);
+                    return purchase;
+                }
+            }
+        }
         return null;
     }
-
     /**
      * Methode de cloture de la connexion
      */
@@ -221,7 +263,7 @@ public class PurchaseDAO extends DAO<Purchase> implements AutoCloseable {
         try{
             super.closeConnection();
         }catch(SQLException e){
-            log.error("Erreur de fermeture connexion : {}", e.getMessage());
+            logger.error("Erreur de fermeture connexion : {}", e.getMessage());
         }
     }
 }
