@@ -87,7 +87,6 @@ public class MedicineDAO extends DAO<Medicine> implements AutoCloseable {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                System.out.println(rs.getString(2));
                 medicines.add(mapResultSetToMedicine(rs));
             }
         } catch (SaisieException | IOException | ClassNotFoundException e) {

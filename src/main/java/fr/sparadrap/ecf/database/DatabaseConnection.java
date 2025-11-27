@@ -40,8 +40,8 @@ public class DatabaseConnection {
             // Options recommandées
             config.setMaximumPoolSize(50);
             config.setMinimumIdle(5);
-            config.setIdleTimeout(300);
-            config.setConnectionTimeout(30000);
+            config.setIdleTimeout(300000);
+            config.setConnectionTimeout(300000);
             config.setMaxLifetime(1800000);
 
             return new HikariDataSource(config);

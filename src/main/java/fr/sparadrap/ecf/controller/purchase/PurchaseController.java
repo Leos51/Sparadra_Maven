@@ -68,9 +68,9 @@ public class PurchaseController {
         Customer c = customerDAO.findById(p.getCustomerID());
         c.getMutualInsurance();
 
+C
 
-
-        double reimbursementRate = p.getCustomerID();
+        double reimbursementRate = c.getMutualInsurance().getReimbursementRate();
         double reimbursement = totalPrice * reimbursementRate;
         return reimbursement;
     }
