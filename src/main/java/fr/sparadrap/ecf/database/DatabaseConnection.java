@@ -2,6 +2,8 @@ package fr.sparadrap.ecf.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,7 +12,7 @@ import java.io.InputStream;
 import java.io.IOException;
 
 public class DatabaseConnection {
-
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseConnection.class);
     private static final String PATHCONF = "conf.properties";
     private static final HikariDataSource dataSource;
 
@@ -53,7 +55,9 @@ public class DatabaseConnection {
     public static void closePool() {
         if (dataSource != null && !dataSource.isClosed()) {
             dataSource.close();
-            System.out.println("✅ Pool HikariCP fermé proprement");
+            logger.info("✅ Pool HikariCP fermé proprement");
+            System.out.println("hikari fermé");
+
         }
     }
 }

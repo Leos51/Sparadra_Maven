@@ -1,9 +1,6 @@
 package fr.sparadrap.ecf.view.swingview;
 
-import fr.sparadrap.ecf.database.dao.CustomerDAO;
-import fr.sparadrap.ecf.database.dao.DoctorDAO;
-import fr.sparadrap.ecf.database.dao.MedicineDAO;
-import fr.sparadrap.ecf.database.dao.PurchaseDAO;
+import fr.sparadrap.ecf.database.dao.*;
 import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrap.ecf.model.lists.medicine.PrescriptionList;
 
@@ -91,10 +88,14 @@ public class DisplayList extends JPanel {
                    }
                    break;
                case 5:
-                   tableTitleBorder = "Historique des prescriptions";
-                   scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                   configTable(PrescriptionList.getPrescriptionList(),HEADER_PRESCRIPTIONS,PRESCRIPTION_COLUMN_CLASSES);
-                   break;
+                   try(PrescriptionDAO prescriptionDAO = new PrescriptionDAO()){
+                       tableTitleBorder = "Historique des prescriptions";
+                       scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
+                       configTable(prescriptionDAO.findAll(),HEADER_PRESCRIPTIONS,PRESCRIPTION_COLUMN_CLASSES);
+                   } catch (Exception e) {
+                       throw new RuntimeException(e);
+                   }
+                  break;
                default:
                    break;
            }
