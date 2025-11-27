@@ -112,8 +112,7 @@ public class DoctorFormPanel extends JFrame {
         if (mode == DoctorsPanel.FormModes.ADD) {
 
             Doctor newDoctor = new Doctor(lastName, firstName, address, postCode, city, phone, email, rpps);
-            try{
-                DoctorDAO doctorDAO = new DoctorDAO();
+            try(DoctorDAO doctorDAO = new DoctorDAO()){
                 doctorDAO.create(newDoctor);
             }catch(Exception exception){
                 JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -132,8 +131,7 @@ public class DoctorFormPanel extends JFrame {
             doctor.setEmail(email);
             doctor.setRpps(rpps);
 
-            try{
-                DoctorDAO doctorDAO = new DoctorDAO();
+            try(DoctorDAO doctorDAO = new DoctorDAO()){
                 doctorDAO.update(doctor);
             }catch(Exception exception){
                 JOptionPane.showMessageDialog(this, exception.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);

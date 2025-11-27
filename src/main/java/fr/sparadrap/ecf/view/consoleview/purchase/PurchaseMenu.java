@@ -1,6 +1,7 @@
 package fr.sparadrap.ecf.view.consoleview.purchase;
 
 import fr.sparadrap.ecf.controller.purchase.PurchaseController;
+import fr.sparadrap.ecf.database.dao.CustomerDAO;
 import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrap.ecf.model.lists.person.CustomersList;
 import fr.sparadrap.ecf.model.lists.purchase.PurchasesList;
@@ -11,9 +12,13 @@ import fr.sparadrap.ecf.utils.UserInput;
 import fr.sparadrap.ecf.utils.exception.StockInsuffisantException;
 import fr.sparadrap.ecf.view.consoleview.MainMenu;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import static fr.sparadrap.ecf.utils.UserInput.exitApp;
 
 public class PurchaseMenu {
+    static CustomerDAO customerDAO;
 
     /**
      * Affiche le menu d'achat
@@ -54,7 +59,7 @@ public class PurchaseMenu {
             return;
         }
         // Création de l’achat
-        Purchase p = new Purchase(customer , isPrescriptionBased);
+        Purchase p = new Purchase(customer.getId() , isPrescriptionBased);
 
         // Ajout de medicament
         addMedicineToPurchase(p);
@@ -116,7 +121,15 @@ public class PurchaseMenu {
     }
 
     public static void receiptHeader(Purchase purchase){
-        String customerName = purchase.getCustomer().getFullName();
+        String customerName;
+        try{
+            CustomerDAO customerDAO = new CustomerDAO();
+            customerName = customerDAO.findById(purchase.getCustomerID()).getFullName();
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
         String purchaseDate = purchase.getPurchaseDate().toString();
         String purchaseType = purchase.isPrescriptionBased() ?
                 "Avec prescription":
@@ -136,9 +149,20 @@ public class PurchaseMenu {
 
 
     public static void printReceipt(Purchase purchase){
+        try{
+            if(customerDAO == null){
+                customerDAO = new CustomerDAO();
+            }
+            Customer c = customerDAO.findById(purchase.getCustomerID());
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
         double totalPrice = PurchaseController.calculateTotal(purchase);
         boolean isPrescriptionBased = purchase.isPrescriptionBased();
-        boolean isMutualInsurance = purchase.getCustomer().getMutualInsurance() != null;
+        Customer customer = customerDAO.findById(purchase.getCustomerID());
+        boolean isMutualInsurance = customer.getMutualInsurance() != null;
 
         receiptHeader(purchase);
         System.out.println("__________________________________________________");
@@ -148,12 +172,17 @@ public class PurchaseMenu {
 
 
         System.out.println("Total : " + totalPrice);
-        if(isPrescriptionBased && isMutualInsurance){
-            double reimbursement = PurchaseController.calculateReimbursement(purchase, totalPrice);
-            double totalAfterReimbursement = totalPrice - reimbursement;
-            System.out.println("Reduction : " + reimbursement);
-            System.out.println("Total apres reduction : " + totalAfterReimbursement);
+        try{
+            if(isPrescriptionBased && isMutualInsurance){
+                double reimbursement = PurchaseController.calculateReimbursement(purchase, totalPrice);
+                double totalAfterReimbursement = totalPrice - reimbursement;
+                System.out.println("Reduction : " + reimbursement);
+                System.out.println("Total apres reduction : " + totalAfterReimbursement);
+            }
+        }catch(Exception e){
+            throw new RuntimeException(e);
         }
+
         System.out.println("____________________________");
     }
 }

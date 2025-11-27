@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public abstract class DAO<T> {
-   protected Connection connection = DatabaseConnection.getConnection();
+
 
     public DAO() throws SQLException, IOException, ClassNotFoundException {
     }
@@ -48,6 +48,8 @@ public abstract class DAO<T> {
  /**
   * Methode de cloture de la connexion
   */
-    public abstract void closeConnection() throws SQLException;
+    public void closeConnection() throws SQLException {
+
+    };
 
 }

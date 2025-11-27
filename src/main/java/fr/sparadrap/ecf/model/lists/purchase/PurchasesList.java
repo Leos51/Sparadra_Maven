@@ -39,11 +39,11 @@ public class PurchasesList {
      */
     public static List<Purchase> findPurchaseByCustomerNir(String customerNir){
         List<Purchase> customerPurchases = new ArrayList<>();
-        for (Purchase purchase : purchases) {
-            if(customerNir.equalsIgnoreCase(purchase.getCustomer().getNir())){
+      /*  for (Purchase purchase : purchases) {
+            if(customerNir.equalsIgnoreCase(purchase.getCustomerID().toString)){
                 customerPurchases.add(purchase);
             }
-        }
+        }*/
         return  customerPurchases;
     }
 

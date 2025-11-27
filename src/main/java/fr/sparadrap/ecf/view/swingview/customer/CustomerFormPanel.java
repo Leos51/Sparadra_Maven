@@ -5,6 +5,7 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import fr.sparadrap.ecf.database.dao.CustomerDAO;
+import fr.sparadrap.ecf.database.dao.DoctorDAO;
 import fr.sparadrap.ecf.model.lists.person.CustomersList;
 import fr.sparadrap.ecf.model.lists.person.DoctorList;
 import fr.sparadrap.ecf.model.lists.person.MutualInsuranceList;
@@ -117,8 +118,11 @@ public class CustomerFormPanel extends JFrame {
         String nir = nirField.getText().trim();
         String mutualInsuranceName = mutualField.getText().trim();
         MutualInsurance mutualInsurance = MutualInsuranceList.findMutualInsuranceByName(mutualInsuranceName);
-        String doctorNir = doctorField.getText().trim();
-        Doctor doctor = DoctorList.findDoctorByLicenseNumber(doctorNir);
+        String doctorID_string = doctorField.getText().trim();
+        int doctorID = Integer.parseInt(doctorID_string);
+
+        DoctorDAO doctorDAO = new DoctorDAO();
+        Doctor doctor = doctorDAO.findById(doctorID);
 
         if (lastName.isEmpty() || firstName.isEmpty() || address.isEmpty() || postCode.isEmpty() || city.isEmpty() || phone.isEmpty() || email.isEmpty() || birthDate.isEmpty() || nir.isEmpty()) {
             throw new SaisieException("Champs obligatoires manquants.");
@@ -140,7 +144,7 @@ public class CustomerFormPanel extends JFrame {
             customer.setEmail(email);
             customer.setNir(nir);
             customer.setBirthDate(DateFormat.parseDateFromString(birthDate));
-            customer.setDoctorByLicenseNumber(doctorNir);
+            customer.setDoctorByID(doctor.getId());
             customer.setMutualInsurance(mutualInsurance);
             customerDAO.update(customer);
             JOptionPane.showMessageDialog(this, "Client mis à jour !");

@@ -3,6 +3,7 @@ package fr.sparadrap.ecf.view.swingview;
 import fr.sparadrap.ecf.database.dao.CustomerDAO;
 import fr.sparadrap.ecf.database.dao.DoctorDAO;
 import fr.sparadrap.ecf.database.dao.MedicineDAO;
+import fr.sparadrap.ecf.database.dao.PurchaseDAO;
 import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
 import fr.sparadrap.ecf.model.lists.medicine.PrescriptionList;
 
@@ -25,15 +26,15 @@ public class DisplayList extends JPanel {
     String tableTitleBorder;
 
 
-    public static final String[] HEADER_CUSTOMERS = new String[]{"Nom", "Email", "Téléphone", "Ville", "N° NIR"};
+    public static final String[] HEADER_CUSTOMERS = new String[]{"Nom", "Email", "Téléphone", "Ville", "N° NIR", "doc"};
     public static final String[] HEADER_DOCTORS = new String[]{"Nom", "Email", "Téléphone", "Ville", "N° agréement"};
     public static final String[] HEADER_MEDICINE = new String[]{"Nom", "Categorie", "Prix", "Stock", "Date"};
     public static final String[] HEADER_CARTITEM = new String[]{"Nom", "Quantité", "Prix", "Total ligne"};
-    public static final String[] HEADER_PURCHASES = new String[]{"Date", "Client", "Type", "Montant Total"};
+    public static final String[] HEADER_PURCHASES = new String[]{"Date", "Client", "Type"};
     public static final String[] HEADER_PRESCRIPTIONS = new String[]{"Date", "Médecin", "Client", "Nombre de medicaments"};
 
 
-    public static final Class<?>[] USER_COLUMN_CLASSES = {String.class, String.class, String.class, String.class, String.class};
+    public static final Class<?>[] USER_COLUMN_CLASSES = {String.class, String.class, String.class, String.class, String.class, String.class};
 
     public static final Class<?>[] MEDICINE_COLUMN_CLASSES = {String.class, String.class, Double.class, Integer.class, String.class};
     private final Class<?>[] CARTITEM_COLUMN_CLASSES = {String.class, Integer.class, Double.class, Double.class};
@@ -55,23 +56,27 @@ public class DisplayList extends JPanel {
        try{
            switch (type) {
                case 0:
-                   CustomerDAO customerDAO = new CustomerDAO();
-                   tableTitleBorder = "Liste des CLients";
-                   scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                   configTable(customerDAO.findAll(),HEADER_CUSTOMERS,USER_COLUMN_CLASSES);
-                   System.out.println("NB clients:" + customerDAO.findAll().size());
+                   try(CustomerDAO customerDAO = new CustomerDAO();){
+                       tableTitleBorder = "Liste des CLients";
+                       scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
+                       configTable(customerDAO.findAll(),HEADER_CUSTOMERS,USER_COLUMN_CLASSES);
+                   }
                    break;
                case 1:
-                   DoctorDAO doctorDAO = new DoctorDAO();
-                   tableTitleBorder = "Liste des Medecins";
-                   scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                   configTable(doctorDAO.findAll(),HEADER_DOCTORS,USER_COLUMN_CLASSES);
+                   try(DoctorDAO doctorDAO = new DoctorDAO()){
+                       tableTitleBorder = "Liste des Medecins";
+                       scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
+                       configTable(doctorDAO.findAll(),HEADER_DOCTORS,USER_COLUMN_CLASSES);
+                   }
+                   ;
+
                    break;
                case 2:
-                   MedicineDAO medicineDAO = new MedicineDAO();
-                   tableTitleBorder = "Liste des médicaments";
-                   scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                   configTable(medicineDAO.findAll(),HEADER_MEDICINE,MEDICINE_COLUMN_CLASSES);
+                   try(MedicineDAO medicineDAO = new MedicineDAO()){
+                       tableTitleBorder = "Liste des médicaments";
+                       scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
+                       configTable(medicineDAO.findAll(),HEADER_MEDICINE,MEDICINE_COLUMN_CLASSES);
+                   }
                    break;
                case 3:
                    tableTitleBorder = "Panier";
@@ -79,9 +84,11 @@ public class DisplayList extends JPanel {
                    configTable(PurchaseManagementPanel.getCart() ,HEADER_CARTITEM,CARTITEM_COLUMN_CLASSES);
                    break;
                case 4:
-                   tableTitleBorder = "Historique des achats";
-                   scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
-                   configTable(PurchasesList.getPurchases(),HEADER_PURCHASES,PURCHASE_COLUMN_CLASSES);
+                   try(PurchaseDAO purchaseDAO = new PurchaseDAO()){
+                       tableTitleBorder = "Historique des achats";
+                       scrollPane.setBorder(BorderFactory.createTitledBorder(tableTitleBorder));
+                       configTable(purchaseDAO.findAll(),HEADER_PURCHASES,PURCHASE_COLUMN_CLASSES);
+                   }
                    break;
                case 5:
                    tableTitleBorder = "Historique des prescriptions";

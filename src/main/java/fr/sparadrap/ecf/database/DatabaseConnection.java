@@ -36,9 +36,9 @@ public class DatabaseConnection {
             config.setPassword(props.getProperty("jdbc.password"));
 
             // Options recommandées
-            config.setMaximumPoolSize(500);
-            config.setMinimumIdle(100);
-            config.setIdleTimeout(30000);
+            config.setMaximumPoolSize(50);
+            config.setMinimumIdle(5);
+            config.setIdleTimeout(300);
             config.setConnectionTimeout(30000);
             config.setMaxLifetime(1800000);
 

@@ -178,9 +178,13 @@ public class PurchaseManagementPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //searchMedicines();
-                List<Medicine> tempList = searchMedicinesByCategory();
+                List<Medicine> tempList = null;
+                try {
+                    tempList = searchMedicinesByCategory();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 searchMedicinesWithCategoryFilter(tempList);
-
             }
         });
         createPrescriptionBtn.addActionListener(new ActionListener() {
@@ -288,7 +292,7 @@ public class PurchaseManagementPanel extends JPanel {
             customerSelectedLabel.setText("Client: " + selectedCustomer);
             customerSelectedLabel.setForeground(new Color(0, 128, 0));
 
-            currentPurchase.setCustomer(selectedCustomer);
+            currentPurchase.setCustomer(selectedCustomer.getId());
             currentPurchase.setPrescriptionBased(hasPrescription);
 
             // Mettre à jour les informations du client
@@ -537,19 +541,24 @@ public class PurchaseManagementPanel extends JPanel {
     }
 
 
-    private List<Medicine> searchMedicinesByCategory() {
-
-        String selectedCategory = categoryComboBox.getSelectedItem().toString().toLowerCase();
+    private List<Medicine> searchMedicinesByCategory() throws SQLException {
         List<Medicine> filteredList;
-        if (selectedCategory.equals("catégorie : toutes")) {
-            filteredList = MedicineList.getMedicines();
-        } else {
-            filteredList = MedicineList.getMedicines().stream()
-                    .filter(item -> item
-                            .getCategory().toLowerCase()
-                            .equals(selectedCategory))
-                    .collect(Collectors.toList());
+        try(MedicineDAO medicineDAO = new MedicineDAO()){
+            String selectedCategory = categoryComboBox.getSelectedItem().toString().toLowerCase();
+
+            if (selectedCategory.equals("catégorie : toutes")) {
+                filteredList = medicineDAO.findAll();
+            } else {
+                filteredList = medicineDAO.findAll().stream()
+                        .filter(item -> item
+                                .getCategory().toLowerCase()
+                                .equals(selectedCategory))
+                        .collect(Collectors.toList());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
 
         return filteredList;
 
@@ -852,29 +861,11 @@ public class PurchaseManagementPanel extends JPanel {
         medicineTablePanel = new JPanel();
         medicineTablePanel.setLayout(new BorderLayout(0, 0));
         medicinePanel.add(medicineTablePanel, BorderLayout.CENTER);
-        buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-        purchasePanel.add(buttonPanel, BorderLayout.SOUTH);
-        createPrescriptionBtn = new JButton();
-        createPrescriptionBtn.setEnabled(true);
-        createPrescriptionBtn.setText("Ordonnance");
-        createPrescriptionBtn.setVisible(false);
-        buttonPanel.add(createPrescriptionBtn);
-        annulerButton = new JButton();
-        annulerButton.setBackground(new Color(-5658199));
-        annulerButton.setText("Annuler");
-        buttonPanel.add(annulerButton);
-        validatePurchaseBtn = new JButton();
-        validatePurchaseBtn.setBackground(new Color(-16744448));
-        validatePurchaseBtn.setEnabled(false);
-        validatePurchaseBtn.setSelected(false);
-        validatePurchaseBtn.setText("Valider");
-        buttonPanel.add(validatePurchaseBtn);
         customerPanel = new JPanel();
         customerPanel.setLayout(new BorderLayout(0, 0));
         customerPanel.setMinimumSize(new Dimension(340, 200));
         customerPanel.setPreferredSize(new Dimension(340, 200));
-        buttonPanel.add(customerPanel);
+        splitPane2.setLeftComponent(customerPanel);
         customerPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "1. Sélection du Client", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         customerSearchPanel = new JPanel();
         customerSearchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -906,6 +897,24 @@ public class PurchaseManagementPanel extends JPanel {
         customerSelectedLabel.setForeground(new Color(-8388608));
         customerSelectedLabel.setText("Aucun client sélectionné");
         customerPanel.add(customerSelectedLabel, BorderLayout.SOUTH);
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+        purchasePanel.add(buttonPanel, BorderLayout.SOUTH);
+        createPrescriptionBtn = new JButton();
+        createPrescriptionBtn.setEnabled(true);
+        createPrescriptionBtn.setText("Ordonnance");
+        createPrescriptionBtn.setVisible(false);
+        buttonPanel.add(createPrescriptionBtn);
+        annulerButton = new JButton();
+        annulerButton.setBackground(new Color(-5658199));
+        annulerButton.setText("Annuler");
+        buttonPanel.add(annulerButton);
+        validatePurchaseBtn = new JButton();
+        validatePurchaseBtn.setBackground(new Color(-16744448));
+        validatePurchaseBtn.setEnabled(false);
+        validatePurchaseBtn.setSelected(false);
+        validatePurchaseBtn.setText("Valider");
+        buttonPanel.add(validatePurchaseBtn);
     }
 
     /**
@@ -936,4 +945,5 @@ public class PurchaseManagementPanel extends JPanel {
     public JComponent $$$getRootComponent$$$() {
         return purchasePanel;
     }
+
 }

@@ -203,6 +203,73 @@
                           </grid>
                         </children>
                       </grid>
+                      <grid id="de3f9" binding="customerPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                        <constraints>
+                          <splitpane position="left"/>
+                        </constraints>
+                        <properties>
+                          <minimumSize width="340" height="200"/>
+                          <preferredSize width="340" height="200"/>
+                        </properties>
+                        <border type="line" title="1. Sélection du Client"/>
+                        <children>
+                          <grid id="bb97" binding="customerSearchPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+                            <constraints border-constraint="North"/>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="e7edf" class="javax.swing.JLabel">
+                                <constraints/>
+                                <properties>
+                                  <text value="Rechercher:"/>
+                                </properties>
+                              </component>
+                              <component id="8c407" class="javax.swing.JTextField" binding="customerSearchField">
+                                <constraints/>
+                                <properties>
+                                  <preferredSize width="100" height="25"/>
+                                  <text value=""/>
+                                </properties>
+                              </component>
+                              <component id="a1a1e" class="javax.swing.JButton" binding="searchCustomerBtn">
+                                <constraints/>
+                                <properties>
+                                  <text value="Search"/>
+                                </properties>
+                              </component>
+                              <hspacer id="b997a">
+                                <constraints/>
+                              </hspacer>
+                              <hspacer id="51842">
+                                <constraints/>
+                              </hspacer>
+                              <hspacer id="c14af">
+                                <constraints/>
+                              </hspacer>
+                              <component id="c8d22" class="javax.swing.JButton" binding="selectCustomerButton">
+                                <constraints/>
+                                <properties>
+                                  <background color="-12156236"/>
+                                  <text value="Selectionner le client"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                          <grid id="36182" binding="customerTablePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                            <constraints border-constraint="Center"/>
+                            <properties/>
+                            <border type="none"/>
+                            <children/>
+                          </grid>
+                          <component id="b76c7" class="javax.swing.JLabel" binding="customerSelectedLabel">
+                            <constraints border-constraint="South"/>
+                            <properties>
+                              <foreground color="-8388608"/>
+                              <text value="Aucun client sélectionné"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
                     </children>
                   </splitpane>
                 </children>
@@ -240,71 +307,6 @@
               <text value="Valider"/>
             </properties>
           </component>
-          <grid id="de3f9" binding="customerPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
-            <constraints/>
-            <properties>
-              <minimumSize width="340" height="200"/>
-              <preferredSize width="340" height="200"/>
-            </properties>
-            <border type="line" title="1. Sélection du Client"/>
-            <children>
-              <grid id="bb97" binding="customerSearchPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
-                <constraints border-constraint="North"/>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="e7edf" class="javax.swing.JLabel">
-                    <constraints/>
-                    <properties>
-                      <text value="Rechercher:"/>
-                    </properties>
-                  </component>
-                  <component id="8c407" class="javax.swing.JTextField" binding="customerSearchField">
-                    <constraints/>
-                    <properties>
-                      <preferredSize width="100" height="25"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                  <component id="a1a1e" class="javax.swing.JButton" binding="searchCustomerBtn">
-                    <constraints/>
-                    <properties>
-                      <text value="Search"/>
-                    </properties>
-                  </component>
-                  <hspacer id="b997a">
-                    <constraints/>
-                  </hspacer>
-                  <hspacer id="51842">
-                    <constraints/>
-                  </hspacer>
-                  <hspacer id="c14af">
-                    <constraints/>
-                  </hspacer>
-                  <component id="c8d22" class="javax.swing.JButton" binding="selectCustomerButton">
-                    <constraints/>
-                    <properties>
-                      <background color="-12156236"/>
-                      <text value="Selectionner le client"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <grid id="36182" binding="customerTablePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
-                <constraints border-constraint="Center"/>
-                <properties/>
-                <border type="none"/>
-                <children/>
-              </grid>
-              <component id="b76c7" class="javax.swing.JLabel" binding="customerSelectedLabel">
-                <constraints border-constraint="South"/>
-                <properties>
-                  <foreground color="-8388608"/>
-                  <text value="Aucun client sélectionné"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
         </children>
       </grid>
     </children>

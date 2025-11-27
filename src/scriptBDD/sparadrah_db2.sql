@@ -109,7 +109,7 @@ CREATE TABLE purchase_items (
                                 medicine_id INT NOT NULL,
                                 quantity INT NOT NULL,
                                 unit_price DECIMAL(10,2) NOT NULL,
-                                line_total DECIMAL(10,2) NOT NULL,
+                                line_total decimal(10,2) NOT NULL,
                                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                 FOREIGN KEY (purchase_id) REFERENCES purchases(id) ON DELETE CASCADE,
                                 FOREIGN KEY (medicine_id) REFERENCES medicines(id) ON DELETE RESTRICT
@@ -205,8 +205,10 @@ SELECT
     c.address,
     c.post_code,
     c.city,
+    m.id AS mutual_insurance_id,
     m.company_name AS mutual_insurance_name,
     m.reimbursement_rate,
+    d.id AS doctor_ID,
     d.last_name AS doctor_last_name,
     d.first_name AS doctor_first_name,
     d.license_number AS doctor_license

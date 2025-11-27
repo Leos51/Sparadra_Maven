@@ -12,7 +12,7 @@ import java.util.List;
 public class Purchase {
     private Integer id;
     private LocalDate purchaseDate ;
-    private Customer customer;
+    private Integer customerID;
     private boolean isPrescriptionBased;
     private Prescription prescription;
     private List<CartItem> purchasedMedicines;
@@ -22,26 +22,26 @@ public class Purchase {
     public Purchase() {
 
         this.setPurchaseDate(LocalDate.now());
-        this.customer = new Customer();
+        this.customerID = 0;
         this.setPrescriptionBased(false);
 
         this.purchasedMedicines = new ArrayList<>();
     }
 
-    public Purchase(Customer customer) {
+    public Purchase(int customerID) {
 
 
     }
-    public Purchase(Customer customer, boolean isPrescriptionBased) {
+    public Purchase(int customerID, boolean isPrescriptionBased) {
 
-        this.setCustomer(customer);
+        this.setCustomer(customerID);
         this.setPurchaseDate(LocalDate.now());
         this.setPrescriptionBased(isPrescriptionBased);
         this.purchasedMedicines = new ArrayList<>();
     }
 
-    public Purchase(LocalDate purchaseDate , Customer customer, boolean isPrescriptionBased) {
-        this.setCustomer(customer);
+    public Purchase(LocalDate purchaseDate , int customerID, boolean isPrescriptionBased) {
+        this.setCustomer(customerID);
         this.setPurchaseDate(purchaseDate);
         this.setPrescriptionBased(isPrescriptionBased);
         this.purchasedMedicines = new ArrayList<>();
@@ -72,12 +72,12 @@ public class Purchase {
     }
 
 
-    public Customer getCustomer() {
-        return this.customer;
+    public int getCustomerID() {
+        return this.customerID;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomer(int customerID) {
+        this.customerID = customerID;
     }
 
 
@@ -148,7 +148,7 @@ public class Purchase {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("Date d'achat : ").append(this.purchaseDate);
-        sb.append(", Client : ").append(customer);
+        sb.append(", Client : ").append(customerID);
         return sb.toString();
     }
 }

@@ -60,9 +60,9 @@ public class PrescriptionController {
     }
 
     public static double calculateReimbursement(Purchase p, double totalPrice){
-
+/*
         double reimbursementRate = p.getCustomer().getMutualInsurance().getReimbursementRate();
-        double reimbursement = totalPrice * reimbursementRate;
-        return reimbursement;
+        double reimbursement = totalPrice * reimbursementRate;*/
+        return 0;
     }
 }

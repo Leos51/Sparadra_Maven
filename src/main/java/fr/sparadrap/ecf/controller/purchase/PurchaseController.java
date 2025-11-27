@@ -10,6 +10,9 @@ import fr.sparadrap.ecf.model.purchase.Purchase;
 import fr.sparadrap.ecf.utils.DateFormat;
 import fr.sparadrap.ecf.view.consoleview.purchase.PurchaseHistoryMenu;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 
 public class PurchaseController {
 
@@ -60,9 +63,14 @@ public class PurchaseController {
         PurchaseHistoryMenu.displayPurchaseHistoryMenu();
     }
 
-    public static double calculateReimbursement(Purchase p, double totalPrice){
+    public static double calculateReimbursement(Purchase p, double totalPrice) throws SQLException, IOException, ClassNotFoundException {
+        CustomerDAO customerDAO = new CustomerDAO();
+        Customer c = customerDAO.findById(p.getCustomerID());
+        c.getMutualInsurance();
 
-        double reimbursementRate = p.getCustomer().getMutualInsurance().getReimbursementRate();
+
+
+        double reimbursementRate = p.getCustomerID();
         double reimbursement = totalPrice * reimbursementRate;
         return reimbursement;
     }

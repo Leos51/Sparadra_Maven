@@ -401,7 +401,7 @@ public class DoctorsPanel extends JPanel {
         if (result == JOptionPane.YES_OPTION) {
             for (Customer c : customers) {
                 try {
-                    c.setDoctorByLicenseNumber(null);
+                    c.setDoctorByID(0);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "Le patient " + c.getFullName() + " n'a plus de médecin réferent", "Patients abandonné", JOptionPane.WARNING_MESSAGE);
                 }

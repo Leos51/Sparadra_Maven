@@ -1,16 +1,18 @@
 package fr.sparadrap.ecf.database.dao;
+import fr.sparadrap.ecf.database.DatabaseConnection;
 import fr.sparadrap.ecf.model.person.Customer;
 import fr.sparadrap.ecf.model.person.Doctor;
 import fr.sparadrap.ecf.utils.exception.SaisieException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DoctorDAO extends DAO<Doctor> {
+public class DoctorDAO extends DAO<Doctor> implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(DoctorDAO.class);
 
     public DoctorDAO() throws SQLException, IOException, ClassNotFoundException {
@@ -26,7 +28,8 @@ public class DoctorDAO extends DAO<Doctor> {
     public boolean create(Doctor doctor) throws SQLException {
         boolean result = false;
         String query = "INSERT INTO doctors (last_name, first_name, license_number, phone, email, address, post_code, city ) VALUES (?,?,?,?,?,?,?,?)";
-        try(PreparedStatement pstmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)){
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)){
             mapDoctorToStatement(pstmt, doctor);
 
             int rowsAffected = pstmt.executeUpdate();
@@ -58,7 +61,8 @@ public class DoctorDAO extends DAO<Doctor> {
         String sql = "UPDATE doctors SET last_name=?, first_name=?, license_number=?, " +
                 "phone=?, email=?, address=?, post_code=?, city=? WHERE id="+doctor.getId();
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             mapDoctorToStatement(stmt, doctor);
             stmt.executeUpdate();
             result = true;
@@ -77,7 +81,8 @@ public class DoctorDAO extends DAO<Doctor> {
         String sql = "DELETE FROM doctors WHERE id = ?";
         boolean result = false;
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, p_id);
             int affectedRows = stmt.executeUpdate();
             result = (affectedRows > 0);
@@ -101,7 +106,8 @@ public class DoctorDAO extends DAO<Doctor> {
 
         List<Doctor> doctors = new ArrayList<>();
         String query = "SELECT * FROM doctors ORDER BY last_name, first_name";
-        try(PreparedStatement stmt = connection.prepareStatement(query);){
+        try(Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query);){
             ResultSet rs = stmt.executeQuery();
             System.out.println(rs);
             while (rs.next()) {
@@ -118,7 +124,8 @@ public class DoctorDAO extends DAO<Doctor> {
         logger.debug("Recherche du client avec l'ID: {}", p_id);
         Doctor doctor = new Doctor();
         String query = "SELECT * FROM doctors WHERE id = ?";
-        try(PreparedStatement stmt = connection.prepareStatement(query)) {
+        try(Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, p_id);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -145,7 +152,8 @@ public class DoctorDAO extends DAO<Doctor> {
         sql.append("OR city LIKE CONCAT('%', ?, '%')");
         sql.append("OR license_number LIKE CONCAT('%', ?, '%');");
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
             stmt.setString(1, p_search_term);
             stmt.setString(2, p_search_term);
             stmt.setString(3, p_search_term);
@@ -191,7 +199,8 @@ public class DoctorDAO extends DAO<Doctor> {
         logger.debug("Recherche du médecin avec l'ID: {}", id);
         Doctor doctor = new Doctor();
         String query = "SELECT * FROM doctors WHERE id = ?";
-        try(PreparedStatement statement = connection.prepareStatement(query)){
+        try(Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement statement = conn.prepareStatement(query)){
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -203,15 +212,7 @@ public class DoctorDAO extends DAO<Doctor> {
         return doctor;
     }
 
-    /**
-     * Methode de cloture de la connexion
-     */
-    @Override
-    public void closeConnection() throws SQLException {
-        if (connection != null || !connection.isClosed()) {
-            connection.close();
-        }
-    }
+
     private void mapDoctorToStatement(PreparedStatement stmt, Doctor doctor) throws SQLException {
         int index = 1;
         // Champs principaux
@@ -224,5 +225,54 @@ public class DoctorDAO extends DAO<Doctor> {
         stmt.setString(index++, doctor.getPostCode());
         stmt.setString(index++, doctor.getCity());
 
+    }
+
+    /**
+     * Closes this resource, relinquishing any underlying resources.
+     * This method is invoked automatically on objects managed by the
+     * {@code try}-with-resources statement.
+     *
+     * @throws Exception if this resource cannot be closed
+     * @apiNote While this interface method is declared to throw {@code
+     * Exception}, implementers are <em>strongly</em> encouraged to
+     * declare concrete implementations of the {@code close} method to
+     * throw more specific exceptions, or to throw no exception at all
+     * if the close operation cannot fail.
+     *
+     * <p> Cases where the close operation may fail require careful
+     * attention by implementers. It is strongly advised to relinquish
+     * the underlying resources and to internally <em>mark</em> the
+     * resource as closed, prior to throwing the exception. The {@code
+     * close} method is unlikely to be invoked more than once and so
+     * this ensures that the resources are released in a timely manner.
+     * Furthermore it reduces problems that could arise when the resource
+     * wraps, or is wrapped, by another resource.
+     *
+     * <p><em>Implementers of this interface are also strongly advised
+     * to not have the {@code close} method throw {@link
+     * InterruptedException}.</em>
+     * <p>
+     * This exception interacts with a thread's interrupted status,
+     * and runtime misbehavior is likely to occur if an {@code
+     * InterruptedException} is {@linkplain Throwable#addSuppressed
+     * suppressed}.
+     * <p>
+     * More generally, if it would cause problems for an
+     * exception to be suppressed, the {@code AutoCloseable.close}
+     * method should not throw it.
+     *
+     * <p>Note that unlike the {@link Closeable#close close}
+     * method of {@link Closeable}, this {@code close} method
+     * is <em>not</em> required to be idempotent.  In other words,
+     * calling this {@code close} method more than once may have some
+     * visible side effect, unlike {@code Closeable.close} which is
+     * required to have no effect if called more than once.
+     * <p>
+     * However, implementers of this interface are strongly encouraged
+     * to make their {@code close} methods idempotent.
+     */
+    @Override
+    public void close() throws Exception {
+        this.closeConnection();
     }
 }

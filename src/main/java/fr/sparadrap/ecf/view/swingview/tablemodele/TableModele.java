@@ -1,5 +1,6 @@
 package fr.sparadrap.ecf.view.swingview.tablemodele;
 
+import fr.sparadrap.ecf.database.dao.CustomerDAO;
 import fr.sparadrap.ecf.model.medicine.Medicine;
 import fr.sparadrap.ecf.model.medicine.Prescription;
 import fr.sparadrap.ecf.model.person.Customer;
@@ -7,13 +8,18 @@ import fr.sparadrap.ecf.model.person.Doctor;
 import fr.sparadrap.ecf.model.purchase.CartItem;
 import fr.sparadrap.ecf.model.purchase.Purchase;
 import fr.sparadrap.ecf.utils.DateFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.table.AbstractTableModel;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TableModele<T> extends AbstractTableModel {
+    private static final Logger log = LoggerFactory.getLogger(TableModele.class);
     private final DecimalFormat df = new DecimalFormat("0.00");
     private final List<T> data;
     private final String[] columnNames;
@@ -63,6 +69,9 @@ public class TableModele<T> extends AbstractTableModel {
                 case 2 -> user.getPhone();
                 case 3 -> user.getCity();
                 case 4 -> user.getNir();
+                case 5 -> {Doctor doctor = user.getDoctor();
+                    yield doctor == null ? "Pas de medecin" : doctor.getFullName();
+                }
                 default -> null;
             };
         } else if (item instanceof Doctor doctor) {
@@ -94,13 +103,25 @@ public class TableModele<T> extends AbstractTableModel {
                 default -> null;
             };
         }else if (item instanceof Purchase purchase) {
-            return switch (columnIndex) {
-                case 0 -> DateFormat.formatDate(purchase.getPurchaseDate(), "dd/MM/yyyy");
-                case 1 -> purchase.getCustomer().getFullName();
-                case 2 -> purchase.isPrescriptionBased()? "Avec ordonnance" : "Direct";
-                case 3 -> String.format("%.2f €",purchase.getTotal());
-                default -> null;
-            };
+
+            int customerId = purchase.getCustomerID();
+                try {
+                    CustomerDAO customerDAO = new CustomerDAO();
+                    Customer user = customerDAO.findById(customerId);
+                    return switch (columnIndex) {
+                        case 0 -> DateFormat.formatDate(purchase.getPurchaseDate(), "dd/MM/yyyy");
+                        case 1 -> (user != null) ? user.getFullName() : "Client inconnu";
+                        case 2 -> purchase.isPrescriptionBased()? "Avec ordonnance" : "Direct";
+                        case 3 -> String.format("%.2f €",purchase.getTotal());
+                        default -> null;
+                    };
+                } catch (SQLException | ClassNotFoundException | IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+
+
         }else if (item instanceof Prescription prescription) {
             return switch (columnIndex) {
                 case 0 -> DateFormat.formatDate(prescription.getPrescriptingDate(), "dd/MM/yyyy");

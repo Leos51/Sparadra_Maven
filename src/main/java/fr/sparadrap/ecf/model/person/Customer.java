@@ -1,11 +1,14 @@
 package fr.sparadrap.ecf.model.person;
 
 
+import fr.sparadrap.ecf.database.dao.DoctorDAO;
 import fr.sparadrap.ecf.model.lists.person.DoctorList;
 import fr.sparadrap.ecf.utils.DateFormat;
 import fr.sparadrap.ecf.utils.exception.SaisieException;
 import fr.sparadrap.ecf.utils.validator.Validator;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 
@@ -125,14 +128,26 @@ public class Customer extends Person {
         this.doctor = doctor;
     }
 
+
     /**
      * Met a jour le medecin referent du patient à partir de la liste des medecins
-     * @param str
+     * @param p_id
      * @throws SaisieException
      */
-    public void setDoctorByLicenseNumber(String str) throws SaisieException {
-        Doctor doctorTemp = DoctorList.findDoctorByLicenseNumber(str);
-        this.setDoctor(doctorTemp);
+    public void setDoctorByID(int p_id) throws SaisieException {
+        try(DoctorDAO doctorDAO = new DoctorDAO()){
+            Doctor doctorTemp = doctorDAO.findById(p_id);
+            this.setDoctor(doctorTemp);
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        ;
+
+
     }
 
 

@@ -2,6 +2,8 @@ package fr.sparadrap.ecf.view.swingview.purchases;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import fr.sparadrap.ecf.database.dao.CustomerDAO;
+import fr.sparadrap.ecf.database.dao.PurchaseDAO;
 import fr.sparadrap.ecf.model.lists.purchase.PurchasesList;
 import fr.sparadrap.ecf.model.person.Customer;
 import fr.sparadrap.ecf.model.purchase.CartItem;
@@ -16,6 +18,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -55,20 +59,35 @@ public class PurchaseHistoryPanel extends JPanel {
     private JTextField periodStartField;
     private JTextField periodEndField;
     DisplayList purchases;
+    CustomerDAO customerDAO;
+    PurchaseDAO purchaseDAO;
 
     JTable purchasesTable;
 
     public PurchaseHistoryPanel() {
-        contentPane = new JPanel();
+        try{
+            customerDAO = new CustomerDAO();
+            purchaseDAO = new PurchaseDAO();
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
         this.add(contentPane);
         try {
             purchases = new DisplayList(4);
+            for(Purchase p : purchaseDAO.findAll()){
+                System.out.println(p.toString());
+            }
+            purchasesTable = purchases.getTable();
+            tablePanel.add(purchases);
+
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println("erreur dysplay list : " + e.getMessage());
         }
 
-        purchasesTable = purchases.getTable();
-        tablePanel.add(purchases);
+
+
 
 
         // purchasesTable = purchases.getTable();
@@ -119,36 +138,42 @@ public class PurchaseHistoryPanel extends JPanel {
      * Affiche le detail d'un achat qui a été séléctionné
      */
     private void displayPurchaseDetails() {
+        try{
+            if (selectPurchase() != null) {
+                detailsPanel.setVisible(true);
+                Purchase selectedPurchase = selectPurchase();
 
-        if (selectPurchase() != null) {
-            detailsPanel.setVisible(true);
-            Purchase selectedPurchase = selectPurchase();
-            Customer customer = selectedPurchase.getCustomer();
+                Customer customer = customerDAO.findById(selectPurchase().getCustomerID());
+                   detailsTitle.setText("Détails de l'achat");
+                customerLabelDetail.setText(customer.getFullName());
+                dateLabelDetail.setText(DateFormat.formatDate(selectedPurchase.getPurchaseDate(), "dd/MM/yyyy"));
+                typeDetail.setText(selectedPurchase.isPrescriptionBased() ? "Achat sur ordonnance" : "Achat direct");
+                if (customer.getDoctor() != null) {
+                    doctorDetail.setText(customer.getDoctor().getFullName());
+                } else {
+                    doctorDetail.setText("Aucun médecin");
+                }
+                totatAmountDetail.setText(selectedPurchase.getTotal() + "");
 
-            detailsTitle.setText("Détails de l'achat");
-            customerLabelDetail.setText(customer.getFullName());
-            dateLabelDetail.setText(DateFormat.formatDate(selectedPurchase.getPurchaseDate(), "dd/MM/yyyy"));
-            typeDetail.setText(selectedPurchase.isPrescriptionBased() ? "Achat sur ordonnance" : "Achat direct");
-            if (selectedPurchase.getCustomer().getDoctor() != null) {
-                doctorDetail.setText(selectedPurchase.getCustomer().getDoctor().getFullName());
+                StringBuilder medicinesList = new StringBuilder();
+                for (CartItem med : selectedPurchase.getMedicines()) {
+                    medicinesList.append("• ").append(med.getMedicine().getMedicineName())
+                            .append(" (").append(med.getMedicine().getCategory()).append(")")
+                            .append("\n  Prix : ").append((med.getPrice()))
+                            .append("\n  Quantité : ").append(med.getQuantity())
+                            .append("\n\n");
+                }
+                detailMedicinesArea.setText(medicinesList.toString());
+
             } else {
-                doctorDetail.setText("Aucun médecin");
+                detailsPanel.setVisible(false);
             }
-            totatAmountDetail.setText(selectedPurchase.getTotal() + "");
-
-            StringBuilder medicinesList = new StringBuilder();
-            for (CartItem med : selectedPurchase.getMedicines()) {
-                medicinesList.append("• ").append(med.getMedicine().getMedicineName())
-                        .append(" (").append(med.getMedicine().getCategory()).append(")")
-                        .append("\n  Prix : ").append((med.getPrice()))
-                        .append("\n  Quantité : ").append(med.getQuantity())
-                        .append("\n\n");
-            }
-            detailMedicinesArea.setText(medicinesList.toString());
-
-        } else {
-            detailsPanel.setVisible(false);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
+
+
     }
 
     /**
