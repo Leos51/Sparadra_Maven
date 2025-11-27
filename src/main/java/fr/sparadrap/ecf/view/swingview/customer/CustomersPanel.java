@@ -171,7 +171,6 @@ public class CustomersPanel extends JPanel {
         // Vérifier que customersPanel est initialisé
         if (customersPanel == null) {
             customersPanel = new JPanel(new BorderLayout());
-            System.out.println("customersPanel null");
         }
 
         this.add(customersPanel);

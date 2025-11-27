@@ -146,7 +146,7 @@ public class CustomerMenu {
                         System.err.println("Le medecin n'existe pas");
                     }
                     assert selectedDoctor != null;
-                    c.setDoctorByLicenseNumber(selectedDoctor.getRpps());
+                    c.setDoctorByID(selectedDoctor.getId());
                 }
                 case "0" -> detailCustomerMenu();
                 case "Q" -> exitApp();

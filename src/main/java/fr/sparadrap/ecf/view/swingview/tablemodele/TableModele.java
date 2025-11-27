@@ -16,20 +16,31 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TableModele<T> extends AbstractTableModel {
     private static final Logger log = LoggerFactory.getLogger(TableModele.class);
-    private final DecimalFormat df = new DecimalFormat("0.00");
+
+    // ==================== CONSTANTES ====================
+    private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00 €");
+    private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+    // ==================== CHAMPS ====================
     private final List<T> data;
     private final String[] columnNames;
     private final Class<?>[] columnClasses;
-    private final DateTimeFormatter FORMATTER_DATE_FRENCH = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+    // Cache pour les données associées (évite les requêtes BDD répétées)
+    private final Map<Integer, Customer> customerCache;
 
     public TableModele(List<T> data, String[] columnNames, Class<?>[] columnClasses) {
-        this.data = data;
+        this.data = new ArrayList<>(data);
         this.columnNames = columnNames;
         this.columnClasses = columnClasses;
+        this.customerCache = new HashMap<>();
     }
 
 
@@ -70,7 +81,7 @@ public class TableModele<T> extends AbstractTableModel {
                 case 3 -> user.getCity();
                 case 4 -> user.getNir();
                 case 5 -> {Doctor doctor = user.getDoctor();
-                    yield doctor == null ? "Pas de medecin" : doctor.getFullName();
+                    yield doctor == null ? "Pas de medecin" : doctor.getFirstName() + " " + doctor.getLastName();
                 }
                 default -> null;
             };

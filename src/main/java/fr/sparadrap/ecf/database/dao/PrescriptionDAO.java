@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class PrescriptionDAO extends DAO<Prescription> implements AutoCloseable {
-    private static final Logger logger = LoggerFactory.getLogger(PrescriptionDAO.class)
+    private static final Logger logger = LoggerFactory.getLogger(PrescriptionDAO.class);
     public PrescriptionDAO() throws SQLException, IOException, ClassNotFoundException {
     }
 

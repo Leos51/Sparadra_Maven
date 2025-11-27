@@ -27,6 +27,10 @@ public class MutualInsurance {
         this.setReimbursementRate(reimbursementRate);
     }
 
+    public MutualInsurance() {
+
+    }
+
 
     public Integer getId() {
         return id;

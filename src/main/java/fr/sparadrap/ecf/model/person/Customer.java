@@ -124,7 +124,7 @@ public class Customer extends Person {
      * met a jour le medecin réferent du patient
      * @param doctor
      */
-    private void setDoctor(Doctor doctor) {
+    public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
 
