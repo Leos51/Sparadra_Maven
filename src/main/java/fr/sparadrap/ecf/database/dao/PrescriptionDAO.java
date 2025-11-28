@@ -130,8 +130,8 @@ public class PrescriptionDAO extends DAO<Prescription> implements AutoCloseable 
         sql.append("d.id AS doctor_id, d.last_name AS doctor_last_name, d.first_name AS doctor_first_name, d.license_number, ");
         sql.append("c.id AS customer_id, c.last_name AS customer_last_name, c.first_name AS customer_first_name, c.nir ");
         sql.append("FROM prescriptions p ");
-        sql.append("JOIN doctors d ON p.doctor_id = d.id ");
-        sql.append("JOIN customers c ON p.customer_id = c.id ");
+        sql.append("INNER JOIN doctors d ON p.doctor_id = d.id ");
+        sql.append("INNER JOIN customers c ON p.customer_id = c.id ");
         sql.append("ORDER BY p.prescription_date DESC;");
 
 
@@ -167,8 +167,8 @@ public class PrescriptionDAO extends DAO<Prescription> implements AutoCloseable 
         sb.append("d.id AS doctor_id, d.last_name AS doctor_last_name, d.first_name AS doctor_first_name, d.license_number, ");
         sb.append("c.id AS customer_id, c.last_name AS customer_last_name, c.first_name AS customer_first_name, c.nir ");
         sb.append("FROM prescriptions p ");
-        sb.append("JOIN doctors d ON p.doctor_id = d.id ");
-        sb.append("JOIN customers c ON p.customer_id = c.id ");
+        sb.append("INNER JOIN doctors d ON p.doctor_id = d.id ");
+        sb.append("INNER JOIN customers c ON p.customer_id = c.id ");
         sb.append("WHERE p.id = ?");
 
         String sql = sb.toString();
@@ -207,8 +207,8 @@ public class PrescriptionDAO extends DAO<Prescription> implements AutoCloseable 
         sb.append("d.id AS doctor_id, d.last_name AS doctor_last_name, d.first_name AS doctor_first_name, d.license_number, ");
         sb.append("c.id AS customer_id, c.last_name AS customer_last_name, c.first_name AS customer_first_name, c.nir ");
         sb.append("FROM prescriptions p ");
-        sb.append("JOIN doctors d ON p.doctor_id = d.id ");
-        sb.append("JOIN customers c ON p.customer_id = c.id ");
+        sb.append("INNER JOIN doctors d ON p.doctor_id = d.id ");
+        sb.append("INNER JOIN customers c ON p.customer_id = c.id ");
         sb.append("WHERE p.customer_id = ? ");
         sb.append("ORDER BY p.prescription_date DESC");
 
@@ -246,8 +246,8 @@ public class PrescriptionDAO extends DAO<Prescription> implements AutoCloseable 
         sb.append("d.id AS doctor_id, d.last_name AS doctor_last_name, d.first_name AS doctor_first_name, d.license_number, ");
         sb.append("c.id AS customer_id, c.last_name AS customer_last_name, c.first_name AS customer_first_name, c.nir ");
         sb.append("FROM prescriptions p ");
-        sb.append("JOIN doctors d ON p.doctor_id = d.id ");
-        sb.append("JOIN customers c ON p.customer_id = c.id ");
+        sb.append("INNER JOIN doctors d ON p.doctor_id = d.id ");
+        sb.append("INNER JOIN customers c ON p.customer_id = c.id ");
         sb.append("WHERE p.customer_id = ? ");
         sb.append("AND p.prescription_date >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH) ");
         sb.append("ORDER BY p.prescription_date DESC");
@@ -285,8 +285,8 @@ public class PrescriptionDAO extends DAO<Prescription> implements AutoCloseable 
                 "d.id AS doctor_id, d.last_name AS doctor_last_name, d.first_name AS doctor_first_name, d.license_number, " +
                 "c.id AS customer_id, c.last_name AS customer_last_name, c.first_name AS customer_first_name, c.nir " +
                 "FROM prescriptions p " +
-                "JOIN doctors d ON p.doctor_id = d.id " +
-                "JOIN customers c ON p.customer_id = c.id " +
+                "INNER JOIN doctors d ON p.doctor_id = d.id " +
+                "INNER JOIN customers c ON p.customer_id = c.id " +
                 "WHERE p.doctor_id = ? " +
                 "ORDER BY p.prescription_date DESC";
 
@@ -321,8 +321,8 @@ public class PrescriptionDAO extends DAO<Prescription> implements AutoCloseable 
                 "d.id AS doctor_id, d.last_name AS doctor_last_name, d.first_name AS doctor_first_name, d.license_number, " +
                 "c.id AS customer_id, c.last_name AS customer_last_name, c.first_name AS customer_first_name, c.nir " +
                 "FROM prescriptions p " +
-                "JOIN doctors d ON p.doctor_id = d.id " +
-                "JOIN customers c ON p.customer_id = c.id " +
+                "INNER JOIN doctors d ON p.doctor_id = d.id " +
+                "INNER JOIN customers c ON p.customer_id = c.id " +
                 "WHERE DATE(p.prescription_date) = ? " +
                 "ORDER BY p.prescription_date DESC";
 
@@ -376,7 +376,7 @@ public class PrescriptionDAO extends DAO<Prescription> implements AutoCloseable 
     private void loadPrescriptionMedicines(Connection conn, Prescription prescription, int prescriptionId)
             throws SQLException, SaisieException {
         String sql = "SELECT m.* FROM medicines m " +
-                "JOIN prescription_items pi ON m.id = pi.medicine_id " +
+                "INNER JOIN prescription_items pi ON m.id = pi.medicine_id " +
                 "WHERE pi.prescription_id = ?";
 
         List<Medicine> medicines = new ArrayList<>();
@@ -448,7 +448,7 @@ public class PrescriptionDAO extends DAO<Prescription> implements AutoCloseable 
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         try {
             super.closeConnection();
         } catch (SQLException e) {

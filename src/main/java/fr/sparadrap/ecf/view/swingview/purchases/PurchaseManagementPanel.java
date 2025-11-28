@@ -19,6 +19,8 @@ import fr.sparadrap.ecf.utils.exception.SaisieException;
 import fr.sparadrap.ecf.view.swingview.DisplayList;
 import fr.sparadrap.ecf.view.swingview.PrescriptionCreationPanel;
 import fr.sparadrap.ecf.view.swingview.tablemodele.TableModele;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -36,6 +38,7 @@ import java.util.stream.Collectors;
 import static fr.sparadrap.ecf.view.swingview.DisplayList.*;
 
 public class PurchaseManagementPanel extends JPanel {
+    private static final Logger logger = LoggerFactory.getLogger(PurchaseManagementPanel.class);
     private static List<CartItem> cart = new ArrayList<>();
 
     private Customer selectedCustomer;
@@ -219,18 +222,20 @@ public class PurchaseManagementPanel extends JPanel {
 
 
     private void initialize() throws SaisieException, SQLException, IOException, ClassNotFoundException {
-        CategoryDAO categoryDAO = new CategoryDAO();
 
         //Combobox Selection des categories des médicaments
-        Category allCategories = new Category("Catégorie : Toutes", null);
-        categoryComboBox.addItem(allCategories.getCategoryName());
-        try {
+        try(CategoryDAO categoryDAO = new CategoryDAO()){
+            Category allCategories = new Category("Catégorie : Toutes", null);
+            categoryComboBox.addItem(allCategories.getCategoryName());
             for (Category c : categoryDAO.findAll()) {
                 categoryComboBox.addItem(c.getCategoryName());
             }
-        } catch (Exception e) {
+        }catch (Exception e) {
             System.out.println("Erreur init" + e.getMessage());
         }
+
+
+
 
 
         // Utilisation de DisplayList pour les clients (type 0)
@@ -364,6 +369,8 @@ public class PurchaseManagementPanel extends JPanel {
         if (selectedRow != -1) {
             CartItem removed = cart.remove(selectedRow);
             updateTotal();
+            cartTablePanel.repaint();
+            cartTablePanel.revalidate();
             cartTable.repaint();
             cartTable.revalidate();
 
@@ -481,7 +488,7 @@ public class PurchaseManagementPanel extends JPanel {
         // Ajouter l'achat à la liste des achats
         PurchasesList.addPurchase(currentPurchase);
         JOptionPane.showMessageDialog(this, "Achat validé avec succès!", "Succès", JOptionPane.INFORMATION_MESSAGE);
-//        resetForm();
+        resetForm();
     }
 
     private void cancelPurchase() {
@@ -499,9 +506,7 @@ public class PurchaseManagementPanel extends JPanel {
     private void resetForm() {
         selectedCustomer = null;
         currentPurchase = new Purchase();
-        for (CartItem cartItem : cart) {
-            cart.remove(cartItem);
-        }
+        cart.clear();
         customerSelectedLabel.setText("Aucun client sélectionné");
         customerSelectedLabel.setForeground(Color.RED);
         updateTotal();
@@ -543,7 +548,7 @@ public class PurchaseManagementPanel extends JPanel {
 
     private List<Medicine> searchMedicinesByCategory() throws SQLException {
         List<Medicine> filteredList;
-        try(MedicineDAO medicineDAO = new MedicineDAO()){
+        try (MedicineDAO medicineDAO = new MedicineDAO()) {
             String selectedCategory = categoryComboBox.getSelectedItem().toString().toLowerCase();
 
             if (selectedCategory.equals("catégorie : toutes")) {

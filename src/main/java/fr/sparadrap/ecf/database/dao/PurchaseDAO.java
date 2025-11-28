@@ -29,7 +29,7 @@ public class PurchaseDAO extends DAO<Purchase> implements AutoCloseable {
     @Override
     public boolean create(Purchase purchase) throws SQLException {
         boolean result = false;
-        String sql = "{CALL sp_create_purchase(?,?,?)}";
+        String sql = "CALL sp_create_purchase(?,?,?)";
         Connection conn = null;
         try{
             conn = DatabaseConnection.getConnection();
@@ -184,6 +184,11 @@ public class PurchaseDAO extends DAO<Purchase> implements AutoCloseable {
         }
         return null;
     }
+
+    private void loadPurchaseItems(Connection conn, Purchase purchase) {
+
+    }
+
     /**
      * Methode de cloture de la connexion
      */

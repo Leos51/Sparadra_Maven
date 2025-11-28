@@ -33,14 +33,10 @@ public class TableModele<T> extends AbstractTableModel {
     private final String[] columnNames;
     private final Class<?>[] columnClasses;
 
-    // Cache pour les données associées (évite les requêtes BDD répétées)
-    private final Map<Integer, Customer> customerCache;
-
     public TableModele(List<T> data, String[] columnNames, Class<?>[] columnClasses) {
-        this.data = new ArrayList<>(data);
+        this.data = data;
         this.columnNames = columnNames;
         this.columnClasses = columnClasses;
-        this.customerCache = new HashMap<>();
     }
 
 
@@ -144,7 +140,4 @@ public class TableModele<T> extends AbstractTableModel {
         }
         return null;
     }
-
-
-
 }

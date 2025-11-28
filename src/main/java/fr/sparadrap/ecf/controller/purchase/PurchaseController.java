@@ -1,20 +1,22 @@
 package fr.sparadrap.ecf.controller.purchase;
 
 import fr.sparadrap.ecf.database.dao.CustomerDAO;
-import fr.sparadrap.ecf.model.lists.medicine.MedicineList;
-import fr.sparadrap.ecf.model.lists.person.CustomersList;
-import fr.sparadrap.ecf.model.lists.purchase.PurchasesList;
+import fr.sparadrap.ecf.database.dao.PurchaseDAO;
 import fr.sparadrap.ecf.model.medicine.Medicine;
 import fr.sparadrap.ecf.model.person.Customer;
 import fr.sparadrap.ecf.model.purchase.Purchase;
 import fr.sparadrap.ecf.utils.DateFormat;
 import fr.sparadrap.ecf.view.consoleview.purchase.PurchaseHistoryMenu;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class PurchaseController {
+    private static final Logger logger = LoggerFactory.getLogger(PurchaseController.class);
 
     /**
      * Initialisation d'achats
@@ -45,11 +47,16 @@ public class PurchaseController {
 
 
     /**
-     * Affiche les achats effectué
+     * Affiche tous les achats depuis la base de données
      */
     public static void displayAllPurchases() {
-        for (Purchase p : PurchasesList.getPurchases()) {
-            System.out.println(p);
+        try (PurchaseDAO purchaseDAO = new PurchaseDAO()) {
+            List<Purchase> purchases = purchaseDAO.findAll();
+            for (Purchase p : purchases) {
+                System.out.println(p);
+            }
+        } catch (Exception e) {
+            logger.error("Erreur lors de l'affichage des achats: {}", e.getMessage(), e);
         }
     }
 
@@ -63,20 +70,47 @@ public class PurchaseController {
         PurchaseHistoryMenu.displayPurchaseHistoryMenu();
     }
 
-    public static double calculateReimbursement(Purchase p, double totalPrice) throws SQLException, IOException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAO();
-        Customer c = customerDAO.findById(p.getCustomerID());
-        c.getMutualInsurance();
+    public static double calculateReimbursement(Purchase purchase, double totalPrice) throws SQLException, IOException, ClassNotFoundException {
+        if (purchase == null || !purchase.isPrescriptionBased()) {
+            return 0.0;
+        }
 
-C
+        try (CustomerDAO customerDAO = new CustomerDAO()) {
+            Customer customer = customerDAO.findById(purchase.getCustomerID());
 
-        double reimbursementRate = c.getMutualInsurance().getReimbursementRate();
-        double reimbursement = totalPrice * reimbursementRate;
-        return reimbursement;
+            if (customer == null) {
+                logger.warn("Client non trouvé pour l'achat ID: {}", purchase.getId());
+                return 0.0;
+            }
+
+            if (customer.getMutualInsurance() == null) {
+                logger.info("Pas de mutuelle pour le client: {}", customer.getFullName());
+                return 0.0;
+            }
+
+            double reimbursementRate = customer.getMutualInsurance().getReimbursementRate();
+            double reimbursement = totalPrice * reimbursementRate;
+
+            logger.debug("Remboursement calculé: {} (taux: {}%)", reimbursement, reimbursementRate * 100);
+            return reimbursement;
+
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            logger.error("Erreur lors du calcul du remboursement: {}", e.getMessage(), e);
+            return 0.0;
+        }
     }
 
-    public static double calculateTotal(Purchase p){
-        double total = p.getMedicines().stream().mapToDouble(item -> {
+    /**
+     * Calcule le total d'un achat
+     * @param purchase L'achat
+     * @return Le total
+     */
+    public static double calculateTotal(Purchase purchase){
+        if (purchase == null || purchase.getMedicines() == null) {
+            return 0.0;
+        }
+
+        double total = purchase.getMedicines().stream().mapToDouble(item -> {
            double medPrice =  item.getMedicine().getPrice();
            int quantity = item.getQuantity();
            return medPrice * quantity;
@@ -85,8 +119,16 @@ C
         return total;
     };
 
-    public static void printLineReceipt(Purchase p){
-        p.getMedicines().forEach(item -> {
+    /**
+     * Affiche le détail des lignes d'un achat (ticket de caisse)
+     * @param purchase L'achat
+     */
+    public static void printLineReceipt(Purchase purchase){
+        if (purchase == null || purchase.getMedicines() == null) {
+            System.out.println("Aucun article");
+            return;
+        }
+        purchase.getMedicines().forEach(item -> {
             String medName = item.getMedicine().getMedicineName();
             double medPrice = item.getMedicine().getPrice();
             int quantity = item.getQuantity();

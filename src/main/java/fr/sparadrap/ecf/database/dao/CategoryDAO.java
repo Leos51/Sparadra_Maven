@@ -4,6 +4,8 @@ package fr.sparadrap.ecf.database.dao;
 import fr.sparadrap.ecf.database.DatabaseConnection;
 import fr.sparadrap.ecf.model.medicine.Category;
 import fr.sparadrap.ecf.utils.exception.SaisieException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -13,7 +15,7 @@ import java.util.List;
 
 
 public class CategoryDAO extends DAO<Category> implements AutoCloseable {
-
+    private static final Logger logger = LoggerFactory.getLogger(CategoryDAO.class);
 
     public CategoryDAO() throws SQLException, IOException, ClassNotFoundException {
     }
@@ -110,11 +112,7 @@ public class CategoryDAO extends DAO<Category> implements AutoCloseable {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    Category category = new Category();
-                    category.setId(rs.getInt("id"));
-                    category.setCategoryName(rs.getString("category_name"));
-                    category.setDescription(rs.getString("description"));
-                    return category;
+                    return mapResultSetToCategories(rs);
                 }
             } catch (SaisieException | SQLException e) {
                 throw new RuntimeException(e);
@@ -194,7 +192,11 @@ public class CategoryDAO extends DAO<Category> implements AutoCloseable {
      * to make their {@code close} methods idempotent.
      */
     @Override
-    public void close() throws Exception {
-        super.closeConnection();
+    public void close() {
+        try{
+            super.closeConnection();
+        }catch(Exception e){
+            logger.error("Erreur close : " + e.getMessage());
+        }
     }
 }

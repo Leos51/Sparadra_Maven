@@ -51,7 +51,11 @@
                     <children>
                       <component id="af94d" class="javax.swing.JComboBox" binding="customerComboBox">
                         <constraints/>
-                        <properties/>
+                        <properties>
+                          <model>
+                            <item value="Selectionner un patient"/>
+                          </model>
+                        </properties>
                       </component>
                     </children>
                   </grid>
@@ -104,7 +108,11 @@
                     <children>
                       <component id="fdcc5" class="javax.swing.JComboBox" binding="doctorCombobox">
                         <constraints/>
-                        <properties/>
+                        <properties>
+                          <model>
+                            <item value="Selectionner un medecin"/>
+                          </model>
+                        </properties>
                       </component>
                     </children>
                   </grid>

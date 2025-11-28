@@ -15,7 +15,6 @@
     <developer>
       <id>Leos</id>
       <name>Abraham ADOUANE</name>
-      <url>https://abraham-adouane.fr</url>
       <roles>
         <role>Dev</role>
       </roles>
@@ -73,7 +72,6 @@
       <dependency>
           <groupId>org.junit.jupiter</groupId>
           <artifactId>junit-jupiter-api</artifactId>
-          <version>6.1.0-M1</version>
           <scope>test</scope>
       </dependency>
     <!-- Optionally: parameterized tests support -->

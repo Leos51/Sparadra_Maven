@@ -68,12 +68,14 @@ public class MutualInsuranceDAO extends DAO<MutualInsurance> {
 
         try(Connection connection = DatabaseConnection.getConnection();
         PreparedStatement stmt = connection.prepareStatement(sql)) {
+
             stmt.setString(1, mutualInsurance.getCompagnyName());
             stmt.setDouble(2, mutualInsurance.getReimbursementRate());
             stmt.setString(3, mutualInsurance.getPhone());
             stmt.setString(4, mutualInsurance.getEmail());
             stmt.setString(5, mutualInsurance.getAddress());
             stmt.setInt(6, mutualInsurance.getId());
+
             int row = stmt.executeUpdate();
             if (row > 0) {
                 logger.info("Mutuelle mise à jour - ID: {}", mutualInsurance.getId());
@@ -105,6 +107,8 @@ public class MutualInsuranceDAO extends DAO<MutualInsurance> {
             if (row > 0) {
                 logger.info("Mutuelle supprimée - ID: {}", id);
                 result = true;
+            }else{
+                logger.warn("Aucune mutuelle trouvé avec l'ID: {}", id);
             }
         }catch (SQLException e) {
             logger.error("Erreur lors de la suppression de la mutuelle ID {}: {}", id, e.getMessage(), e);
@@ -119,10 +123,12 @@ public class MutualInsuranceDAO extends DAO<MutualInsurance> {
     @Override
     public List<MutualInsurance> findAll() throws SQLException {
         List<MutualInsurance> mutualInsurances = new ArrayList<>();
-        String sql = "SELECT * FROM mutual_insurances";
+        String sql = "SELECT * FROM mutual_insurances ORDER BY company_name";
+
         try(Connection connection = DatabaseConnection.getConnection();
         PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery()){
+
             while (rs.next()) {
                 mutualInsurances.add(mapResultSetToMutualInsurance(rs));
             }
@@ -147,7 +153,9 @@ public class MutualInsuranceDAO extends DAO<MutualInsurance> {
 
         try(Connection connection = DatabaseConnection.getConnection();
         PreparedStatement stmt = connection.prepareStatement(sql)) {
+
             stmt.setInt(1, id);
+
             try (ResultSet rs = stmt.executeQuery()){
                 if (rs.next()) {
                     MutualInsurance mutualInsurance = mapResultSetToMutualInsurance(rs);
@@ -169,9 +177,12 @@ public class MutualInsuranceDAO extends DAO<MutualInsurance> {
      */
     public MutualInsurance findByName(String name) {
         String sql = "SELECT * FROM mutual_insurances WHERE company_name = ?";
+
         try(Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setString(1, name);
+
             try (ResultSet rs = stmt.executeQuery()){
                 if (rs.next()) {
                     return mapResultSetToMutualInsurance(rs);

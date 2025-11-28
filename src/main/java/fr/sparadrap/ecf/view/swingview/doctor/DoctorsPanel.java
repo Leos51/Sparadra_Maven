@@ -1,12 +1,13 @@
 package fr.sparadrap.ecf.view.swingview.doctor;
 
+import fr.sparadrap.ecf.database.dao.CustomerDAO;
 import fr.sparadrap.ecf.database.dao.DoctorDAO;
-import fr.sparadrap.ecf.model.lists.person.CustomersList;
-import fr.sparadrap.ecf.model.lists.person.DoctorList;
 import fr.sparadrap.ecf.model.person.Customer;
 import fr.sparadrap.ecf.model.person.Doctor;
 import fr.sparadrap.ecf.view.swingview.DisplayList;
 import fr.sparadrap.ecf.view.swingview.tablemodele.TableModele;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -15,11 +16,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import static fr.sparadrap.ecf.view.swingview.DisplayList.*;
 
 public class DoctorsPanel extends JPanel {
+    private static final Logger logger = LoggerFactory.getLogger(DoctorsPanel.class);
     private JPanel doctorsPanel;
     private JButton addButton;
     private JButton editButton;
@@ -182,6 +186,7 @@ public class DoctorsPanel extends JPanel {
     }
 
     public DoctorsPanel() {
+
         this.setLayout(new GridLayout(1, 1));
         this.add(doctorsPanel);
         try {
@@ -280,7 +285,6 @@ public class DoctorsPanel extends JPanel {
 
 
     private void updateButtonsState() {
-        boolean hasDoctors = !DoctorList.getDoctors().isEmpty();
         boolean hasSelection = doctorsDisplayList.getTable().getSelectedRow() != -1;
         showDetailsBtn.setEnabled(hasSelection);
         deleteButton.setEnabled(hasSelection);
@@ -322,10 +326,15 @@ public class DoctorsPanel extends JPanel {
      * @return Liste de patients
      */
     private List<Customer> getCustomersByDoctor(Doctor doctor) {
-        List<Customer> customers = CustomersList.getCustomers().stream()
-                .filter(customer -> customer.getDoctor() != null && customer.getDoctor().equals(doctor))
-                .toList();
-        return customers;
+        List<Customer> customers = new ArrayList<>();
+
+        try (CustomerDAO customerDAO = new CustomerDAO()){
+            customers = customerDAO.findCustomersByDoctorID(doctor.getId());
+
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            logger.error("Erreur recuperation des customers : " + e.getMessage());
+        }
+            return customers;
     }
 
 

@@ -2,8 +2,8 @@ package fr.sparadrap.ecf.view.swingview;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import fr.sparadrap.ecf.model.lists.person.CustomersList;
-import fr.sparadrap.ecf.model.lists.person.DoctorList;
+import fr.sparadrap.ecf.database.dao.CustomerDAO;
+import fr.sparadrap.ecf.database.dao.DoctorDAO;
 import fr.sparadrap.ecf.model.person.Customer;
 import fr.sparadrap.ecf.model.person.Doctor;
 
@@ -13,6 +13,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class HomePanel extends JPanel {
     private JPanel homePanel;
@@ -32,40 +34,48 @@ public class HomePanel extends JPanel {
     private JTextPane doctorPane;
 
     public HomePanel() {
-        homePanel = new JPanel();
+        if (homePanel == null) {
+            homePanel = new JPanel();
+        }
         this.add(homePanel);
+        try (CustomerDAO customerDAO = new CustomerDAO()) {
+            customerDAO.findAll().forEach(customer -> {
+                customerComboBox.addItem(customer);
+            });
+
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        try (DoctorDAO doctorDAO = new DoctorDAO()) {
+            doctorDAO.findAll().forEach(doctor -> {
+                System.out.println(doctor.getFullName());
+                doctorCombobox.addItem(doctor);
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
 
-        CustomersList.getCustomers().stream().forEach(customer -> {
-            customerComboBox.addItem(customer.getFullName());
-        });
-
-        DoctorList.getDoctors().stream().forEach(doctor -> {
-            doctorCombobox.addItem(doctor.getFullName());
-        });
-
-/*
         customerComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String customer = customerComboBox.getSelectedItem().toString();
+                Customer customer = (Customer) customerComboBox.getSelectedItem();
                 if (customer != null) {
-                    Customer c = CustomersList.findByFullName(customer);
-                    customerPane.setText(c.showDetails());
+                    customerPane.setText(customer.showDetails());
                 }
 
             }
         });
-*/
+
 
         doctorCombobox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String doctorName = doctorCombobox.getSelectedItem().toString();
-                if (doctorName != null) {
-                    Doctor doctor = DoctorList.findByFullName(doctorName);
-                    doctorPane.setText(doctor.showDetails());
-
+                Doctor selectedDoctor = (Doctor) doctorCombobox.getSelectedItem();
+                if (selectedDoctor != null) {
+                    doctorPane.setText(selectedDoctor.showDetails());
+                    System.out.println("ID du docteur sélectionné : " + selectedDoctor.getId());
                 }
 
             }
@@ -120,6 +130,9 @@ public class HomePanel extends JPanel {
         panel1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         filterPanel.add(panel1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         customerComboBox = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+        defaultComboBoxModel1.addElement("Selectionner un patient");
+        customerComboBox.setModel(defaultComboBoxModel1);
         panel1.add(customerComboBox);
         displayDetailPanel = new JPanel();
         displayDetailPanel.setLayout(new BorderLayout(0, 0));
@@ -156,6 +169,9 @@ public class HomePanel extends JPanel {
         panel3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         panel2.add(panel3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         doctorCombobox = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel2 = new DefaultComboBoxModel();
+        defaultComboBoxModel2.addElement("Selectionner un medecin");
+        doctorCombobox.setModel(defaultComboBoxModel2);
         panel3.add(doctorCombobox);
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new BorderLayout(0, 0));
@@ -174,4 +190,5 @@ public class HomePanel extends JPanel {
     public JComponent $$$getRootComponent$$$() {
         return homePanel;
     }
+
 }

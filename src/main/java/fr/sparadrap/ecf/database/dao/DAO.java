@@ -52,4 +52,6 @@ public abstract class DAO<T> {
 
     };
 
+    public abstract void close();
+
 }

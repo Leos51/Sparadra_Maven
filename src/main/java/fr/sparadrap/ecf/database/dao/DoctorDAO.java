@@ -232,7 +232,6 @@ public class DoctorDAO extends DAO<Doctor> implements AutoCloseable {
      * This method is invoked automatically on objects managed by the
      * {@code try}-with-resources statement.
      *
-     * @throws Exception if this resource cannot be closed
      * @apiNote While this interface method is declared to throw {@code
      * Exception}, implementers are <em>strongly</em> encouraged to
      * declare concrete implementations of the {@code close} method to
@@ -272,7 +271,12 @@ public class DoctorDAO extends DAO<Doctor> implements AutoCloseable {
      * to make their {@code close} methods idempotent.
      */
     @Override
-    public void close() throws Exception {
-        this.closeConnection();
+    public void close() {
+        try{
+            super.closeConnection();
+        }catch(Exception e){
+            logger.error("Erreur close : " + e.getMessage());
+        }
+
     }
 }
